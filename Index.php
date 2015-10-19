@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <h1>Wanderblog</h1>
+    <h1>Wanderblog - Group One</h1>
 
 
     <?php
