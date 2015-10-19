@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <form action=""></form>
     <?php
     echo "Hello World, Dion here there everywhere";
     ?>
@@ -33,7 +32,7 @@
     }
 
 */?>
-
+            <script src="app.js"></script>
 </body>
 
 </html>
