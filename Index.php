@@ -8,5 +8,10 @@
 
     <h1>Dion MacIntyre is wearing Roger McDermott's jumper</h1>
 
+
+    <?php
+    echo "Hello World";
+    ?>
+
 </body>
 </html>
