@@ -12,7 +12,7 @@
     <?php
     echo "Hello World";
 
-    echo 'Go suck a fucko go su';
+    echo 'Go suck a fucko ';
     ?>
 
 <?php
