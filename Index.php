@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Wanderblog</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-
-    <h1>Wanderblog - Group One</h1>
-
-
+    <form action=""></form>
     <?php
     echo "Hello World, Dion here there everywhere";
     ?>
