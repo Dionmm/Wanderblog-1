@@ -10,9 +10,7 @@
 
 
     <?php
-    echo "Hello World";
-
-    echo 'Go suck a fucko ';
+    echo "Hello World, Dion here";
     ?>
 
 <?php
