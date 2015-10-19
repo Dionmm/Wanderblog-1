@@ -6,11 +6,11 @@
 </head>
 <body>
 
-    <h1>Dion MacIntyre is wearing Roger McDermott's jumper</h1>
+    <h1>Wanderblog</h1>
 
 
     <?php
-    echo "Dion is wearing Roger McDermott's jumper";
+    echo "Shaggers";
     ?>
 
 </body>
