@@ -10,7 +10,7 @@
 
 
     <?php
-    echo "Hello World";
+    echo "Dion is wearing Roger McDermott's jumper";
     ?>
 
 </body>
