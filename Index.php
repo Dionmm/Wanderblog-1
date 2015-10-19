@@ -8,5 +8,10 @@
 
     <h1>Wanderblog bitchez</h1>
 
+
+    <?php
+    echo "Hello World";
+    ?>
+
 </body>
 </html>
