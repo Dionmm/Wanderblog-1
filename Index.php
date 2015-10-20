@@ -1,18 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Wanderblog</title>
     <link rel="stylesheet" href="main.css">
 </head>
-
 <body>
+<div id="logon">
     <?php
-    echo "Hello World, Dion here there everywhere";
-    ?>
-
+    session_start();
+    if(isset($_SESSION['name'])){
+        echo $_SESSION['name'] . ' is logged in';
+        ?>
+        <a href="logout.php">Logout here</a>
         <?php
+    } else{?>
+        <form onsubmit="validateForm()"  method="POST">
+            <label for="username">Username:</label> <input type="text" name="username">
+            <label for="password">Password:</label><input type="password" name="password">
+            <input type="submit">
+        </form>
+        <?php
+    }
+    ?>
+    <p>Username is dionmm and password is password</p>
+</div>
+
+
+<?php
 /*
     require_once 'config.php';
 
@@ -32,7 +48,7 @@
     }
 
 */?>
-            <script src="app.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="app.js"></script>
 </body>
-
 </html>
