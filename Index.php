@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Wanderblog</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <?php include 'head_include.php';?>
 </head>
 <body>
     <div id="logon">
         <?php
-        session_start();
-        if(isset($_SESSION['name'])){
-            echo $_SESSION['name'] . ' is logged in';
+
+        session_start(); //Initialise a session
+
+        if(isset($_SESSION['name'])){ //Check if there is already an existing session
+
+            echo $_SESSION['name'] . ' is logged in'; //display existing session details
             ?>
             <a href="logout.php">Logout here</a>
             <?php
-        } else{?>
+
+        } else{ // if no session, allow login?>
+
             <form onsubmit="validateForm()"  method="POST">
                 <label for="username">Username:<input type="text" name="username"></label>
                 <label for="password">Password:<input type="password" name="password"></label>
                 <input type="submit">
             </form>
+
             <?php
         }
         ?>
         <p>Username is dionmm and password is password</p>
     </div>
-
 
     <?php
     /*
@@ -49,8 +50,7 @@
         }
 
     */?>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/app.js"></script>
+    <?php include 'script_include.php';?>
+
 </body>
 </html>
