@@ -24,13 +24,12 @@ function validateForm() {
         dataType: 'json',
         success: function (data) {
             console.log(data.success);
+            var logon = $('#logon');
             if (data.success) {
-                $('#logon').html('Successfully Logged In as ' + data.name);
-                $('#logon').append('<br><a href="logout.php">Logout here</a>');
-
+                logon.html('Successfully Logged In as ' + data.name);
+                logon.append('<br><a href="../logout.php">Logout here</a>');
             } else {
-                $('#logon').append('Something went wrong, please try again');
-
+                logon.append('Something went wrong, please try again');
             }
         }
     });
