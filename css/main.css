@@ -1,1 +1,32 @@
-body{background-color:#ccc}p{color:black}
+/* Navbar config */
+#logo{
+    padding-left: 1em;
+    width: 20%;
+}
+
+.navbar-default{
+    height: 60px;
+    background-color: white;
+    background-image: none;
+}
+
+/* Essential body padding to prevent overlapping with the fixed-top navbar */
+body{
+    padding-top: 80px;
+    font-family: magical;
+    font-size: 16px;
+}
+
+a:hover{
+    color: #929292;
+}
+
+@font-face {
+    font-family: 'magical';
+    src: url('../fonts/magical.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/magical.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/magical.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/magical.woff') format('woff'), /* Pretty Modern Browsers */
+    url('../fonts/magical.ttf')  format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/magical.svg#svgFontName') format('svg'); /* Legacy iOS */
+}

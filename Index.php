@@ -2,32 +2,46 @@
 <html lang="en">
 <head>
     <?php include 'head_include.php';?>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div id="logon">
-        <?php
 
-        session_start(); //Initialise a session
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img id="logo" alt="Wanderblog" src="img/logo.png">
+                </a>
+            </div>
 
-        if(isset($_SESSION['name'])){ //Check if there is already an existing session
+            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 
-            echo $_SESSION['name'] . ' is logged in'; //display existing session details
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div id="logon">
+            <?php
+            session_start();
+            if(isset($_SESSION['name'])){
+                echo $_SESSION['name'] . ' is logged in';
+                ?>
+                <a href="logout.php">Logout here</a>
+                <?php
+            } else{?>
+                <form onsubmit="validateForm()"  method="POST">
+                    <label for="username">Username:<input type="text" name="username"></label>
+                    <label for="password">Password:<input type="password" name="password"></label>
+                    <input type="submit">
+                </form>
+                <?php
+            }
             ?>
-            <a href="logout.php">Logout here</a>
-            <?php
-
-        } else{ // if no session, allow login?>
-
-            <form onsubmit="validateForm()"  method="POST">
-                <label for="username">Username:<input type="text" name="username"></label>
-                <label for="password">Password:<input type="password" name="password"></label>
-                <input type="submit">
-            </form>
-
-            <?php
-        }
-        ?>
-        <p>Username is dionmm and password is password</p>
+            <p>Username is dionmm and password is password</p>
+        </div>
     </div>
 
     <?php
