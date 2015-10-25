@@ -13,6 +13,8 @@ function validateForm() {
         dataType: 'json',
         success: function (data) { //on response log user in if successful or prompt try again
             console.log(data.success);
+            console.log(data.name);
+
             var logon = $('#logon');
             if (data.success) {
                 logon.html('Successfully Logged In as ' + data.name);
@@ -20,6 +22,10 @@ function validateForm() {
             } else {
                 logon.append('Something went wrong, please try again');
             }
+        },
+        error: function(data){
+            console.log("Error happened");
+            console.log(data.responseText);
         }
     });
 }

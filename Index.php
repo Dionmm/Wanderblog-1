@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
     <?php include 'head_include.php';?>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
@@ -44,26 +41,6 @@
         </div>
     </div>
 
-    <?php
-    /*
-        require_once 'config.php';
-
-        try {
-            $oConn = new PDO('mysql:host='.$sHost.';dbname='.$sDb, $sUsername, $sPassword);
-            $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $oStmt = $oConn->prepare('SELECT data FROM `hello_world`');
-            $oResult = $oStmt->fetchAll();
-
-            foreach ($oResult as $aRow) {
-                print_r($aRow['data']);
-            }
-
-        } catch(PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
-        }
-
-    */?>
     <?php include 'script_include.php';?>
 
 </body>
