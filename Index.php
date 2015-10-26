@@ -5,43 +5,46 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <img id="logo" alt="Wanderblog" src="img/logo.png">
-                </a>
-            </div>
-
-            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-
-            </div>
-        </div>
-    </nav>
-
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-        <div id="logon">
-            <?php
-            session_start();
-            if(isset($_SESSION['name'])){
-                echo $_SESSION['name'] . ' is logged in';
-                ?>
-                <a href="logout.php">Logout here</a>
-                <?php
-            } else{?>
-                <form onsubmit="validateForm()"  method="POST">
-                    <label for="username">Username:<input type="text" name="username"></label>
-                    <label for="password">Password:<input type="password" name="password"></label>
-                    <input type="submit">
-                </form>
-                <?php
-            }
-            ?>
-            <p>Username is dionmm and password is password</p>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img id="logo" alt="Wanderblog" src="img/logo.png">
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+
         </div>
     </div>
+</nav>
 
-    <?php include 'script_include.php';?>
+<div class="container-fluid">
+    <div id="logon">
+        <?php
+        session_start();
+        if(isset($_SESSION['name'])){
+            echo $_SESSION['name'] . ' is logged in';
+            ?>
+            <a href="logout.php">Logout here</a>
+            <?php
+        } else{?>
+            <form onsubmit="loginForm()"  method="POST" id="loginForm">
+                <label for="username">Username:<input type="text" name="username"></label>
+                <label for="password">Password:<input type="password" name="password"></label>
+                <input type="submit">
+            </form>
+            <?php
+        }
+        ?>
+    </div>
+    <div class="register">
+        <a href="#" id="register">Register here</a>
+
+    </div>
+</div>
+
+<?php include 'script_include.php';?>
 
 </body>
 </html>
