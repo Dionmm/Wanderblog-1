@@ -8,7 +8,7 @@ function loginForm() {
 
     $.ajax({ //send username/password and await response
         type: 'POST',
-        url: 'login.php',
+        url: '/login.php',
         data: {username: formData[0].value, password: formData[1].value},
         dataType: 'json'
     })
@@ -43,7 +43,7 @@ function registerForm(){
         $('#register-modal').append('<i class="pe-7s-config pe-spin pe-5x"></i>');
         $.ajax({ //send username/password and await response
             type: 'POST',
-            url: 'register.php',
+            url: '/register.php',
             data: {username: formData[0].value, password: formData[1].value, email: formData[3].value, fName: formData[4].value, lName: formData[5].value, country: formData[6].value},
             dataType: 'json'
         })
