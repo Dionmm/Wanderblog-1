@@ -30,7 +30,7 @@ if(isset($usernamePOST) && isset($passwordPOST) && isset($emailPOST) && isset($f
     }
 
 } else {
-    $returnMessage = json_encode(array('error' => 'Server error, 500'));
+    $returnMessage = json_encode(array('error' => 'Server error, 503'));
     echo $returnMessage;
 }
 
