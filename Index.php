@@ -1,3 +1,29 @@
+<?php
+require_once 'config.php'; //Grabs the database details
+
+try {
+    //Set persistent connection
+    $oConn = new PDO('mysql:host='.$sHost.';dbname='.$sDb, $sUsername, $sPassword, array(
+        PDO::ATTR_PERSISTENT => true
+    ));
+    $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
+
+    //Prepare statement, substitute :username with username field input
+    $query = $oConn->prepare('SELECT * FROM User');
+    $query->execute();
+    $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
+
+    if($rows){
+        echo 'There are rows';
+    } else{
+        echo 'There are no rows';
+    }
+
+} catch(PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
