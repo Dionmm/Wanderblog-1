@@ -16,7 +16,7 @@ if(isset($uname) && isset($pword) && !empty($uname) && !empty($pword)){
 
     require_once 'config.php'; //Grabs the database details
 
-    //Create conenction to database, query for username and verify password
+    //Create connection to database, query for username and verify password
     try {
         //Set persistent connection
         $oConn = new PDO('mysql:host='.$sHost.';dbname='.$sDb, $sUsername, $sPassword, array(
@@ -25,14 +25,14 @@ if(isset($uname) && isset($pword) && !empty($uname) && !empty($pword)){
         $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT * FROM users WHERE username = :username');
+        $query = $oConn->prepare('SELECT * FROM User WHERE username = :username');
         $query->bindValue(':username', $uname, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
-        if(password_verify($pword, $rows[0]['password'])){ //Verify the passwords match
+        if(password_verify($pword, $rows[0]['Password'])){ //Verify the passwords match
             session_start(); //create a session
-            $_SESSION['name'] = 'Dion'; //set session variable 'name'
+            $_SESSION['name'] = $rows[0]['FirstName']; //set session variable 'name'
             $success = 'success'; //set success message
             $returnMessage = json_encode(array('success' => $success, 'name' => $_SESSION['name']));
         } else{

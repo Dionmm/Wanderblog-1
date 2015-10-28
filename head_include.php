@@ -21,3 +21,5 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/helper.css">
