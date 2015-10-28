@@ -65,6 +65,7 @@ function registerForm(){
             })
         .fail(function(data){
             console.log("Error happened");
+            console.log(data);
             console.log(data.responseText);
         });
     } else{
