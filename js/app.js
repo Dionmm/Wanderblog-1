@@ -10,30 +10,26 @@ function loginForm() {
         type: 'POST',
         url: 'login.php',
         data: {username: formData[0].value, password: formData[1].value},
-        dataType: 'json',
-        success: function (data) { //on response log user in if successful or prompt try again
-            console.log(data.success);
-            console.log(data.name);
+        dataType: 'json'
+    })
+    .done(function (data) { //on response log user in if successful or prompt try again
+        console.log(data.success);
+        console.log(data.name);
 
-            var logon = $('#logon');
-            if (data.success) {
-                logon.html('Successfully Logged In as ' + data.name);
-                logon.append('<br><a href="../logout.php">Logout here</a>');
-            } else {
-                logon.append('Something went wrong, please try again');
-            }
-        },
-        error: function(data){
-            console.log("Error happened");
-            console.log(data.responseText);
+        var logon = $('#logon');
+        if (data.success) {
+            logon.html('Successfully Logged In as ' + data.name);
+            logon.append('<br><a href="../logout.php">Logout here</a>');
+        } else {
+            logon.append('Something went wrong, please try again');
         }
+    })
+    .fail(function(data){
+        console.log("Error happened");
+        console.log(data);
+        console.log(data.responseText);
     });
 }
-
-$('#register').click(function(){
-    $('#registerForm').submit();
-
-});
 
 function registerForm(){
     var formData = $('#registerForm').serializeArray(); //Grab the form input
