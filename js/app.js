@@ -18,8 +18,7 @@ function loginForm() {
 
         var logon = $('#logon');
         if (data.success) {
-            logon.html('Successfully Logged In as ' + data.name);
-            logon.append('<br><a href="../logout.php">Logout here</a>');
+            location.reload();
         } else {
             logon.append('Something went wrong, please try again');
         }

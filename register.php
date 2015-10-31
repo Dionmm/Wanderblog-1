@@ -35,15 +35,15 @@ if(isset($usernamePOST) && isset($passwordPOST) && isset($emailPOST) && isset($f
 }
 
 function validate_input($username,$password,$email,$first_name,$last_name,$country){
-    if(strlen($username) < 4 ||  strlen($username) > 12 || !preg_match("/^[a-zA-Z_-]+$/",$username) || check_for_username($username)){ //ADD CHECK FOR DUPLICATE USERNAME
+    if(strlen($username) < 4 ||  strlen($username) > 20 || !preg_match("/^[a-zA-Z_-]+$/",$username) || check_for_username($username)){ //ADD CHECK FOR DUPLICATE USERNAME
         return 'Username not available';
     } else if(strlen($password) < 8){
         return 'Password is not strong enough';
-    } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    } else if(!filter_var($email, FILTER_VALIDATE_EMAIL) ||  strlen($email) > 255){
         return 'Email address is not valid';
-    } else if(!preg_match("/^[a-zA-Z '-]+$/",$first_name) || !preg_match("/^[a-zA-Z '-]+$/",$last_name)){
+    } else if(!preg_match("/^[a-zA-Z '-]+$/",$first_name) || !preg_match("/^[a-zA-Z '-]+$/",$last_name) ||  strlen($first_name) > 35 ||  strlen($last_name) > 35){
         return 'Please ensure your name is spelled correctly';
-    } else if(!preg_match("/^[a-zA-Z ()'-]+$/",$country)){
+    } else if(!preg_match("/^[a-zA-Z ()'-]+$/",$country) ||  strlen($country) > 85){
         return 'Invalid country selected';
     } else{
         return true;

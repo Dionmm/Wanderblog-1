@@ -8,44 +8,106 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#logon" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
                 <img id="logo" alt="Wanderblog" src="img/logo.png">
             </a>
         </div>
 
-        <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-
+        <div class="collapse navbar-collapse navbar-right navbar-text" id="logon">
+            <?php
+            session_start();
+            if(isset($_SESSION['name'])){
+                echo $_SESSION['name'] . ' is logged in';
+                ?>
+                <a href="logout.php">Logout here</a>
+                <?php
+            } else { ?>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" id="registerButton" data-toggle="modal" data-target="#registerModal">
+                    Register Here
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginModal">
+                    Login Here
+                </button>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </nav>
 
 <div class="container-fluid">
-    <div id="logon">
-        <?php
-        session_start();
-        if(isset($_SESSION['name'])){
-            echo $_SESSION['name'] . ' is logged in';
-            ?>
-            <a href="logout.php">Logout here</a>
-            <?php
-        } else{?>
-            <form onsubmit="loginForm()"  method="POST" id="loginForm">
-                <label for="username">Username:<input type="text" name="username"></label>
-                <label for="password">Password:<input type="password" name="password"></label>
-                <input type="submit">
-            </form>
-            <?php
-        }
-        ?>
+    
+    <div class="row bg-image-container">
+        <div class="bg-image"></div>
+        <div class="title-container">
+            <h1 class="title">Welcome to Wanderblog</h1>
+<!--            <h3 class="author">Author Name here</h3>-->
+        </div>
     </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card-container">
+                <div class="card">
+                    <h3>Article 1</h3>
+                </div>
+                <div class="card">
+                    <h3>Article 2</h3>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-       Register Here
-    </button>
+                </div>
+                <div class="card">
+                    <h3>Article 3</h3>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="register">
+                </div>
+                <div class="card">
+                    <h3>Article 4</h3>
+
+                </div>
+                <div class="card">
+                    <h3>Article 5</h3>
+
+                </div>
+                <div class="card">
+                    <h3>Article 6</h3>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+            <h3>Filter stuff here</h3>
+        </div>
+
+
+
+
+    </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="register">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -319,7 +381,27 @@
             </div>
         </div>
     </div>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="login">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Login to Wanderblog</h4>
+                </div>
+                <div class="modal-body" id="login-modal">
+                    <form onsubmit="loginForm()"  method="POST" id="loginForm">
+                        <label for="username">Username:<input type="text" name="username" required></label><br>
+                        <label for="password">Password:<input type="password" name="password" required></label>
+                        <div class="model-footer">
+                            <input type="submit" value="Login" class="btn btn-primary">
 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
