@@ -24,6 +24,7 @@ if(isset($uname) && isset($pword) && !empty($uname) && !empty($pword)){
         ));
         $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
 
+
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM users WHERE username = :username');
         $query->bindValue(':username', $uname, PDO::PARAM_STR);
