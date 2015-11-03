@@ -11,7 +11,7 @@
         $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT adventures.PostID, adventures.Username FROM adventures');
+        $query = $oConn->prepare('SELECT * FROM adventures');
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 

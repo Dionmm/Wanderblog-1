@@ -11,9 +11,6 @@ $pword = $_POST['password']; //grab the password from the post
 //Check if post was properly sent and contains data
 if(isset($uname) && isset($pword) && !empty($uname) && !empty($pword)){
 
-//To be used later
-//    $hashPWord = password_hash('password', PASSWORD_BCRYPT);
-
     require_once 'config.php'; //Grabs the database details
 
     //Create connection to database, query for username and verify password

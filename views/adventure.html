@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    {% include 'head_include.html' %}
 </head>
 <body>
+{% include 'nav_include.html' %}
+
+<div class="container-fluid">
+
+    <div class="row bg-image-container">
+        <div class="bg-image"></div>
+        <div class="title-container">
+            <h1 class="title">{{ adventure.Title }}</h1>
+            <h3 class="author">By: {{ adventure.Username }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <article class="col-sm-12">
+            {{ adventure.Content }}
+        </article>
+    </div>
+
+
+</div>
+
+{% include 'script_include.html' %}
 
 </body>
 </html>

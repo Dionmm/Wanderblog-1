@@ -21,8 +21,10 @@
 
                 {% for article in articleTitle %}
                     <div class="card">
-                        <h3>{{ article.PostID }}</h3>
+                        <h3>{{ article.Title }}</h3>
                         <p>by: {{ article.Username }}</p>
+                        <p>{{ article.Upvotes }} Likes</p>
+                        <a href="/adventure.php?id={{ article.PostID }}">View Adventure Here</a>
                     </div>
                 {% endfor %}
             </div>
