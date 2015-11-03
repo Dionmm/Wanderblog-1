@@ -94,7 +94,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
 
 
         //Prepare statement, substitute :username with username field input
-        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'reader', :email, :fName, :lName, :country)");
+        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'unverified', :email, :fName, :lName, :country)");
 
         $addUser->bindValue(':username', $username, PDO::PARAM_STR);
         $addUser->bindValue(':password', $password, PDO::PARAM_STR);

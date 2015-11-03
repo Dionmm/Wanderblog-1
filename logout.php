@@ -1,4 +1,3 @@
-<?php include 'head_include.php';?>
 
 <?php
 /**
@@ -11,6 +10,5 @@ session_start(); //initialise session
 session_destroy(); //destroy all sessions
 ?>
 <p>Session has been destroyed.</p>
-<a href="index.php">Go back</a>
+<a href="/">Go back</a>
 
-<?php include 'script_include.php';?>

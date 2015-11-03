@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head_include.html' %}
+</head>
+<body>
+    {% include 'nav_include.html' %}
+
+<div class="container-fluid">
+
+    <div class="row bg-image-container">
+        <div class="bg-image"></div>
+        <div class="title-container">
+            <h1 class="title">Welcome to Wanderblog</h1>
+            <!--            <h3 class="author">Author Name here</h3>-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card-container">
+
+                {% for article in articleTitle %}
+                    <div class="card">
+                        <h3>{{ article.PostID }}</h3>
+                        <p>by: {{ article.Username }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <h3>Filter stuff here</h3>
+        </div>
+    </div>
+
+</div>
+
+{% include 'script_include.html' %}
+
+</body>
+</html>
