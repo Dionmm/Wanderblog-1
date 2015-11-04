@@ -14,7 +14,6 @@ function loginForm() {
     })
     .done(function (data) { //on response log user in if successful or prompt try again
         console.log(data.success);
-        console.log(data.name);
 
         var logon = $('#logon');
         if (data.success) {

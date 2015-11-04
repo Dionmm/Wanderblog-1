@@ -19,12 +19,12 @@
         <div class="col-sm-9">
             <div class="card-container">
 
-                {% for article in articleTitle %}
+                {% for adventure in adventures %}
                     <div class="card">
-                        <h3>{{ article.Title }}</h3>
-                        <p>by: {{ article.Username }}</p>
-                        <p>{{ article.Upvotes }} Likes</p>
-                        <a href="/adventure.php?id={{ article.PostID }}">View Adventure Here</a>
+                        <h3>{{ adventure.Title }}</h3>
+                        <p>by: {{ adventure.Username }}</p>
+                        <p>{{ adventure.Upvotes }} Likes</p>
+                        <a href="/adventure.php?id={{ adventure.PostID }}">View Adventure Here</a>
                     </div>
                 {% endfor %}
             </div>

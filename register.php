@@ -21,7 +21,9 @@ if(isset($usernamePOST) && isset($passwordPOST) && isset($emailPOST) && isset($f
 
     if($input_is_valid === true){
 
-        $hashPWord = password_hash($passwordPOST, PASSWORD_BCRYPT); //Hash and salt the password
+        $hashPWord = password_hash($passwordPOST, PASSWORD_BCRYPT, array(
+            'cost' => 15
+        )); //Hash and salt the password
 
         echo addToDB($usernamePOST,$hashPWord,$emailPOST,$firstNamePOST,$lastNamePOST,$countryPOST);
 
@@ -108,8 +110,12 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
             $success = 'successfully added user to database';
 
             session_start();
-            $_SESSION['name'] = $first_name;
-            $returnMessage = json_encode(array('success' => $success, 'name' => $_SESSION['name']));
+            $_SESSION['first_name'] = $first_name; //set session variable
+            $_SESSION['last_name'] = $last_name; //set session variable
+            $_SESSION['email'] = $email; //set session variable
+            $_SESSION['user_group'] = 'unverified'; //set session variable
+            $_SESSION['country'] = $country; //set session variable
+            $returnMessage = json_encode(array('success' => $success, 'name' => $_SESSION['first_name']));
         } else{
             $returnMessage = json_encode(array('error' => 'Failed to add to database'));
         }
