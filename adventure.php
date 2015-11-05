@@ -5,12 +5,13 @@
  * Date: 03/11/2015
  * Time: 18:20
  */
+require_once 'functions.php'; //Grabs any extra functions
 
 if (isset($_GET['id']) && !isset($_POST['comment'])) {
     $PostID = $_GET['id']; //grab the id for the post
 
     require_once 'config.php'; //Grabs the database details
-    require_once 'functions.php'; //Grabs any extra functions
+
     //Create connection to database, query for username and verify password
     try {
         //Set persistent connection
@@ -66,7 +67,6 @@ if (isset($_GET['id']) && !isset($_POST['comment'])) {
     }
 } else if (isset($_GET['id']) && isset($_POST['comment'])) {
     $PostID = $_GET['id']; //grab the id for the post
-    session_start();
     addComment($PostID);
 } else {
     echo 'Error: Something Went wrong ' . $_GET['id'];
@@ -74,7 +74,11 @@ if (isset($_GET['id']) && !isset($_POST['comment'])) {
 
 function addComment($PostID)
 {
-    if (!empty($_POST['comment'])) {
+
+    //Check for logged in
+    $loggedIn = logged_in();
+
+    if (!empty($_POST['comment']) && $loggedIn['user_group'] > 0) {
 
         $comment = $_POST['comment']; //grab the comment from the post
         $username = $_SESSION['username'];
