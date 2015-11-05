@@ -22,7 +22,7 @@ if(isset($usernamePOST) && isset($passwordPOST) && isset($emailPOST) && isset($f
     if($input_is_valid === true){
 
         $hashPWord = password_hash($passwordPOST, PASSWORD_BCRYPT, array(
-            'cost' => 15
+            'cost' => 13
         )); //Hash and salt the password
 
         echo addToDB($usernamePOST,$hashPWord,$emailPOST,$firstNamePOST,$lastNamePOST,$countryPOST);
