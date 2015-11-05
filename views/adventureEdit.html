@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head_include.html' %}
+</head>
+<body>
+{% include 'nav_include.html' %}
+
+<div class="container-fluid">
+
+    <div class="row bg-image-container">
+        <div class="bg-image"></div>
+        <div class="title-container">
+            <input type="text" value="{{ adventure.Title }}" id="adventureTitle">
+
+            <h3 class="author">By: {{ adventure.Username[0] }}</h3> {# PDO creates an array for columns with the same
+            name, 0 is the adventure table, 1 is the comments table #}
+        </div>
+    </div>
+    <div class="row">
+        <article class="col-sm-12">
+            <textarea name="adventureContent" cols="30" rows="10"
+                      id="adventureContent">{{ adventure.Content[0] }}</textarea>
+        </article>
+    </div>
+
+</div>
+
+{% include 'script_include.html' %}
+
+</body>
+<script>var PostID = '{{ postID }}'</script>
+</html>

@@ -80,3 +80,7 @@ input:required:valid{
     background-color: green;
     margin: 35px auto;
 }
+
+.row {
+    margin: 0;
+}

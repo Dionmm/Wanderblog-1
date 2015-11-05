@@ -31,7 +31,8 @@
         echo $template->render(array(
             'adventures' => $adventures,
             'loggedIn' => $loggedIn['loggedIn'],
-            'name' => $loggedIn['first_name']
+            'name' => $loggedIn['first_name'],
+            'permissions' => $loggedIn['user_group']
         ));
 
     } catch(PDOException $e) {

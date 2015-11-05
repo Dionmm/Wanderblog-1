@@ -82,24 +82,63 @@ function commentForm() {
             data: {comment: formData[0].value},
             dataType: 'json'
         })
-            .done(function (data) { //on response log user in if successful or prompt try again
+            .done(function (data) { //on successful response reload the page
                 console.log(data);
 
-                //if (data.success) {
-                //    console.log(data.success);
-                //    $('#register-modal').prepend('Successfully Logged In as ' + data.name);
-                //} else if(data.error){
-                //    $('#register-modal').append(data.error);
-                //} else {
-                //    $('#register-modal').append('Something went wrong, please try again');
-                //}
+                location.reload();
             })
-            .fail(function (data) {
+            .fail(function (data) { //on unsuccessful response output error
                 console.log("Error happened");
                 console.log(data);
                 console.log(data.responseText);
             });
     } else {
-        alert("Passwords don't match");
+        alert("Comments cannot be empty");
     }
+}
+$('#editButton').click(function () {
+    location.href = "adventure.php?id=" + PostID + "&edit=1";
+    //console.log('Fired');
+});
+$('#saveButton').click(function () {
+    savePost();
+});
+
+function savePost() {
+    var adventureTitle = $('#adventureTitle').val();
+    var adventureContent = $('#adventureContent').val();
+
+    //Really rough version, but checks if there is a PostID and then either attaches it or saves adventure as new
+    if (PostID !== '') {
+        $.ajax({ //send username/password and await response
+            type: 'POST',
+            url: 'adventure.php?id=' + PostID, //Dis ain't secure!!!
+            data: {save: true, title: adventureTitle, content: adventureContent},
+            dataType: 'json'
+        })
+            .done(function (data) { //on successful response reload the page
+                location.href = "adventure.php?id=" + data.PostID;
+            })
+            .fail(function (data) { //on unsuccessful response output error
+                console.log("Error happened");
+                console.log(data);
+                console.log(data.responseText);
+            });
+    } else {
+        $.ajax({ //send username/password and await response
+            type: 'POST',
+            url: 'adventure.php',
+            data: {save: true, title: adventureTitle, content: adventureContent},
+            dataType: 'json'
+        })
+            .done(function (data) { //on successful response reload the page
+                location.href = "adventure.php?id=" + data.PostID;
+            })
+            .fail(function (data) { //on unsuccessful response output error
+                console.log("Error happened");
+                console.log(data);
+                console.log(data.responseText);
+            });
+    }
+
 }
