@@ -5,6 +5,7 @@ function loginForm() {
     console.log(formData); //debugging
 
     event.preventDefault(); //stop page reload on submit
+    $('#login-modal').append('<i class="pe-7s-config pe-spin pe-5x"></i>');
 
     $.ajax({ //send username/password and await response
         type: 'POST',

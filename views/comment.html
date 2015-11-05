@@ -4,7 +4,8 @@
             {% if permissions > 0 %}
             <form onsubmit="commentForm()" method="POST" id="commentForm">
                 <label for="comment-box">
-                    <textarea name="comment-box" id="comment-box" cols="30" rows="10">{{ name }} has {{ permissions }} permissions</textarea>
+                    <textarea name="comment-box" id="comment-box" cols="30"
+                              rows="10">Type a response to this adventure</textarea>
                     <input type="submit">
                 </label>
             </form>
