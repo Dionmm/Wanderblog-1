@@ -103,6 +103,10 @@ $('#editButton').click(function () {
 $('#saveButton').click(function () {
     savePost();
 });
+$('#newPostButton').click(function () {
+    location.href = "adventure.php?create=1";
+
+});
 
 function savePost() {
     var adventureTitle = $('#adventureTitle').val();
