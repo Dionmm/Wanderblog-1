@@ -1,12 +1,23 @@
 <div class="row">
     <div class="col-sm-12">
+        <div class="comment-box">
+            {% if permissions > 0 %}
+            <form onsubmit="commentForm()" method="POST" id="commentForm">
+                <label for="comment-box">
+                    <textarea name="comment-box" id="comment-box" cols="30" rows="10">{{ name }} has {{ permissions }} permissions</textarea>
+                    <input type="submit">
+                </label>
+            </form>
+            {% else %}
+            <p>NOTHING TO SEE HERE</p>
+            {% endif%}
+        </div>
         <div class="comment-container">
 
             {% for comment in comments %} {# Loops through the comments #}
 
                 <div class="comment">
                     <hr>
-                    <!-- This is testing my git is working again-->
                     <h4 class="author"> {{ comment.Username[1] }}</h4>
                     <h5 class="timestamp"> {{ comment.DatePosted[1] }} </h5>
                     <p class="content"> {{ comment.Content[1] }}</p>

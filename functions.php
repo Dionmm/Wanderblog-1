@@ -19,6 +19,20 @@ function logged_in(){
         $user_group = $_SESSION['user_group'];
     }
 
+    switch ($user_group) {
+        case 'admin':
+            $user_group = 3;
+            break;
+        case 'author':
+            $user_group = 2;
+            break;
+        case 'reader':
+            $user_group = 1;
+            break;
+        default:
+            $user_group = 0;
+    }
+
 
     return array(
         'loggedIn' => $loggedIn,

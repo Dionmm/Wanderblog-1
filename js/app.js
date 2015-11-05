@@ -67,3 +67,39 @@ function registerForm(){
     }
 
 }
+
+function commentForm() {
+    var formData = $('#commentForm').serializeArray();
+
+    console.log('Form submitted');
+    console.log(formData);
+    event.preventDefault(); //stop page reload on submit
+
+    if (formData[0].value !== '') {
+        $.ajax({ //send username/password and await response
+            type: 'POST',
+            url: 'adventure.php?id=' + PostID, //Dis ain't secure!!!
+            data: {comment: formData[0].value},
+            dataType: 'json'
+        })
+            .done(function (data) { //on response log user in if successful or prompt try again
+                console.log(data);
+
+                //if (data.success) {
+                //    console.log(data.success);
+                //    $('#register-modal').prepend('Successfully Logged In as ' + data.name);
+                //} else if(data.error){
+                //    $('#register-modal').append(data.error);
+                //} else {
+                //    $('#register-modal').append('Something went wrong, please try again');
+                //}
+            })
+            .fail(function (data) {
+                console.log("Error happened");
+                console.log(data);
+                console.log(data.responseText);
+            });
+    } else {
+        alert("Passwords don't match");
+    }
+}

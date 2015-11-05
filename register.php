@@ -110,6 +110,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
             $success = 'successfully added user to database';
 
             session_start();
+            $_SESSION['username'] = $username; //set session variable
             $_SESSION['first_name'] = $first_name; //set session variable
             $_SESSION['last_name'] = $last_name; //set session variable
             $_SESSION['email'] = $email; //set session variable

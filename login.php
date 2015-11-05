@@ -31,6 +31,7 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
 
         if(password_verify($password, $rows[0]['Password'])){ //Verify the passwords match
             session_start(); //create a session
+            $_SESSION['username'] = $rows[0]['Username']; //set session variable
             $_SESSION['first_name'] = $rows[0]['FirstName']; //set session variable
             $_SESSION['last_name'] = $rows[0]['LastName']; //set session variable
             $_SESSION['email'] = $rows[0]['Email']; //set session variable
