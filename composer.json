@@ -1,4 +1,4 @@
-//Without this filek Azure will DIE!!!
+
 {
   "require": {
     "twig/twig": "~1.0"
