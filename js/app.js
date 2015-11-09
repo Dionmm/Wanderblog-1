@@ -110,8 +110,8 @@ $('#newPostButton').click(function () {
 });
 
 function savePost() {
-    var adventureTitle = $('#adventureTitle').val();
-    var adventureContent = $('#adventureContent').val();
+    var adventureTitle = $('#adventureTitle').html();
+    var adventureContent = $('#adventureContent').html();
 
     //Really rough version, but checks if there is a PostID and then either attaches it or saves adventure as new
     if (PostID !== '') {
