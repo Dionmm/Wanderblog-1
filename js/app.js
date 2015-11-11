@@ -150,7 +150,6 @@ function loadMoreAdventures() {
         dataType: 'json'
     })
         .done(function (data) {
-            console.log(data);
             for (adventures of
             data
             )
@@ -158,8 +157,8 @@ function loadMoreAdventures() {
                 $('.card-container').append('<div class="card">' +
                     '<h3>' + adventures.Title + '</h3>' +
                     '<p>by: ' + adventures.Username + '</p>' +
-                    '<p>' + adventures.Upvotes + '</p>' +
-                    '<button type="button" class="btn btn-primary btn-sm" id="likeButton" data-postID="' + adventures.PostID + '">Like this</button>' +
+                    '<p>' + adventures.Upvotes + ' Likes</p>' +
+                    '<button type="button" class="btn btn-primary btn-sm likeButton" data-post-id="' + adventures.PostID + '">Like this</button>' +
                     '<a href="/adventure.php?id=' + adventures.PostID + '">View Adventure Here</a>' +
                     '</div>');
             }
@@ -182,4 +181,21 @@ $('#newPostButton').click(function () {
 });
 $('#loadMoreButton').click(function () {
     loadMoreAdventures();
+});
+$('.likeButton').click(function () {
+    var postID = $(this).data('postId');
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'index.php',
+        data: {liked: postID},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data); //Increase and decrease the likes shown on the UI Here
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
 });

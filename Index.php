@@ -15,6 +15,8 @@ if (isset($_POST['timesRequested'])) {
 
     echo json_encode($rows);
 
+} else if (isset($_POST['liked'])) {
+    echo addLike($_POST['liked']);
 } else {
 
     //Create connection to database, query for username and verify password

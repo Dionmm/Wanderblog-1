@@ -60,3 +60,45 @@ function LoginToDB()
     $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
     return $oConn;
 }
+
+function addLike($postID)
+{
+    $loggedIn = logged_in();
+    $username = $_SESSION['username'];
+    if ($loggedIn['user_group'] >= 1) {
+        $oConn = LoginToDB();
+
+        $query = $oConn->prepare('SELECT * FROM Upvoted WHERE PostID = :postID AND Username = :username');
+        $query->bindValue(':postID', $postID, PDO::PARAM_STR);
+        $query->bindValue(':username', $username, PDO::PARAM_STR);
+        $query->execute();
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
+
+        if ($rows) {
+            $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes-1 WHERE PostID = :postID;DELETE FROM Upvoted WHERE PostID = :postID AND Username = :username');
+            $update->bindValue(':postID', $postID, PDO::PARAM_STR);
+            $update->bindValue(':username', $username, PDO::PARAM_STR);
+
+            if ($update->execute()) {
+                return json_encode(array('success' => 'Upvote removed'));
+            } else {
+                return json_encode(array('error' => 'Something went wrong'));
+
+            }
+        } else {
+            $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes+1 WHERE PostID = :postID;INSERT INTO Upvoted VALUES(NULL, :postID, :username)');
+            $update->bindValue(':postID', $postID, PDO::PARAM_STR);
+            $update->bindValue(':username', $username, PDO::PARAM_STR);
+
+            if ($update->execute()) {
+                return json_encode(array('success' => 'Upvote added'));
+            } else {
+                return json_encode(array('error' => 'Something went wrong'));
+
+            }
+        }
+
+    } else {
+        return json_encode(array('error' => 'Do not have permission to vote'));
+    }
+}

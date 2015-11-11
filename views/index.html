@@ -24,8 +24,8 @@
                         <h3>{{ adventure.Title }}</h3>
                         <p>by: {{ adventure.Username }}</p>
                         <p>{{ adventure.Upvotes }} Likes</p>
-                        <button type="button" class="btn btn-primary btn-sm" id="likeButton"
-                                data-postID="{{ adventure.PostID }}">Like this
+                        <button type="button" class="btn btn-primary btn-sm likeButton"
+                                data-post-id="{{ adventure.PostID }}">Like this
                         </button>
                         <a href="/adventure.php?id={{ adventure.PostID }}">View Adventure Here</a>
                     </div>
