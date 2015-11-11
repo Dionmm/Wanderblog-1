@@ -97,17 +97,6 @@ function commentForm() {
         alert("Comments cannot be empty");
     }
 }
-$('#editButton').click(function () {
-    location.href = "adventure.php?id=" + PostID + "&edit=1";
-    //console.log('Fired');
-});
-$('#saveButton').click(function () {
-    savePost();
-});
-$('#newPostButton').click(function () {
-    location.href = "adventure.php?create=1";
-
-});
 
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
@@ -117,7 +106,7 @@ function savePost() {
     if (PostID !== '') {
         $.ajax({ //send username/password and await response
             type: 'POST',
-            url: 'adventure.php?id=' + PostID, //Dis ain't secure!!!
+            url: 'adventure.php?id=' + PostID,
             data: {save: true, title: adventureTitle, content: adventureContent},
             dataType: 'json'
         })
@@ -147,3 +136,50 @@ function savePost() {
     }
 
 }
+
+function loadMoreAdventures() {
+    if (typeof timesRequested == 'undefined') {
+        timesRequested = 1;
+    } else {
+        timesRequested++;
+    }
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'index.php',
+        data: {timesRequested: timesRequested},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data);
+            for (adventures of
+            data
+            )
+            {
+                $('.card-container').append('<div class="card">' +
+                    '<h3>' + adventures.Title + '</h3>' +
+                    '<p>by: ' + adventures.Username + '</p>' +
+                    '<p>' + adventures.Upvotes + '</p>' +
+                    '<button type="button" class="btn btn-primary btn-sm" id="likeButton" data-postID="' + adventures.PostID + '">Like this</button>' +
+                    '<a href="/adventure.php?id=' + adventures.PostID + '">View Adventure Here</a>' +
+                    '</div>');
+            }
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });;
+}
+
+$('#editButton').click(function () {
+    location.href = "adventure.php?id=" + PostID + "&edit=1";
+});
+$('#saveButton').click(function () {
+    savePost();
+});
+$('#newPostButton').click(function () {
+    location.href = "adventure.php?create=1";
+});
+$('#loadMoreButton').click(function () {
+    loadMoreAdventures();
+});

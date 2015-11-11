@@ -1,14 +1,25 @@
 <?php
     //Querying
-    require_once 'config.php'; //Grabs the database details
     require_once 'functions.php';
+
+if (isset($_POST['timesRequested'])) {
+    $timesRequested = $_POST['timesRequested'];
+
+    $oConn = LoginToDB();
+
+    //Prepare statement, substitute :username with username field input
+    $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT :limit, 8');
+    $query->bindValue(':limit', $timesRequested * 8, PDO::PARAM_INT);
+    $query->execute();
+    $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
+
+    echo json_encode($rows);
+
+} else {
+
     //Create connection to database, query for username and verify password
     try {
-        //Set persistent connection
-        $oConn = new PDO('mysql:host='.$sHost.';dbname='.$sDb, $sUsername, $sPassword, array(
-            PDO::ATTR_PERSISTENT => true
-        ));
-        $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
+        $oConn = LoginToDB();
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT 8'); // Grab the 8 most recent Adventures
@@ -38,3 +49,4 @@
     } catch(PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
     }
+}

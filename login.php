@@ -5,7 +5,7 @@
  * Date: 19/10/2015
  * Time: 21:59
  */
-
+require_once 'functions.php';
 
 //Check if post was properly sent and contains data
 if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) && !empty($_POST['password'])){
@@ -13,15 +13,10 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
     $username = $_POST['username']; //grab the username from the post
     $password = $_POST['password']; //grab the password from the post
 
-    require_once 'config.php'; //Grabs the database details
-
     //Create connection to database, query for username and verify password
     try {
-        //Set persistent connection
-        $oConn = new PDO('mysql:host='.$sHost.';dbname='.$sDb, $sUsername, $sPassword, array(
-            PDO::ATTR_PERSISTENT => true
-        ));
-        $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
+        //login to DB
+        $oConn = LoginToDB();
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM User WHERE username = :username');

@@ -6,14 +6,17 @@
  * Time: 16:06
  */
 function logged_in(){
-    //Check for logged in
+    //Initiate session and variables
     session_start();
     $loggedIn = false;
     $first_name = '';
     $last_name = '';
     $username = '';
     $user_group = '';
+
+    //Check if logged in by checking session variable
     if(isset($_SESSION['first_name'])){
+        //Set logged in to true and fill session variables
         $loggedIn = true;
         $first_name = $_SESSION['first_name'];
         $last_name = $_SESSION['last_name'];
@@ -21,6 +24,7 @@ function logged_in(){
         $username = $_SESSION['username'];
     }
 
+    //Check which user group the user belongs to and give corresponding number
     switch ($user_group) {
         case 'admin':
             $user_group = 3;

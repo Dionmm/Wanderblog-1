@@ -24,10 +24,15 @@
                         <h3>{{ adventure.Title }}</h3>
                         <p>by: {{ adventure.Username }}</p>
                         <p>{{ adventure.Upvotes }} Likes</p>
-                        <button type="button" class="btn btn-primary btn-sm" id="likeButton">Like this</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="likeButton"
+                                data-postID="{{ adventure.PostID }}">Like this
+                        </button>
                         <a href="/adventure.php?id={{ adventure.PostID }}">View Adventure Here</a>
                     </div>
                 {% endfor %}
+            </div>
+            <div class="loadMore">
+                <button type="button" class="btn btn-primary btn-sm" id="loadMoreButton">Load More Adventures</button>
             </div>
         </div>
         <div class="col-sm-3">

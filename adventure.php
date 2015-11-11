@@ -7,32 +7,28 @@
  */
 require_once 'functions.php'; //Grabs any extra functions
 
+//Check which kind of request is coming through and filter appropriately
 if (isset($_GET['id'])) {
 
+    //Add new comment
     if (isset($_POST['comment'])) {
         $PostID = $_GET['id']; //grab the id for the post
         addComment($PostID);
-    } else if (isset($_POST['save'])) {
-        $PostID = $_GET['id'];
-        saveAdventure($PostID, 'existing'); //Save to DB here
 
-    } else {
+    } else if (isset($_POST['save'])) { //Saves changes to an exisiting post
+        $PostID = $_GET['id'];
+        saveAdventure($PostID, 'existing');
+
+    } else { //Just display the adventure
         $PostID = $_GET['id']; //grab the id for the post
         readAdventure($PostID);
     }
 
-} else if (isset($_POST['save']) && !isset($_GET['id'])) {
-//    if(isset($_GET['id'])){
-//        $PostID = $_GET['id'];
-//        saveAdventure($PostID, 'existing'); //Save to DB here
-//
-//    } else{
+} else if (isset($_POST['save']) && !isset($_GET['id'])) { //If ID isn't set then save as new adventure
     $PostID = createPostID(); //Generate PostID here
     saveAdventure($PostID, 'new'); //Save to DB here
 
-//    }
-
-} else if (isset($_GET['create']) && !isset($_GET['id'])) {
+} else if (isset($_GET['create']) && !isset($_GET['id'])) { //Renders a blank template so user's can create new adventure
     //Create adventure here
     createAdventure();
 
@@ -44,9 +40,8 @@ if (isset($_GET['id'])) {
 function readAdventure($PostID)
 {
 
-    //Create connection to database, query for username and verify password
     try {
-        $oConn = LoginToDB();
+        $oConn = LoginToDB(); //Login to DB (Functions.php)
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM Adventures LEFT JOIN Comments ON Comments.PostID = Adventures.PostID WHERE Adventures.PostID = :PostID'); //Query for PostID and any comments it may have
@@ -65,7 +60,7 @@ function readAdventure($PostID)
             $loggedIn = logged_in();
 
 
-            //Check if they own the article or are admin
+            //Check if they own the adventure or are admin
             $canEdit = false;
             if ($loggedIn['loggedIn']) {
                 if ($_SESSION['user_group'] == 'admin' || $_SESSION['username'] == $rows[0]['Username'][0]) {
@@ -73,8 +68,11 @@ function readAdventure($PostID)
                 }
             }
 
-            //Check if the user is editing the
+            //Check if the user is editing the adventure
             if (isset($_GET['edit']) && $canEdit == true) {
+
+                //Set the editing ID to be compared to PostID once saved, ensures user's can't alter the postID
+                $_SESSION['editingID'] = $PostID;
 
                 //Templating
                 require_once 'vendor/autoload.php';
@@ -135,10 +133,13 @@ function createAdventure()
     $loggedIn = logged_in();
 
 
-    //Check if they own the article or are admin
+    //Check if they have sufficient permissions to create adventure (Equal to or greater than AUTHOR)
     if ($loggedIn['loggedIn']) {
         if ($loggedIn['user_group'] > 1) {
+
+            //Put Username into an array due to the way adventureEdit.html displays the username
             $adventure = ['Username' => array($_SESSION['username'])];
+
             //Templating
             require_once 'vendor/autoload.php';
             $loader = new Twig_Loader_Filesystem('views');
@@ -165,12 +166,10 @@ function createAdventure()
 function createPostID()
 {
 
-    //Create connection to database, query for username and verify password
     try {
         $oConn = LoginToDB();
 
-        //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT PostID FROM Adventures WHERE PostID = :PostID'); //Query for PostID and any comments it may have
+        $query = $oConn->prepare('SELECT PostID FROM Adventures WHERE PostID = :PostID'); //Prepare query to check for existing postID
 
         do { //Create a random 5 character string and then query the database to ensure it is new
             $characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKMLNPQRSTUVWXYZ23456789';
@@ -195,33 +194,40 @@ function saveAdventure($PostID, $SQLType)
 
     //Check for logged in
     $loggedIn = logged_in();
-    if (isset($_POST['title'], $_POST['content'])) {
-        if (!empty($_POST['title']) && !empty($_POST['content']) && $loggedIn['user_group'] > 1) {
 
-            $title = $_POST['title']; //grab the comment from the post
+    //Check the POST variables are set, that the user's editingID matches the PostID sent back, and that the user has permission (Equal to or greater than AUTHOR)
+    if (isset($_POST['title'], $_POST['content']) && $_SESSION['editingID'] == $PostID && $loggedIn['user_group'] > 1) {
+
+        //Ensures post variables are not empty
+        if (!empty($_POST['title']) && !empty($_POST['content'])) {
+
+            $title = $_POST['title']; //grab the contents of the post
             $content = $_POST['content'];
             $username = $_SESSION['username'];
-            $city = NULL;
+            $city = NULL; //These will eventually have their own field to be filled out on the edit page
             $country = NULL;
 
-            //Create connection to database, query for username and verify password
+
             try {
                 $oConn = LoginToDB();
 
+                //******POSSIBLY LOOK INTO SWAPPING THIS IF STATEMENT AROUND AS IT DEFAULTS TO AN UPDATE STATEMENT, OR CHANGE TO ELSE IF AND ADD AN ELSE FOR ERROR
+                //If the it's a new post then insert into DB
                 if ($SQLType === 'new') {
-                    $addComment = $oConn->prepare("INSERT INTO Adventures VALUES (:PostID, :Username, :Title, :Content, 0, :City, :Country, NOW())");
-                    $addComment->bindValue(':Username', $username, PDO::PARAM_STR);
-                } else {
-                    $addComment = $oConn->prepare("UPDATE Adventures SET Title = :Title, Content = :Content, City = :City, Country = :Country WHERE PostID = :PostID");
+                    $saveAdventure = $oConn->prepare("INSERT INTO Adventures VALUES (:PostID, :Username, :Title, :Content, 0, :City, :Country, NOW())");
+                    $saveAdventure->bindValue(':Username', $username, PDO::PARAM_STR);
+                } else { //Otherwise assume it is an UPDATE and update the existing Post where the PostID matches
+                    $saveAdventure = $oConn->prepare("UPDATE Adventures SET Title = :Title, Content = :Content, City = :City, Country = :Country WHERE PostID = :PostID");
                 }
-                //Prepare statement, substitute field input
-                $addComment->bindValue(':PostID', $PostID, PDO::PARAM_STR);
-                $addComment->bindValue(':Title', $title, PDO::PARAM_STR);
-                $addComment->bindValue(':Content', $content, PDO::PARAM_STR);
-                $addComment->bindValue(':City', $city, PDO::PARAM_STR);
-                $addComment->bindValue(':Country', $country, PDO::PARAM_STR);
+                //Substitute field input
+                $saveAdventure->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                $saveAdventure->bindValue(':Title', $title, PDO::PARAM_STR);
+                $saveAdventure->bindValue(':Content', $content, PDO::PARAM_STR);
+                $saveAdventure->bindValue(':City', $city, PDO::PARAM_STR);
+                $saveAdventure->bindValue(':Country', $country, PDO::PARAM_STR);
 
-                if ($addComment->execute()) {
+                //If the query was executed successfully then return success message and postID
+                if ($saveAdventure->execute()) {
                     $success = 'successfully added adventure to database';
                     $returnMessage = json_encode(array('success' => $success, 'PostID' => $PostID));
                 } else {
@@ -251,6 +257,7 @@ function addComment($PostID)
     //Check for logged in
     $loggedIn = logged_in();
 
+    //Check the comment is not empty and that the user has sufficient permissions to post a comment (Equal to or greater than READER)
     if (!empty($_POST['comment']) && $loggedIn['user_group'] > 0) {
 
         $comment = $_POST['comment']; //grab the comment from the post
