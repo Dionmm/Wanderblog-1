@@ -5,6 +5,7 @@
  * Date: 25/10/2015
  * Time: 15:49
  */
+require_once 'functions.php';
 
 //Check if post was properly sent and contains data
 if (isset($_POST['username'], $_POST['password'], $_POST['email'], $_POST['fName'], $_POST['lName'], $_POST['country'])) {
