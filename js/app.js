@@ -102,38 +102,23 @@ function savePost() {
     var adventureTitle = $('#adventureTitle').html();
     var adventureContent = $('#adventureContent').html();
 
-    //Really rough version, but checks if there is a PostID and then either attaches it or saves adventure as new
-    if (PostID !== '') {
-        $.ajax({ //send username/password and await response
-            type: 'POST',
-            url: 'adventure.php?id=' + PostID,
-            data: {save: true, title: adventureTitle, content: adventureContent},
-            dataType: 'json'
+
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'adventure.php',
+        data: {save: true, title: adventureTitle, content: adventureContent},
+        dataType: 'json'
+    })
+        .done(function (data) { //on successful response reload the page
+            location.href = "adventure.php?id=" + data.PostID;
+            console.log(data);
+
         })
-            .done(function (data) { //on successful response reload the page
-                location.href = "adventure.php?id=" + data.PostID;
-            })
-            .fail(function (data) { //on unsuccessful response output error
-                console.log("Error happened");
-                console.log(data);
-                console.log(data.responseText);
-            });
-    } else {
-        $.ajax({ //send username/password and await response
-            type: 'POST',
-            url: 'adventure.php',
-            data: {save: true, title: adventureTitle, content: adventureContent},
-            dataType: 'json'
-        })
-            .done(function (data) { //on successful response reload the page
-                location.href = "adventure.php?id=" + data.PostID;
-            })
-            .fail(function (data) { //on unsuccessful response output error
-                console.log("Error happened");
-                console.log(data);
-                console.log(data.responseText);
-            });
-    }
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
 
 }
 
@@ -151,14 +136,14 @@ function loadMoreAdventures() {
     })
         .done(function (data) {
             for (adventures of
-            data
+            data;
             )
             {
                 $('.card-container').append('<div class="card">' +
                     '<h3>' + adventures.Title + '</h3>' +
                     '<p>by: ' + adventures.Username + '</p>' +
                     '<p>' + adventures.Upvotes + ' Likes</p>' +
-                    '<button type="button" class="btn btn-primary btn-sm likeButton" data-post-id="' + adventures.PostID + '">Like this</button>' +
+                    '<i class="pe-7s-like pe-3x likeButton" data-post-id="' + adventures.PostID + '"></i>' +
                     '<a href="/adventure.php?id=' + adventures.PostID + '">View Adventure Here</a>' +
                     '</div>');
             }
@@ -167,7 +152,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });
 }
 
 $('#editButton').click(function () {
@@ -184,6 +169,14 @@ $('#loadMoreButton').click(function () {
 });
 $('.likeButton').click(function () {
     var postID = $(this).data('postId');
+    var colour = $(this).css('color');
+
+    if (colour === 'rgb(217, 30, 24)') {
+        colour = 'rgb(51, 51, 51)';
+    } else {
+        colour = 'rgb(217, 30, 24)';
+    }
+    $(this).css('color', colour);
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'index.php',

@@ -12,7 +12,8 @@
         <div class="bg-image"></div>
         <div class="title-container">
             <!--<input type="text" value="{{ adventure.Title }}" id="adventureTitle">-->
-            <h1 class="title" contenteditable="true" id="adventureTitle" role="textbox">{{ adventure.Title }}</h1> {#
+            <h1 class="title" contenteditable="true" id="adventureTitle" role="textbox" placeholder="Enter a title">{{
+                adventure.Title }}</h1> {#
             Uses the adventure variable passed through and then access the 'Title' key in the array #}
 
             <h3 class="author">By: {{ adventure.Username[0] }}</h3> {# PDO creates an array for columns with the same
@@ -20,8 +21,8 @@
         </div>
     </div>
     <div class="row">
-        <article class="col-sm-12" contenteditable="true" role="textbox" id="adventureContent">
-            {{ adventure.Content[0]|raw }}
+        <article class="col-sm-12" contenteditable="true" role="textbox" id="adventureContent"
+                 placeholder="Begin your adventure..">{{ adventure.Content[0]|raw }}
         </article>
     </div>
 
@@ -30,5 +31,4 @@
 {% include 'script_include.html' %}
 
 </body>
-<script>var PostID = '{{ postID }}'</script>
 </html>

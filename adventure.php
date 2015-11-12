@@ -15,14 +15,14 @@ if (isset($_GET['id'])) {
         $PostID = $_GET['id']; //grab the id for the post
         addComment($PostID);
 
-    } else if (isset($_POST['save'])) { //Saves changes to an exisiting post
-        $PostID = $_GET['id'];
-        saveAdventure($PostID, 'existing');
-
     } else { //Just display the adventure
         $PostID = $_GET['id']; //grab the id for the post
         readAdventure($PostID);
     }
+
+} else if (isset($_POST['save']) && isset($_SESSION['editingID'])) { //Saves changes to an existing post
+    $PostID = $_SESSION['editingID'];
+    saveAdventure($PostID, 'existing');
 
 } else if (isset($_POST['save']) && !isset($_GET['id'])) { //If ID isn't set then save as new adventure
     $PostID = createPostID(); //Generate PostID here
@@ -59,7 +59,6 @@ function readAdventure($PostID)
             //Check for logged in
             $loggedIn = logged_in();
 
-
             //Check if they own the adventure or are admin
             $canEdit = false;
             if ($loggedIn['loggedIn']) {
@@ -86,8 +85,7 @@ function readAdventure($PostID)
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
-                    'editing' => 'true',
-                    'postID' => $PostID //Temporary till i can think of a better, more secure way
+                    'editing' => 'true'
                 ));
 
             } else {
@@ -112,8 +110,7 @@ function readAdventure($PostID)
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
-                    'canEdit' => $canEdit,
-                    'postID' => $PostID //Temporary till i can think of a better, more secure way
+                    'canEdit' => $canEdit
                 ));
             }
 
@@ -196,7 +193,7 @@ function saveAdventure($PostID, $SQLType)
     $loggedIn = logged_in();
 
     //Check the POST variables are set, that the user's editingID matches the PostID sent back, and that the user has permission (Equal to or greater than AUTHOR)
-    if (isset($_POST['title'], $_POST['content']) && $_SESSION['editingID'] == $PostID && $loggedIn['user_group'] > 1) {
+    if (isset($_POST['title'], $_POST['content']) && $loggedIn['user_group'] > 1) {
 
         //Ensures post variables are not empty
         if (!empty($_POST['title']) && !empty($_POST['content'])) {
@@ -228,6 +225,10 @@ function saveAdventure($PostID, $SQLType)
 
                 //If the query was executed successfully then return success message and postID
                 if ($saveAdventure->execute()) {
+                    //Unset the Id that was set earlier
+                    if (isset($_SESSION['editingID'])) {
+                        unset($_SESSION['editingID']);
+                    };
                     $success = 'successfully added adventure to database';
                     $returnMessage = json_encode(array('success' => $success, 'PostID' => $PostID));
                 } else {

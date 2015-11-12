@@ -16,18 +16,22 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-xs-12 col-sm-9">
             <div class="card-container">
 
                 {% for adventure in adventures %}
                     <div class="card">
-                        <h3>{{ adventure.Title }}</h3>
-                        <p>by: {{ adventure.Username }}</p>
-                        <p>{{ adventure.Upvotes }} Likes</p>
-                        <button type="button" class="btn btn-primary btn-sm likeButton"
-                                data-post-id="{{ adventure.PostID }}">Like this
-                        </button>
-                        <a href="/adventure.php?id={{ adventure.PostID }}">View Adventure Here</a>
+                        <div class="card-text-container">
+                            <h3>{{ adventure.Title }}</h3>
+
+                            <p>by: {{ adventure.Username }}</p>
+                            <a href="/adventure.php?id={{ adventure.PostID }}"><span class="adventureLink"></span></a>
+                        </div>
+                        <div class="card-footer">
+                            <i class="pe-7s-like pe-2x likeButton" data-post-id="{{ adventure.PostID }}"></i>
+
+                            <p>{{ adventure.Upvotes }} Likes</p>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -35,7 +39,7 @@
                 <button type="button" class="btn btn-primary btn-sm" id="loadMoreButton">Load More Adventures</button>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-xs-12 col-sm-3">
             <h3>Filter stuff here</h3>
         </div>
     </div>
