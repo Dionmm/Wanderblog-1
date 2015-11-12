@@ -19,8 +19,10 @@ function loginForm() {
         var logon = $('#logon');
         if (data.success) {
             location.reload();
+        } else if (data.error) {
+            $('#login-modal').append(data.error);
         } else {
-            logon.append('Something went wrong, please try again');
+            $('#login-modal').append('Something went wrong, please try again');
         }
     })
     .fail(function(data){
@@ -135,10 +137,9 @@ function loadMoreAdventures() {
         dataType: 'json'
     })
         .done(function (data) {
-            for (adventures of
-            data;
-            )
-            {
+            //PHPStorm doesn't like this sytax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
+            //@formatter:off
+            for (adventures of data){ //noinspection UnreachableCodeJS
                 $('.card-container').append('<div class="card">' +
                     '<h3>' + adventures.Title + '</h3>' +
                     '<p>by: ' + adventures.Username + '</p>' +
@@ -146,13 +147,13 @@ function loadMoreAdventures() {
                     '<i class="pe-7s-like pe-3x likeButton" data-post-id="' + adventures.PostID + '"></i>' +
                     '<a href="/adventure.php?id=' + adventures.PostID + '">View Adventure Here</a>' +
                     '</div>');
-            }
+            }//@formatter:on
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });
+        });;
 }
 
 $('#editButton').click(function () {

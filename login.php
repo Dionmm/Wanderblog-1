@@ -24,7 +24,7 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
-        if(password_verify($password, $rows[0]['Password'])){ //Verify the passwords match
+        if ($rows && password_verify($password, $rows[0]['Password'])) { //Verify the passwords match
             session_start(); //create a session
             $_SESSION['username'] = $rows[0]['Username']; //set session variable
             $_SESSION['first_name'] = $rows[0]['FirstName']; //set session variable
@@ -35,7 +35,7 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
             $success = 'success'; //set success message
             $returnMessage = json_encode(array('success' => $success));
         } else{
-            $returnMessage = '503 Forbidden'; //return forbidden error
+            $returnMessage = json_encode(array('error' => 'Username and/or password are incorrect')); //return forbidden error
         }
         echo $returnMessage; //return
 
