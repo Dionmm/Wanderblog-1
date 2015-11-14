@@ -1,7 +1,7 @@
 <?php
-    //Querying
     require_once 'functions.php';
 
+//Load more adventures when requested
 if (isset($_POST['timesRequested'])) {
     $timesRequested = $_POST['timesRequested'];
 
@@ -15,9 +15,10 @@ if (isset($_POST['timesRequested'])) {
 
     echo json_encode($rows);
 
+    //Add a like to an adventure
 } else if (isset($_POST['liked'])) {
     echo addLike($_POST['liked']);
-} else {
+} else { //Load index.html
 
     //Create connection to database, query for username and verify password
     try {

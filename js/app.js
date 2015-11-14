@@ -5,7 +5,7 @@ function loginForm() {
     console.log(formData); //debugging
 
     event.preventDefault(); //stop page reload on submit
-    $('#login-modal').append('<i class="pe-7s-config pe-spin pe-5x"></i>');
+    $('.modal-submit').html('<i class="pe-7s-config pe-spin pe-2x"></i>');
 
     $.ajax({ //send username/password and await response
         type: 'POST',
@@ -16,20 +16,25 @@ function loginForm() {
     .done(function (data) { //on response log user in if successful or prompt try again
         console.log(data.success);
 
-        var logon = $('#logon');
         if (data.success) {
             location.reload();
         } else if (data.error) {
-            $('#login-modal').append(data.error);
+            $('#loginForm').prepend(data.error);
+            $('.modal-submit').html('Sign In');
+
         } else {
-            $('#login-modal').append('Something went wrong, please try again');
+            $('#loginForm').prepend('Something went wrong, please try again');
+            $('.modal-submit').html('Sign In');
+
         }
     })
     .fail(function(data){
         console.log("Error happened");
         console.log(data);
         console.log(data.responseText);
-    });
+            $('.modal-submit').html('Sign In');
+
+        });
 }
 
 function registerForm(){
@@ -41,7 +46,8 @@ function registerForm(){
     event.preventDefault(); //stop page reload on submit
 
     if(formData[1].value === formData[2].value){
-        $('#register-modal').append('<i class="pe-7s-config pe-spin pe-5x"></i>');
+        $('.modal-submit').html('<i class="pe-7s-config pe-spin pe-2x"></i>');
+
         $.ajax({ //send username/password and await response
             type: 'POST',
             url: 'register.php',
@@ -52,12 +58,13 @@ function registerForm(){
                 console.log(data);
 
                 if (data.success) {
-                    console.log(data.success);
-                    $('#register-modal').prepend('Successfully Logged In as ' + data.name);
+                    location.reload();
                 } else if(data.error){
-                    $('#register-modal').append(data.error);
+                    $('#registerForm').prepend(data.error);
+                    $('.modal-submit').html('Register');
                 } else {
-                    $('#register-modal').append('Something went wrong, please try again');
+                    $('#registerForm').prepend('Something went wrong, please try again');
+                    $('.modal-submit').html('Register');
                 }
             })
         .fail(function(data){
@@ -141,11 +148,15 @@ function loadMoreAdventures() {
             //@formatter:off
             for (adventures of data){
                 $('.card-container').append('<div class="card">' +
+                    '<div class="card-text-container">' +
                     '<h3>' + adventures.Title + '</h3>' +
                     '<p>by: ' + adventures.Username + '</p>' +
+                    '<a href="/adventure.php?id='+ adventures.PostID +'"><span class="adventureLink"></span></a>' +
+                    '</div>' +
+                    '<div class="card-footer">' +
+                    '<i class="pe-7s-like pe-2x likeButton" data-post-id="'+ adventures.PostID +'"></i>' +
                     '<p>' + adventures.Upvotes + ' Likes</p>' +
-                    '<i class="pe-7s-like pe-3x likeButton" data-post-id="' + adventures.PostID + '"></i>' +
-                    '<a href="/adventure.php?id=' + adventures.PostID + '">View Adventure Here</a>' +
+                    '</div>' +
                     '</div>');
             }//@formatter:on
         })
@@ -168,7 +179,8 @@ $('#newPostButton').click(function () {
 $('#loadMoreButton').click(function () {
     loadMoreAdventures();
 });
-$('.likeButton').click(function () {
+//Registers the like button click. Cannot be a simple .click() function due to the way jquery handles appended html
+$('.card-container').on('click', '.likeButton', function () {
     var postID = $(this).data('postId');
     var colour = $(this).css('color');
 

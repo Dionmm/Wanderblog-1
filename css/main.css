@@ -46,15 +46,6 @@ a:hover{
     color: #929292;
 }
 
-input:required{
-    border: 2px solid black;
-}
-input:required:invalid{
-    border: 3px solid red;
-}
-input:required:valid{
-    border: 3px solid green;
-}
 .container-fluid{
     padding: 0;
 }
@@ -86,6 +77,89 @@ input:required:valid{
     font-weight: 300;
     /*background-color: black;*/
 }
+
+/*Login Modal*/
+.modal-dialog {
+    width: 250px;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.5); /*Might make this black instead*/
+    border-radius: 7px;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 20px;
+    overflow: hidden;
+    border: 0;
+}
+
+.modal-content h4 {
+    width: 100%;
+    display: block;
+    background: linear-gradient(-45deg, #EF4836 10%, #D64541 90%);
+    margin: 0;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 2em;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(205, 205, 205, 0.2);
+}
+
+.modal-content input {
+    border: none;
+    background: transparent;
+    margin: 15px auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    display: block;
+    height: 20px;
+    outline: none;
+    color: white;
+}
+
+.modal-content input::-webkit-input-placeholder {
+    color: white;
+}
+
+.modal-content input:focus {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.modal-submit {
+    background: none;
+    border: none;
+    letter-spacing: 2px;
+    margin-top: 5px;
+    color: white;
+    outline: none;
+}
+
+.modal-submit:hover {
+    font-weight: 300;
+}
+
+.modal-content .close {
+    font-size: 25px;
+    padding-right: 5px;
+}
+
+@media screen and (max-width: 767px) {
+    .modal-dialog {
+        width: inherit;
+    }
+}
+
+/*input:required{*/
+/*border: 2px solid black;*/
+/*}*/
+/*input:required:invalid{*/
+/*border: 3px solid red;*/
+/*}*/
+/*input:required:valid{*/
+/*border: 3px solid green;*/
+/*}*/
+
+/*Adventure cards on the homepage*/
 .card-container{
     height: 100%;
     display: flex;
