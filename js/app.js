@@ -139,7 +139,7 @@ function loadMoreAdventures() {
         .done(function (data) {
             //PHPStorm doesn't like this sytax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
             //@formatter:off
-            for (adventures of data){ //noinspection UnreachableCodeJS
+            for (adventures of data){
                 $('.card-container').append('<div class="card">' +
                     '<h3>' + adventures.Title + '</h3>' +
                     '<p>by: ' + adventures.Username + '</p>' +
@@ -192,4 +192,9 @@ $('.likeButton').click(function () {
             console.log(data);
             console.log(data.responseText);
         });
+});
+
+//This is to ensure the textbox is empty on the editAdventure template
+$(document).ready(function () {
+    $('#adventureTitle').focus();
 });

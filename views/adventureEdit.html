@@ -20,11 +20,12 @@
             name, 0 is the adventure table, 1 is the comments table #}
         </div>
     </div>
-    <div class="row">
-        <article class="col-sm-12" contenteditable="true" role="textbox" id="adventureContent"
-                 placeholder="Begin your adventure..">{{ adventure.Content[0]|raw }}
-        </article>
+    <!--@formatter:off-->
+
+    <div class="row adventure-container">
+        <article class="col-sm-12" contenteditable="true" role="textbox" id="adventureContent" placeholder="Start typing here to begin your adventure..">{{ adventure.Content[0]|raw }}</article>
     </div>
+    <!--@formatter:on-->
 
 </div>
 

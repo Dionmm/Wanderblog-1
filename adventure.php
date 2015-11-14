@@ -110,7 +110,8 @@ function readAdventure($PostID)
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
-                    'canEdit' => $canEdit
+                    'canEdit' => $canEdit,
+                    'postID' => $PostID
                 ));
             }
 
