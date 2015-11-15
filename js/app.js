@@ -146,7 +146,7 @@ function loadMoreAdventures() {
         .done(function (data) {
             //PHPStorm doesn't like this syntax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
             //@formatter:off
-            for (adventures in data){
+            for (adventures of data){
                 $('.card-container').append('<div class="card">' +
                     '<div class="card-text-container">' +
                     '<h3>' + adventures.Title + '</h3>' +
@@ -164,7 +164,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });
+        });;
 }
 
 $('#editButton').click(function () {
