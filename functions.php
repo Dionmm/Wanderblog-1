@@ -22,6 +22,7 @@ function loggedIn(){
         $last_name = $_SESSION['last_name'];
         $user_group = $_SESSION['user_group'];
         $username = $_SESSION['username'];
+        $editingID = $_SESSION['editingID'];
     }
 
     //Check which user group the user belongs to and give corresponding number
@@ -45,7 +46,8 @@ function loggedIn(){
         'first_name' => $first_name,
         'last_name' => $last_name,
         'user_group' => $user_group,
-        'username' => $username
+        'username' => $username,
+        'editingID' => $editingID
     );
 }
 

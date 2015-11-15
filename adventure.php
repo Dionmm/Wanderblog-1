@@ -6,6 +6,7 @@
  * Time: 18:20
  */
 require_once 'functions.php'; //Grabs any extra functions
+session_start();
 
 //Check which kind of request is coming through and filter appropriately
 if (isset($_GET['id'])) {
@@ -23,7 +24,6 @@ if (isset($_GET['id'])) {
 } else if (isset($_POST['save']) && isset($_SESSION['editingID'])) { //Saves changes to an existing post
     $PostID = $_SESSION['editingID'];
     saveAdventure($PostID, 'existing');
-    echo 'SessionID Set';
 
 } else if (isset($_POST['save']) && !isset($_SESSION['editingID'])) { //If ID isn't set then save as new adventure
     $PostID = createPostID(); //Generate PostID here
@@ -73,9 +73,6 @@ function readAdventure($PostID)
 
                 //Set the editing ID to be compared to PostID once saved, ensures user's can't alter the postID
                 $_SESSION['editingID'] = $PostID;
-
-                echo 'SessionID Set';
-                echo $_SESSION['editingID'];
 
                 //Templating
                 require_once 'vendor/autoload.php';
