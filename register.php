@@ -61,7 +61,7 @@ function check_for_username($username){
     //Create connection to database, query for username and verify password
     try {
         //login to DB
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM User WHERE username = :username');
@@ -88,7 +88,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
     //Create connection to database, query for username and verify password
     try {
         //login to DB
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         //Prepare statement
         $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'unverified', :email, :fName, :lName, :country)");

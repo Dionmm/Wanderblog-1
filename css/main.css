@@ -1,12 +1,9 @@
 /* Navbar config */
 .navbar-default{
-    height: 90px;
-    background-color: transparent;
+    height: 60px;
     background-image: none;
+    background: rgba(200, 200, 200, 0.85);
     /*background: linear-gradient(to bottom, rgba(40,40,40,0.4) 0%, rgba(40,40,40,0.1) 35%,rgba(40,40,40,0) 100%);*/
-
-    border: 0;
-    box-shadow: none;
 }
 
 /*.navbar-default::before{*/
@@ -30,7 +27,7 @@ body{
 
 .navbar-content-right {
     display: flex;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .navbar-content-right button, .navbar-content-right p, .navbar-content-right a {
@@ -38,8 +35,24 @@ body{
     margin: auto 0;
 }
 
+.divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
+
+.loadMore{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+#filterStuff{
+    color: white;
+}
+
 #logo {
-    width: 90px;
+    width: 60px;
     margin-left: 1em;
 }
 a:hover{
@@ -55,6 +68,7 @@ a:hover{
     margin: 0;
 }
 .bg-image{
+    position: relative;
     background-image: url('/img/15476-16663-2361-350.jpg');
     background-size: cover;
     background-position: center;
@@ -62,11 +76,11 @@ a:hover{
     height: 100%;
 }
 .title-container{
-    margin-top: -75px;
-    padding: 0 0 0 15px;
-    color: #333;
-    z-index: 2;
-
+    position: absolute;
+    bottom: 0;
+    color: whitesmoke;
+    padding-bottom: 1em;
+    padding-left: 3.7em;
 }
 .title-container .title, .author{
     margin: 0;
@@ -179,17 +193,16 @@ a:hover{
     position: relative;
 }
 
-.card-text-container {
-
+.card-text-container{
+    width: 92%;
+    padding-left: 1.3em;
 }
 
 .card-footer {
     display: flex;
     position: absolute;
-    height: 25px;
-    width: 100%;
     bottom: 0;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 1em;
 }
 
 .card-footer i {

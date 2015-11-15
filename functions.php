@@ -5,7 +5,7 @@
  * Date: 04/11/2015
  * Time: 16:06
  */
-function logged_in(){
+function loggedIn(){
     //Initiate session and variables
     session_start();
     $loggedIn = false;
@@ -49,7 +49,7 @@ function logged_in(){
     );
 }
 
-function LoginToDB()
+function loginToDB()
 {
     require 'config.php';
 
@@ -63,10 +63,10 @@ function LoginToDB()
 
 function addLike($postID)
 {
-    $loggedIn = logged_in();
+    $loggedIn = loggedIn();
     $username = $_SESSION['username'];
     if ($loggedIn['user_group'] >= 1) {
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         //Check if the user is the author of the article
         $query = $oConn->prepare('SELECT Username FROM Adventures WHERE PostID = :postID AND Username = :username');

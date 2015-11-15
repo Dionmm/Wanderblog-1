@@ -7,7 +7,7 @@
  */
 
 require_once 'functions.php';
-$loggedIn = logged_in();
+$loggedIn = loggedIn();
 if ($loggedIn['user_group'] === 3) {
     //Templating
     require_once 'vendor/autoload.php';

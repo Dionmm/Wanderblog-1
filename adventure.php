@@ -41,7 +41,7 @@ function readAdventure($PostID)
 {
 
     try {
-        $oConn = LoginToDB(); //Login to DB (Functions.php)
+        $oConn = loginToDB(); //Login to DB (Functions.php)
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM Adventures LEFT JOIN Comments ON Comments.PostID = Adventures.PostID WHERE Adventures.PostID = :PostID'); //Query for PostID and any comments it may have
@@ -57,7 +57,7 @@ function readAdventure($PostID)
             $adventure = $rows[0];
 
             //Check for logged in
-            $loggedIn = logged_in();
+            $loggedIn = loggedIn();
 
             //Check if they own the adventure or are admin
             $canEdit = false;
@@ -128,7 +128,7 @@ function readAdventure($PostID)
 function createAdventure()
 {
     //Check for logged in
-    $loggedIn = logged_in();
+    $loggedIn = loggedIn();
 
 
     //Check if they have sufficient permissions to create adventure (Equal to or greater than AUTHOR)
@@ -165,7 +165,7 @@ function createPostID()
 {
 
     try {
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         $query = $oConn->prepare('SELECT PostID FROM Adventures WHERE PostID = :PostID'); //Prepare query to check for existing postID
 
@@ -191,7 +191,7 @@ function saveAdventure($PostID, $SQLType)
 {
 
     //Check for logged in
-    $loggedIn = logged_in();
+    $loggedIn = loggedIn();
 
     //Check the POST variables are set, that the user's editingID matches the PostID sent back, and that the user has permission (Equal to or greater than AUTHOR)
     if (isset($_POST['title'], $_POST['content']) && $loggedIn['user_group'] > 1) {
@@ -207,7 +207,7 @@ function saveAdventure($PostID, $SQLType)
 
 
             try {
-                $oConn = LoginToDB();
+                $oConn = loginToDB();
 
                 //******POSSIBLY LOOK INTO SWAPPING THIS IF STATEMENT AROUND AS IT DEFAULTS TO AN UPDATE STATEMENT, OR CHANGE TO ELSE IF AND ADD AN ELSE FOR ERROR
                 //If the it's a new post then insert into DB
@@ -257,7 +257,7 @@ function addComment($PostID)
 {
 
     //Check for logged in
-    $loggedIn = logged_in();
+    $loggedIn = loggedIn();
 
     //Check the comment is not empty and that the user has sufficient permissions to post a comment (Equal to or greater than READER)
     if (!empty($_POST['comment']) && $loggedIn['user_group'] > 0) {
@@ -269,7 +269,7 @@ function addComment($PostID)
 
         //Create connection to database, query for username and verify password
         try {
-            $oConn = LoginToDB();
+            $oConn = loginToDB();
 
             //Prepare statement, substitute :username with username field input
             $addComment = $oConn->prepare("INSERT INTO Comments VALUES (NULL, :PostID, :Username, :Comment, NOW(), :InReplyTo)");

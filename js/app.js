@@ -144,9 +144,9 @@ function loadMoreAdventures() {
         dataType: 'json'
     })
         .done(function (data) {
-            //PHPStorm doesn't like this sytax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
+            //PHPStorm doesn't like this syntax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
             //@formatter:off
-            for (adventures of data){
+            for (adventures in data){
                 $('.card-container').append('<div class="card">' +
                     '<div class="card-text-container">' +
                     '<h3>' + adventures.Title + '</h3>' +
@@ -164,7 +164,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });
 }
 
 $('#editButton').click(function () {
@@ -210,3 +210,22 @@ $('.card-container').on('click', '.likeButton', function () {
 $(document).ready(function () {
     $('#adventureTitle').focus();
 });
+
+/*
+function searchQuery(){
+    var formData = $('form[role="search"]').serializeArray(); //Grab the form input
+
+    console.log(formData);
+
+    //Do some integrity checks here..
+    if(1==1){
+
+    }
+
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'search.php',
+        data: {query: formData[0].value},
+        dataType: 'json'
+    });
+}*/

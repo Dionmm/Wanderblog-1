@@ -1,50 +1,57 @@
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#logon"
-                        aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">
-                    <img id="logo" alt="Wanderblog" src="/img/logo2.png">
-                </a>
-            </div>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#logon"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img id="logo" alt="Wanderblog" src="/img/logo2.png">
+            </a>
+        </div>
 
-            <div class="collapse navbar-collapse navbar-right" id="logon">
-                <div class="navbar-content-right">
-                    {% if loggedIn == true %}
-                    {% if permissions > 1 %}
-                    <button type="button" class="btn btn-primary btn-sm" id="newPostButton">Create New Post</button>
-                    {% endif%}
-                    <p>{{ name }} is logged in</p>
-                    <a href="/logout.php">Logout here</a>
-                    {% else %}
-                    <!--Button trigger modal-->
-                    <button type="button" class="btn btn-primary btn-sm" id="registerButton" data-toggle="modal"
-                            data-target="#registerModal">
-                        Register Here
-                    </button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#loginModal">
-                        Login Here
-                    </button>
-                    {% endif%}
-                </div>
+        <div class="collapse navbar-collapse navbar-right" id="logon">
+            <div class="navbar-content-right">
+                <form method="POST" class="navbar-form navbar-left" action="search.php" role="search">
+                    <div class="form-group">
+                        <input type="text" name="query" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                {% if loggedIn == true %}
+                {% if permissions > 1 %}
+                <button type="button" class="btn btn-default" id="newPostButton">Create New Post</button>
+                {% endif%}
+                <p>{{ name }} is logged in</p>
+                <a href="/logout.php">Logout here</a>
+                {% else %}
+                <!--Button trigger modal-->
+                <button type="button" class="btn btn-default" id="registerButton" data-toggle="modal"
+                        data-target="#registerModal">
+                    Register Here
+                </button>
+                <div class="divider"></div>
+                <button type="button" class="btn btn-default" id="loginButton" data-toggle="modal"
+                        data-target="#loginModal">
+                    Login Here
+                </button>
+                <div class="divider"></div>
+                {% endif%}
             </div>
         </div>
-        {% if canEdit == true %}
-        <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="editButton">
-            Edit
-        </button>
-        {% elseif editing is defined %}
-        <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="saveButton">
-            Save
-        </button>
-        {% endif %}
-    </nav>
+    </div>
+    {% if canEdit == true %}
+    <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="editButton">
+        Edit
+    </button>
+    {% elseif editing is defined %}
+    <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="saveButton">
+        Save
+    </button>
+    {% endif %}
     {% if loggedIn == false %}
     <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="register">
@@ -330,8 +337,7 @@
                     <button type="submit" class="modal-submit">Sign In</button>
                 </form>
             </div>
-            </div>
         </div>
     </div>
-    {% endif %}
-</header>
+</nav>
+{% endif %}

@@ -16,7 +16,7 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
     //Create connection to database, query for username and verify password
     try {
         //login to DB
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT * FROM User WHERE username = :username');

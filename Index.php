@@ -5,7 +5,7 @@
 if (isset($_POST['timesRequested'])) {
     $timesRequested = $_POST['timesRequested'];
 
-    $oConn = LoginToDB();
+    $oConn = loginToDB();
 
     //Prepare statement, substitute :username with username field input
     $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT :limit, 8');
@@ -22,7 +22,7 @@ if (isset($_POST['timesRequested'])) {
 
     //Create connection to database, query for username and verify password
     try {
-        $oConn = LoginToDB();
+        $oConn = loginToDB();
 
         //Prepare statement, substitute :username with username field input
         $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT 8'); // Grab the 8 most recent Adventures
@@ -33,7 +33,7 @@ if (isset($_POST['timesRequested'])) {
 
 
         //Check for logged in
-        $loggedIn = logged_in();
+        $loggedIn = loggedIn();
 
         //Templating
         require_once 'vendor/autoload.php';
