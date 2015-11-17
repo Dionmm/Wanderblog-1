@@ -30,6 +30,7 @@
 </div>
 
 {% include 'script_include.html' %}
-<script>var PostID = '{{ postID }}'</script>
+<script>var PostID = '{{ postID }}';
+loadComments(PostID);</script>
 </body>
 </html>

@@ -222,10 +222,9 @@ a:hover{
 }
 .title-container{
     position: absolute;
-    bottom: 0;
+    top: 75%;
     color: whitesmoke;
-    padding-bottom: 1em;
-    padding-left: 3.7em;
+    left: 45px;
 }
 .title-container .title, .author{
     margin: 0;

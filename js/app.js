@@ -79,6 +79,10 @@ function registerForm(){
 
 }
 
+function loadComments(postID) {
+
+}
+
 function commentForm() {
     var formData = $('#commentForm').serializeArray();
 
@@ -89,7 +93,7 @@ function commentForm() {
     if (formData[0].value !== '') {
         $.ajax({ //send username/password and await response
             type: 'POST',
-            url: 'adventure.php?id=' + PostID, //Dis ain't secure!!!
+            url: 'adventure.php?id=' + PostID,
             data: {comment: formData[0].value},
             dataType: 'json'
         })
@@ -209,7 +213,7 @@ $('.card-container').on('click', '.likeButton', function () {
 
 
 $(document).ready(function () {
-    //This is to ensure the textbox is empty on the editAdventure template
+    //When editing this will automatically focus on the article title
     $('#adventureTitle').focus();
 
     //Search bar slide in on hover
