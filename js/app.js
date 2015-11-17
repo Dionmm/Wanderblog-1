@@ -80,7 +80,32 @@ function registerForm(){
 }
 
 function loadComments(postID) {
-
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'adventure.php?id=' + PostID,
+        data: {loadComment: 1},
+        dataType: 'json'
+    })
+        .done(function (data) { //on successful response reload the page
+            console.log(data);
+            for (comment of
+            data
+            )
+            {
+                $('.comment-container').append(
+                    '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
+                    '<h4 class="comment-author">' + comment.Username + '</h4>' +
+                    '<h5 class="comment-timestamp">' + comment.DatePosted + '</h5>' +
+                    '<p class="comment-content">' + comment.Content + '</p>' +
+                    '</div>'
+                );
+            }
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });;
 }
 
 function commentForm() {

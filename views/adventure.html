@@ -13,15 +13,14 @@
             <div class="title-container">
             <h1 class="title">{{ adventure.Title }}</h1> {# Uses the adventure variable passed
             through and then access the 'Title' key in the array #}
-            <h3 class="author">By: {{ adventure.Username[0] }}</h3> {# PDO creates an array for columns with the same name, 0 is the adventure table, 1 is the comments table #}
+                <h3 class="author">By: {{ adventure.Username }}</h3>
             </div>
         </div>
 
     </div>
     <div class="row adventure-container">
         <article class="col-sm-12 adventure">
-            {{ adventure.Content[0]|raw }} {# PDO creates an array for columns with the same name, 0 is the adventure
-            table, 1 is the comments table #}
+            {{ adventure.Content|raw }}
         </article>
     </div>
 

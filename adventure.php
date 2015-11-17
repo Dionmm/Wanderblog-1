@@ -10,14 +10,14 @@ session_start();
 
 //Check which kind of request is coming through and filter appropriately
 if (isset($_GET['id'])) {
+    $PostID = $_GET['id']; //grab the id for the post
 
-    //Add new comment
-    if (isset($_POST['comment'])) {
-        $PostID = $_GET['id']; //grab the id for the post
+    if (isset($_POST['loadComment'])) {
+        loadComments($PostID);
+    } else if (isset($_POST['comment'])) { //Add new comment
         addComment($PostID);
 
     } else { //Just display the adventure
-        $PostID = $_GET['id']; //grab the id for the post
         readAdventure($PostID);
     }
 
@@ -45,10 +45,10 @@ function readAdventure($PostID)
         $oConn = loginToDB(); //Login to DB (Functions.php)
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT * FROM Adventures LEFT JOIN Comments ON Comments.PostID = Adventures.PostID WHERE Adventures.PostID = :PostID'); //Query for PostID and any comments it may have
+        $query = $oConn->prepare('SELECT * FROM Adventures WHERE Adventures.PostID = :PostID'); //Query for PostID and any comments it may have
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
         $query->execute();
-        $rows = $query->fetchAll(PDO::FETCH_NAMED); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
 
         // If there are results
         if ($rows) {
@@ -91,13 +91,6 @@ function readAdventure($PostID)
 
             } else {
 
-                //Check if there are comments on the post, if not set $comments to zero
-                if ($rows[0]['CommentID'] == !NULL) {
-                    $comments = $rows;
-                } else {
-                    $comments = 0;
-                }
-
                 //Templating
                 require_once 'vendor/autoload.php';
                 $loader = new Twig_Loader_Filesystem('views');
@@ -107,7 +100,6 @@ function readAdventure($PostID)
                 //return the template specified above with the following variables filled in
                 echo $template->render(array(
                     'adventure' => $adventure,
-                    'comments' => $comments,
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
@@ -252,6 +244,26 @@ function saveAdventure($PostID, $SQLType)
 
     }
 
+}
+
+function loadComments($PostID)
+{
+
+    $oConn = loginToDB(); //Login to DB (Functions.php)
+
+    //Prepare statement, substitute :username with username field input
+    $query = $oConn->prepare('SELECT * FROM Comments WHERE PostID = :PostID'); //Query for PostID and any comments it may have
+    $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+    $query->execute();
+    $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
+
+    if ($rows) {
+
+    } else {
+
+    }
+
+    echo json_encode($rows);
 }
 
 function addComment($PostID)
