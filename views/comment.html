@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-sm-12">
+<div class="row adventure-container">
+    <div class="col-sm-12 comment-section">
         <div class="comment-box">
             {% if permissions > 0 %}
             <form onsubmit="commentForm()" method="POST" id="commentForm">
@@ -16,17 +16,6 @@
             {% endif%}
         </div>
         <div class="comment-container">
-
-            {% for comment in comments %} {# Loops through the comments #}
-
-                <div class="comment">
-                    <hr>
-                    <h4 class="author"> {{ comment.Username[1] }}</h4>
-                    <h5 class="timestamp"> {{ comment.DatePosted[1] }} </h5>
-                    <p class="content"> {{ comment.Content[1] }}</p>
-                </div>
-
-            {% endfor%}
 
         </div>
     </div>

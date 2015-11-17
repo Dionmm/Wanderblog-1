@@ -407,8 +407,6 @@ input:required:invalid {
 .adventure-container {
     display: flex;
     padding: 30px;
-    font-weight: 300;
-
 }
 
 article.adventure {
@@ -430,4 +428,22 @@ article.adventure {
     top: 150px;
     left: -5px;
     padding-left: 20px;
+}
+
+.comment-section {
+    max-width: 700px;
+    margin: auto;
+}
+
+.comment-box {
+    width: 100%;
+}
+
+.comment {
+    width: 100%;
+    background-color: rgba(51, 51, 51, 0.5);
+}
+
+.comment > .comment {
+    margin-left: 30px;
 }

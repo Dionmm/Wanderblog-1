@@ -91,7 +91,12 @@ function loadComments(postID) {
             //@formatter:off
 
             for (comment of data){
-                $('.comment-container').append(
+                if(comment.InReplyTo){
+                    var commentSelector = $('[data-comment-id="'+ comment.InReplyTo +'"]');
+                } else{
+                    var commentSelector = $('.comment-container');
+                }
+                commentSelector.append(
                     '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
                     '<h4 class="comment-author">' + comment.Username + '</h4>' +
                     '<h5 class="comment-timestamp">' + comment.DatePosted + '</h5>' +
