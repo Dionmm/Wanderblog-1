@@ -60,7 +60,8 @@ function registerForm(){
                 if (data.success) {
                     location.reload();
                 } else if(data.error){
-                    $('#registerForm').prepend(data.error);
+                    //$('#registerForm.error-Message').html("");
+                    $('#register-error-Message').html(data.error);
                     $('.modal-submit').html('Register');
                 } else {
                     $('#registerForm').prepend('Something went wrong, please try again');
@@ -241,3 +242,6 @@ function searchQuery(){
         dataType: 'json'
     });
 }*/
+
+// Adds the little tooltip onto the password field
+$('input[name="password"]').tooltip();

@@ -70,9 +70,11 @@
                         aria-hidden="true">&times;</span></button>
                 <h4>Welcome</h4>
 
+                <p id="register-error-Message"></p>
                 <form onsubmit="registerForm()" method="POST" id="registerForm">
-                    <input type="text" name="username" placeholder="Username" required><br>
-                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" data-toggle="tooltip" title="Password must be at least 8 characters long"
+                           data-placement="bottom" name="password" placeholder="Password" required>
                     <input type="password" name="passwordConf" placeholder="Confirm Password" required>
                     <input type="email" name="email" placeholder="Email" required>
                     <input type="text" name="firstName" placeholder="First Name" required>
@@ -340,8 +342,9 @@
                         aria-hidden="true">&times;</span></button>
                 <h4>Hello</h4>
 
+                <p class="error-Message"></p>
                 <form onsubmit="loginForm()" method="POST" id="loginForm">
-                    <input type="text" name="username" placeholder="Username" required><br>
+                    <input type="text" name="username" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <button type="submit" class="modal-submit">Sign In</button>
                 </form>

@@ -2,7 +2,9 @@
 .navbar-default{
     height: 60px;
     background-image: none;
-    background: rgba(200, 200, 200, 0.85);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     /*background: linear-gradient(to bottom, rgba(40,40,40,0.4) 0%, rgba(40,40,40,0.1) 35%,rgba(40,40,40,0) 100%);*/
 }
 
@@ -16,8 +18,7 @@
 /*}*/
 body{
     font-size: 16px;
-    background-color: #3c3c3c;
-    color: whitesmoke;
+    color: #333;
     font-family: 'Raleway', sans-serif;
     font-weight: 200;
 }
@@ -191,7 +192,8 @@ hgroup h2.lead {
 }
 
 #filterStuff {
-    color: white;
+    color: #333;
+    border-bottom: 1px solid #333;
 }
 
 #logo {
@@ -240,15 +242,18 @@ a:hover{
     width: 250px;
 }
 
+.fade {
+    /*-webkit-filter: blur(7px);*/
+}
 .modal-content {
-    background: rgba(255, 255, 255, 0.5); /*Might make this black instead*/
+    background: rgba(51, 51, 51, 0.6);
     border-radius: 7px;
     text-align: center;
     width: 100%;
     padding-bottom: 20px;
     overflow: hidden;
     border: 0;
-    color: #414141;
+    color: whitesmoke;
 }
 
 .modal-content h4 {
@@ -262,6 +267,7 @@ a:hover{
     font-size: 2em;
     letter-spacing: 4px;
     text-shadow: 0 0 10px rgba(205, 205, 205, 0.2);
+    color: whitesmoke;
 }
 
 .modal-content input {
@@ -274,6 +280,19 @@ a:hover{
     color: white;
 }
 
+input[name="password"] {
+    position: relative;
+}
+
+input:after {
+    content: 'text';
+    position: absolute;
+    background-color: green;
+    color: blue;
+    width: 100px;
+    height: 100px;
+    top: 0;
+}
 .modal-content input::-webkit-input-placeholder {
     color: white;
 }
@@ -299,7 +318,6 @@ a:hover{
     font-size: 25px;
     padding-right: 5px;
 }
-
 @media screen and (max-width: 767px) {
     .modal-dialog {
         width: inherit;
@@ -309,11 +327,11 @@ a:hover{
 /*input:required{*/
 /*border: 2px solid black;*/
 /*}*/
-/*input:required:invalid{*/
-/*border: 3px solid red;*/
-/*}*/
+input:required:invalid {
+    border-bottom: 1px solid red;
+}
 /*input:required:valid{*/
-/*border: 3px solid green;*/
+/*border-bottom: 1px solid green;*/
 /*}*/
 
 /*Adventure cards on the homepage*/
@@ -394,13 +412,18 @@ a:hover{
 
 }
 
-article.col-sm-12.adventure {
+article.adventure {
     /*background-color: white;*/
-    color: whitesmoke;
+    color: #333;
     max-width: 700px;
     margin: auto;
     font-size: 1.5em;
     font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.adventure b {
+    font-weight: 700;
 }
 
 .adventureEditSave-btn {
