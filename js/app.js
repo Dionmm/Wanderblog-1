@@ -88,10 +88,9 @@ function loadComments(postID) {
     })
         .done(function (data) { //on successful response reload the page
             console.log(data);
-            for (comment of
-            data
-            )
-            {
+            //@formatter:off
+
+            for (comment of data){
                 $('.comment-container').append(
                     '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
                     '<h4 class="comment-author">' + comment.Username + '</h4>' +
@@ -100,6 +99,7 @@ function loadComments(postID) {
                     '</div>'
                 );
             }
+            //@formatter:on
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
