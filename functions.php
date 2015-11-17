@@ -6,8 +6,12 @@
  * Time: 16:06
  */
 function loggedIn(){
-    //Initiate session and variables
-    session_start();
+    //Initiate session if not started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    //Initiate variables
     $loggedIn = false;
     $first_name = '';
     $last_name = '';
@@ -22,7 +26,6 @@ function loggedIn(){
         $last_name = $_SESSION['last_name'];
         $user_group = $_SESSION['user_group'];
         $username = $_SESSION['username'];
-        $editingID = $_SESSION['editingID'];
     }
 
     //Check which user group the user belongs to and give corresponding number
@@ -46,8 +49,7 @@ function loggedIn(){
         'first_name' => $first_name,
         'last_name' => $last_name,
         'user_group' => $user_group,
-        'username' => $username,
-        'editingID' => $editingID
+        'username' => $username
     );
 }
 
@@ -56,9 +58,7 @@ function loginToDB()
     require 'config.php';
 
     //Set persistent connection
-    $oConn = new PDO('mysql:host=' . $sHost . ';dbname=' . $sDb, $sUsername, $sPassword, array(
-        PDO::ATTR_PERSISTENT => true
-    ));
+    $oConn = new PDO('mysql:host=' . $sHost . ';dbname=' . $sDb, $sUsername, $sPassword);
     $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
     return $oConn;
 }

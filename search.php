@@ -1,6 +1,10 @@
 <?php
 
 try {
+
+    $query = $_POST["query"];
+
+
     //Templating
     require_once 'vendor/autoload.php';
     $loader = new Twig_Loader_Filesystem('views');
@@ -9,7 +13,7 @@ try {
 
     //Return the template specified above with the following variables filled in
     echo $template->render(array(
-        'query' => 'Blablablal',
+        'query' => $query,
     ));
 
 } catch (Exception $e) {

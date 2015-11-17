@@ -206,10 +206,22 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
-//This is to ensure the textbox is empty on the editAdventure template
+
 $(document).ready(function () {
+    //This is to ensure the textbox is empty on the editAdventure template
     $('#adventureTitle').focus();
+
+    //Search bar slide in on hover
+    var inputText = $('input.form-control.input-md');
+
+    $('div.input-group').hover(function(){
+        if(inputText.css("display") == "none"){
+            inputText.animate({width:'toggle'}, 200);
+        }
+    });
+
 });
+
 
 /*
 function searchQuery(){
