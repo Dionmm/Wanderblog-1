@@ -32,12 +32,11 @@
 </div>
 
 {% include 'script_include.html' %}
-<script>var PostID = '{{ postID }}';
+<script>var PostID = '{{ postID }}';</script>
 //@formatter:off
-{% if editing is; empty %}
-loadComments(PostID);
+{% if editing is empty %}
+<script>loadComments(PostID);</script>
 {% endif %}
 //@formatter:on
-</script>
 </body>
 </html>
