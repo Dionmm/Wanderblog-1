@@ -377,8 +377,7 @@ input:required:invalid {
 }
 
 .card-footer i {
-    margin-top: -5px;
-    z-index: 2;
+
 
 }
 
@@ -396,6 +395,9 @@ input:required:invalid {
 
 .likeButton {
     cursor: pointer;
+    padding: 5px;
+    margin-top: -10px;
+    z-index: 2;
 }
 
 @media screen and (max-width: 1150px) {
@@ -405,6 +407,7 @@ input:required:invalid {
 }
 
 /*Adventure Page CSS*/
+/*This allows a placeholder to be used on contenteditable divs*/
 [contenteditable=true]:empty:before {
     content: attr(placeholder);
     display: block; /* For Firefox */
@@ -457,4 +460,8 @@ article.adventure {
 
 .comment > .comment {
     margin-left: 30px;
+}
+
+.replyButton {
+    cursor: pointer;
 }

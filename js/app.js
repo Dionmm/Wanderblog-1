@@ -80,13 +80,13 @@ function registerForm(){
 }
 
 function loadComments(postID) {
-    $.ajax({ //send username/password and await response
+    $.ajax({ //send off request for comments
         type: 'POST',
         url: 'adventure.php?id=' + PostID,
         data: {loadComment: 1},
         dataType: 'json'
     })
-        .done(function (data) { //on successful response reload the page
+        .done(function (data) { //on successful response displays comments
             console.log(data);
             //@formatter:off
 
@@ -101,6 +101,7 @@ function loadComments(postID) {
                     '<h4 class="comment-author">' + comment.Username + '</h4>' +
                     '<h5 class="comment-timestamp">' + comment.DatePosted + '</h5>' +
                     '<p class="comment-content">' + comment.Content + '</p>' +
+                    '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>' +
                     '</div>'
                 );
             }
@@ -110,7 +111,7 @@ function loadComments(postID) {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;;
+        });;
 }
 
 function commentForm() {
@@ -198,7 +199,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;;
+        });;
 }
 
 $('#editButton').click(function () {
@@ -240,6 +241,37 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
+$('.comment-container').on('click', '.replyButton', function () {
+    console.log($(this).parent());
+    $(this).parent().parent().append(
+        '<div class="comment-box reply">' +
+        '<div contenteditable="true" placeholder="Your reply..." id="comment-reply"></div>' +
+        '<button id="save-reply-button">submit</button>' +
+        '</div>'
+    );
+});
+
+$('.comment-container').on('click', '#save-reply-button', function () {
+    var commentContent = $(this).siblings().html(); //has to be html to grab the line breaks
+    var replyingTo = $(this).parent().parent().data('commentId');
+
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + PostID,
+        data: {comment: commentContent, replyingTo: replyingTo},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data);
+            console.log(data.success);
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
+
+});
 
 $(document).ready(function () {
     //When editing this will automatically focus on the article title
@@ -255,26 +287,6 @@ $(document).ready(function () {
     });
 
 });
-
-
-/*
-function searchQuery(){
-    var formData = $('form[role="search"]').serializeArray(); //Grab the form input
-
-    console.log(formData);
-
-    //Do some integrity checks here..
-    if(1==1){
-
-    }
-
-    $.ajax({ //send username/password and await response
-        type: 'POST',
-        url: 'search.php',
-        data: {query: formData[0].value},
-        dataType: 'json'
-    });
-}*/
 
 // Adds the little tooltip onto the password field
 $('input[name="password"]').tooltip();

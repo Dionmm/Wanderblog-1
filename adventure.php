@@ -278,7 +278,9 @@ function addComment($PostID)
 
         $comment = $_POST['comment']; //grab the comment from the post
         $username = $_SESSION['username'];
-        $InReplyTo = NULL; //Needs to be changed
+        if (isset($_POST['replyingTo'])) {
+            $InReplyTo = $_POST['replyingTo'];
+        }
 
 
         //Create connection to database, query for username and verify password
