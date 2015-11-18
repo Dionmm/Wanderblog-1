@@ -79,16 +79,22 @@ function registerForm(){
 
 }
 
-function loadComments(postID) {
+function loadComments(postID, username, user_group, canEdit) {
     $.ajax({ //send off request for comments
         type: 'POST',
-        url: 'adventure.php?id=' + PostID,
+        url: 'adventure.php?id=' + postID,
         data: {loadComment: 1},
         dataType: 'json'
     })
         .done(function (data) { //on successful response displays comments
-            console.log(data);
             //@formatter:off
+
+            if(user_group >= 1){
+                console.log('This worked');
+                var commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>';
+            } else{
+                var commentActionsString = '';
+            }
 
             for (comment of data){
                 if(comment.InReplyTo){
@@ -96,14 +102,19 @@ function loadComments(postID) {
                 } else{
                     var commentSelector = $('.comment-container');
                 }
-                commentSelector.append(
-                    '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
+                if(canEdit === 1 || username === comment.Username){
+                    var commentEditingString = '<p>You can edit this</p>'
+                }
+                var commentString = '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
                     '<h4 class="comment-author">' + comment.Username + '</h4>' +
                     '<h5 class="comment-timestamp">' + comment.DatePosted + '</h5>' +
-                    '<p class="comment-content">' + comment.Content + '</p>' +
-                    '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>' +
-                    '</div>'
-                );
+                    '<p class="comment-content">' + comment.Content + '</p>';
+
+                if(canEdit === 1 || username === comment.Username){
+                    commentString = commentString + '<p>You can edit this</p>'
+                }
+
+                commentSelector.append(commentString + commentActionsString + '</div>');
             }
             //@formatter:on
         })
@@ -131,7 +142,7 @@ function commentForm() {
             .done(function (data) { //on successful response reload the page
                 console.log(data);
 
-                location.reload();
+                //location.reload();
             })
             .fail(function (data) { //on unsuccessful response output error
                 console.log("Error happened");
@@ -142,6 +153,38 @@ function commentForm() {
         alert("Comments cannot be empty");
     }
 }
+
+$('.comment-container').on('click', '.replyButton', function () {
+    $(this).parent().html(
+        '<div class="comment-box reply">' +
+        '<div contenteditable="true" placeholder="Your reply..." id="comment-reply"></div>' +
+        '<button id="save-reply-button">submit</button>' +
+        '</div>'
+    );
+});
+
+$('.comment-container').on('click', '#save-reply-button', function () {
+    var commentContent = $(this).siblings().html(); //has to be html to grab the line breaks
+    var replyingTo = $(this).parent().parent().parent().data('commentId');
+
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + PostID,
+        data: {comment: commentContent, replyingTo: replyingTo},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data);
+            console.log(data.success);
+            location.reload();
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
+
+});
 
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
@@ -241,38 +284,6 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
-$('.comment-container').on('click', '.replyButton', function () {
-    console.log($(this).parent());
-    $(this).parent().parent().append(
-        '<div class="comment-box reply">' +
-        '<div contenteditable="true" placeholder="Your reply..." id="comment-reply"></div>' +
-        '<button id="save-reply-button">submit</button>' +
-        '</div>'
-    );
-});
-
-$('.comment-container').on('click', '#save-reply-button', function () {
-    var commentContent = $(this).siblings().html(); //has to be html to grab the line breaks
-    var replyingTo = $(this).parent().parent().data('commentId');
-
-    $.ajax({
-        type: 'POST',
-        url: 'adventure.php?id=' + PostID,
-        data: {comment: commentContent, replyingTo: replyingTo},
-        dataType: 'json'
-    })
-        .done(function (data) {
-            console.log(data);
-            console.log(data.success);
-        })
-        .fail(function (data) { //on unsuccessful response output error
-            console.log("Error happened");
-            console.log(data);
-            console.log(data.responseText);
-        });
-
-});
-
 $(document).ready(function () {
     //When editing this will automatically focus on the article title
     $('#adventureTitle').focus();
@@ -292,12 +303,10 @@ $(document).ready(function () {
         if (text.text().length > 250) {
             text.html(text.text().substring(0, 247) + "...");
         }
-        ;
     });
 
     if ( $('.first-section-container').children().length === 0 ) {
         $('.first-container').css("border","0");
-        console.log("bsadsadasdsala");
     }
 
 });

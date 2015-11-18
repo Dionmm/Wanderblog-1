@@ -9,10 +9,8 @@
                     <input type="submit">
                 </label>
             </form>
-            {% elseif permissions == 0 %}
-            <p>You can't comment on this adventure</p>
             {% else %}
-            <p>You need to login to post comments first</p>
+            <p>You can't comment on this adventure</p>
             {% endif%}
         </div>
         <div class="comment-container">

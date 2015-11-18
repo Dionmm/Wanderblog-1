@@ -61,7 +61,7 @@ function readAdventure($PostID)
             $loggedIn = loggedIn();
 
             //Check if they own the adventure or are admin
-            $canEdit = false;
+            $canEdit = 0;
             if ($loggedIn['loggedIn']) {
                 if ($_SESSION['user_group'] == 'admin' || $_SESSION['username'] == $rows[0]['Username'][0]) {
                     $canEdit = true;
@@ -75,44 +75,41 @@ function readAdventure($PostID)
                 //Set the editing ID to be compared to PostID once saved, ensures user's can't alter the postID
                 $_SESSION['editingID'] = $PostID;
 
-                //Templating
-                require_once 'vendor/autoload.php';
-                $loader = new Twig_Loader_Filesystem('views');
-                $twig = new Twig_environment($loader);
-                $template = $twig->loadTemplate('adventure.html');
-
                 //return the template specified above with the following variables filled in
-                echo $template->render(array(
+                $renderArray = array(
                     'adventure' => $adventure,
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
-                    'editing' => 'true'
-                ));
+                    'editing' => 'true',
+                    'loginData' => $loggedIn
+                );
 
             } else {
 
-                //Templating
-                require_once 'vendor/autoload.php';
-                $loader = new Twig_Loader_Filesystem('views');
-                $twig = new Twig_environment($loader);
-                $template = $twig->loadTemplate('adventure.html');
-
                 //return the template specified above with the following variables filled in
-                echo $template->render(array(
+                $renderArray = array(
                     'adventure' => $adventure,
                     'loggedIn' => $loggedIn['loggedIn'],
                     'name' => $loggedIn['first_name'],
                     'permissions' => $loggedIn['user_group'],
                     'canEdit' => $canEdit,
-                    'postID' => $PostID
-                ));
+                    'postID' => $PostID,
+                    'loginData' => $loggedIn
+                );
             }
+
+            //Templating
+            require_once 'vendor/autoload.php';
+            $loader = new Twig_Loader_Filesystem('views');
+            $twig = new Twig_environment($loader);
+            $template = $twig->loadTemplate('adventure.html');
+
+            echo $template->render($renderArray);
 
         } else {
             echo 'Error: File not found';
         }
-
 
     } catch (PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
@@ -258,12 +255,6 @@ function loadComments($PostID)
     $query->execute();
     $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
 
-    if ($rows) {
-
-    } else {
-
-    }
-
     echo json_encode($rows);
 }
 
@@ -280,6 +271,8 @@ function addComment($PostID)
         $username = $_SESSION['username'];
         if (isset($_POST['replyingTo'])) {
             $InReplyTo = $_POST['replyingTo'];
+        } else {
+            $InReplyTo = NULL;
         }
 
 
