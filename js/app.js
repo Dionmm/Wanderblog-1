@@ -110,7 +110,7 @@ function loadComments(postID) {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });;;
 }
 
 function commentForm() {
@@ -155,7 +155,6 @@ function savePost() {
     })
         .done(function (data) { //on successful response reload the page
             location.href = "adventure.php?id=" + data.PostID;
-            console.log(data);
 
         })
         .fail(function (data) { //on unsuccessful response output error
@@ -199,7 +198,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });;;
 }
 
 $('#editButton').click(function () {

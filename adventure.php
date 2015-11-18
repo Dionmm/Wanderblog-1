@@ -68,6 +68,7 @@ function readAdventure($PostID)
                 }
             }
 
+
             //Check if the user is editing the adventure
             if (isset($_GET['edit']) && $canEdit == true) {
 
@@ -78,7 +79,7 @@ function readAdventure($PostID)
                 require_once 'vendor/autoload.php';
                 $loader = new Twig_Loader_Filesystem('views');
                 $twig = new Twig_environment($loader);
-                $template = $twig->loadTemplate('adventureEdit.html');
+                $template = $twig->loadTemplate('adventure.html');
 
                 //return the template specified above with the following variables filled in
                 echo $template->render(array(
@@ -128,14 +129,14 @@ function createAdventure()
     if ($loggedIn['loggedIn']) {
         if ($loggedIn['user_group'] > 1) {
 
-            //Put Username into an array due to the way adventureEdit.html displays the username
-            $adventure = ['Username' => array($_SESSION['username'])];
+            //Put Username into the adventure object
+            $adventure = ['Username' => $_SESSION['username']];
 
             //Templating
             require_once 'vendor/autoload.php';
             $loader = new Twig_Loader_Filesystem('views');
             $twig = new Twig_environment($loader);
-            $template = $twig->loadTemplate('adventureEdit.html');
+            $template = $twig->loadTemplate('adventure.html');
 
             //return the template specified above with the following variables filled in
             echo $template->render(array(
@@ -240,7 +241,7 @@ function saveAdventure($PostID, $SQLType)
             echo 'Error: Fields were empty';
         }
     } else {
-        echo '500'; //return server error
+        echo '500, Couldn\'t save'; //return server error
 
     }
 

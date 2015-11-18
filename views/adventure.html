@@ -11,7 +11,9 @@
     <div class="row bg-image-container">
         <div class="bg-image">
             <div class="title-container">
-            <h1 class="title">{{ adventure.Title }}</h1> {# Uses the adventure variable passed
+                <h1 class="title" {% if editing is defined %} id="adventureTitle" contenteditable="true" role="textbox"
+                    placeholder="Enter a title" {% endif %}>{{ adventure.Title }}</h1> {# Uses the adventure variable
+                passed
             through and then access the 'Title' key in the array #}
                 <h3 class="author">By: {{ adventure.Username }}</h3>
             </div>
@@ -19,17 +21,23 @@
 
     </div>
     <div class="row adventure-container">
-        <article class="col-sm-12 adventure">
-            {{ adventure.Content|raw }}
-        </article>
+        <!--@formatter:off--> <!-- ENSURE THIS ROW IS FORMATTED IN ONE LONG LINE-->
+        <article class="col-sm-12 adventure"{% if editing is defined %} id="adventureContent" contenteditable="true"  role="textbox" placeholder="Start typing here to begin your adventure.." {% endif %}>{{ adventure.Content|raw }}</article>
+         <!--@formatter:on-->
     </div>
 
+    {% if editing is empty %}
     {% include 'comment.html' %}
-
+    {% endif %}
 </div>
 
 {% include 'script_include.html' %}
 <script>var PostID = '{{ postID }}';
-loadComments(PostID);</script>
+//@formatter:off
+{% if editing is; empty %}
+loadComments(PostID);
+{% endif %}
+//@formatter:on
+</script>
 </body>
 </html>
