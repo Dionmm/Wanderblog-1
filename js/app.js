@@ -222,21 +222,19 @@ function loadMoreAdventures() {
         dataType: 'json'
     })
         .done(function (data) {
-            //PHPStorm doesn't like this syntax and will automatically try to reset it, if you are getting random errors, ensure this is formatted correctly
-            //@formatter:off
-            for (adventures of data){
+            $.each(data, function(){
                 $('.card-container').append('<div class="card">' +
                     '<div class="card-text-container">' +
-                    '<h3>' + adventures.Title + '</h3>' +
-                    '<p>by: ' + adventures.Username + '</p>' +
-                    '<a href="/adventure.php?id='+ adventures.PostID +'"><span class="adventureLink"></span></a>' +
+                    '<h3>' + this.Title + '</h3>' +
+                    '<p>by: ' + this.Username + '</p>' +
+                    '<a href="/adventure.php?id='+ this.PostID +'"><span class="adventureLink"></span></a>' +
                     '</div>' +
                     '<div class="card-footer">' +
-                    '<i class="pe-7s-like pe-2x likeButton" data-post-id="'+ adventures.PostID +'"></i>' +
-                    '<p>' + adventures.Upvotes + ' Likes</p>' +
+                    '<i class="pe-7s-like pe-2x likeButton" data-post-id="'+ this.PostID +'"></i>' +
+                    '<p>' + this.Upvotes + ' Likes</p>' +
                     '</div>' +
                     '</div>');
-            }//@formatter:on
+            });
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
@@ -288,15 +286,51 @@ $(document).ready(function () {
     //When editing this will automatically focus on the article title
     $('#adventureTitle').focus();
 
+    //-------------------------------------------------------------------
     //Search bar slide in on hover
     var inputText = $('input.form-control.input-md');
+    var inputGroup = $('div.input-group');
+    var navbar = $(".navbar");
 
-    $('div.input-group').hover(function(){
-        if(inputText.css("display") == "none"){
+    inputGroup.hover(function(){
+        if(inputText.css("display") === "none"){
             inputText.animate({width:'toggle'}, 200);
         }
     });
 
+    //-------------------------------------------------------------------
+    //Search bar slide out when loss of focus occurs on the bar or user accidentally shows searching option
+    inputGroup.focusout(function(){
+        if($("div.input-group input").val().length == 0){
+            slideBackSearchBar();
+            mouseLeaveEvent();
+        }
+    });
+
+    mouseLeaveEvent();
+
+    //If user typed anything, remove mouseleave event from the navbar to prevent search bar hiding
+    $("div.input-group input").keyup(function(){
+        navbar.off("mouseleave");
+    });
+    $("div.input-group input").focus(function(){
+        navbar.off("mouseleave");
+    });
+
+    //Hide search bar if mouse leaves the navbar area and user typed nothing
+    function mouseLeaveEvent(){
+        navbar.mouseleave(function(){
+            slideBackSearchBar()
+        });
+    }
+
+    function slideBackSearchBar(){
+        if(inputText.css("display") !== "none"){
+            inputText.animate({width:'toggle'}, 400);
+        }
+    }
+
+    //-------------------------------------------------------------------
     //Text ellipsis function
     $(function () {
         var text = $(".text-ellipsis");
@@ -305,9 +339,31 @@ $(document).ready(function () {
         }
     });
 
+    //-------------------------------------------------------------------
+    //Remove extra border if no Adventures were found on the search page
     if ( $('.first-section-container').children().length === 0 ) {
         $('.first-container').css("border","0");
     }
+
+    //-------------------------------------------------------------------
+    //Changes navbar's opacity based on the pixels scrolled. Uses .scrolled class styled in main.css
+    function checkScroll(){
+        var startY = $('.navbar').height() * 1.2; //The point where the navbar changes in px
+
+        if($(window).scrollTop() > startY){
+            $('.navbar').addClass("scrolled");
+        }else{
+            $('.navbar').removeClass("scrolled");
+        }
+    }
+
+    if($('.navbar').length > 0){
+        $(window).on("scroll load resize", function(){
+            checkScroll();
+        });
+    }
+
+    //-------------------------------------------------------------------
 
 });
 

@@ -27,25 +27,27 @@
                         </div>
                     </form>
                 </div>
-                {% if loggedIn == true %}
-                {% if permissions > 1 %}
-                <button type="button" class="btn btn-default" id="newPostButton">Create New Post</button>
-                {% endif%}
-                <p>{{ name }} is logged in</p>
-                <a href="/logout.php">Logout here</a>
-                {% else %}
-                <!--Button trigger modal-->
-                <button type="button" class="btn btn-default" id="registerButton" data-toggle="modal"
-                        data-target="#registerModal">
-                    Register Here
-                </button>
-                <div class="divider"></div>
-                <button type="button" class="btn btn-default" id="loginButton" data-toggle="modal"
-                        data-target="#loginModal">
-                    Login Here
-                </button>
-                <div class="divider"></div>
-                {% endif%}
+                <div class="btn-toolbar">
+                    {% if loggedIn == true %}
+                    {% if permissions > 1 %}
+                    <button type="button" class="btn btn-default" id="newPostButton">Create New Post</button>
+                    {% endif%}
+                    <p>{{ name }} is logged in</p>
+                    <a href="/logout.php">Logout here</a>
+                    {% else %}
+                    <!--Button trigger modal-->
+                    <button type="button" class="btn btn-default" id="registerButton" data-toggle="modal"
+                            data-target="#registerModal">
+                        Register Here
+                    </button>
+                    <div class="divider"></div>
+                    <button type="button" class="btn btn-default" id="loginButton" data-toggle="modal"
+                            data-target="#loginModal">
+                        Login Here
+                    </button>
+                    <div class="divider"></div>
+                    {% endif%}
+                </div>
             </div>
         </div>
     </div>
