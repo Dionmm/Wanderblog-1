@@ -1,5 +1,9 @@
+html {
+    height: 100%;
+}
+
 /* Navbar config */
-.navbar-default{
+.navbar-default {
     height: 60px;
     background-image: none;
     border: none;
@@ -23,6 +27,7 @@ body{
     color: #333;
     font-family: 'Raleway', sans-serif;
     font-weight: 200;
+    height: 100%;
 }
 
 .navbar-brand {
@@ -101,13 +106,15 @@ input.form-control.input-md{
 
 
 /* Author page styles */
-.author-jumbotron {
-    margin-bottom: 0;
-}
-
 .author-jumbotron .row{
     margin-bottom: 5em;
 }
+
+.author-container {
+    height: 100%;
+    background-color: #eeeeee;
+}
+
 
 .adventure-date{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

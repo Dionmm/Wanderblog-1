@@ -36,6 +36,19 @@ require_once 'functions.php';
             ));
         }
 
+        else{
+            //Templating
+            require_once 'vendor/autoload.php';
+            $loader = new Twig_Loader_Filesystem('views');
+            $twig = new Twig_environment($loader);
+            $template = $twig->loadTemplate('author.twig');
+
+            //Return the template specified above with the following variables filled in
+            echo $template->render(array(
+                'loggedIn' => $loggedIn
+            ));
+        }
+
     } catch (PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
     }

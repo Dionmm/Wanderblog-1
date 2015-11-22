@@ -8,6 +8,7 @@
 
 <div class="container-fluid author-container">
 
+    {% if loggedIn.loggedIn == true %}
     <div class="row bg-image-container">
         <div class="bg-image">
             <div class="title-container author-page">
@@ -47,6 +48,17 @@
 
         </div>
     </div>
+    {% else %}
+        <div class="row bg-image-container">
+            <div class="bg-image">
+            </div>
+        </div>
+    <div class="jumbotron">
+        <h2>You need to be logged in to view this page.</h2>
+        <h3><a href="index.php">Go to main page</a></h3>
+    </div>
+    {% endif %}
+
 
 </div>
 
