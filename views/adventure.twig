@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'head_include.html' %}
+    {% include 'head_include.twig' %}
 </head>
 <body>
-{% include 'nav_include.html' %}
+{% include 'nav_include.twig' %}
 
 <div class="container-fluid">
 
@@ -15,7 +15,7 @@
                     placeholder="Enter a title" {% endif %}>{{ adventure.Title }}</h1> {# Uses the adventure variable
                 passed
             through and then access the 'Title' key in the array #}
-                <h3 class="author">By: {{ adventure.Username }}</h3>
+                <h3 class="author">By: <a href="author.php?username={{adventure.Username}}">{{ adventure.Username }}</a></h3>
             </div>
         </div>
 
@@ -27,15 +27,15 @@
     </div>
 
     {% if editing is empty %}
-    {% include 'comment.html' %}
+    {% include 'comment.twig' %}
     {% endif %}
 </div>
 
-{% include 'script_include.html' %}
+{% include 'script_include.twig' %}
 <script>var PostID = '{{ postID }}';</script>
 <!--@formatter:off-->
 {% if editing is empty %}
-<script>loadComments(PostID,'{{ loginData.username }}',{{ loginData.user_group }},{{ canEdit }})</script>
+<script>loadComments(PostID,'{{ loggedIn.username }}',{{ loggedIn.user_group }},{{ canEdit }})</script>
 {% endif %}
 <!--@formatter:on-->
 </body>

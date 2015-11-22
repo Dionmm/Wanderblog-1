@@ -8,7 +8,6 @@
  */
 session_start(); //initialise session
 session_destroy(); //destroy all sessions
+header("Location: index.php"); //go back to index page
 ?>
-<p>Session has been destroyed.</p>
-<a href="/">Go back</a>
 

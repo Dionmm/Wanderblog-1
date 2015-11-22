@@ -1,7 +1,7 @@
 <div class="row adventure-container">
     <div class="col-sm-12 comment-section">
         <div class="comment-box">
-            {% if permissions > 0 %}
+            {% if loggedIn.user_group > 0 %}
             <form onsubmit="commentForm()" method="POST" id="commentForm">
                 <label for="comment-box">
                     <textarea name="comment-box" id="comment-box" cols="30"

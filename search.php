@@ -5,6 +5,9 @@ require_once 'functions.php';
     try {
         $oConn = loginToDB();
 
+        //Check for logged in
+        $loggedIn = loggedIn();
+
         $searchedQuery = $_POST["query"];
 
         //Prepare statement, substitute keyword with the submitted query
@@ -20,13 +23,14 @@ require_once 'functions.php';
         require_once 'vendor/autoload.php';
         $loader = new Twig_Loader_Filesystem('views');
         $twig = new Twig_environment($loader);
-        $template = $twig->loadTemplate('search.html');
+        $template = $twig->loadTemplate('search.twig');
 
         //Return the template specified above with the following variables filled in
         echo $template->render(array(
             'query' => $searchedQuery,
             'adventures' => $adventures,
-            'authors' => $authors
+            'authors' => $authors,
+            'loggedIn' => $loggedIn
         ));
 
     } catch (PDOException $e) {

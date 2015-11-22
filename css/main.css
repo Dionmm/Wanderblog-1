@@ -32,6 +32,7 @@ body{
 .navbar-content-right {
     display: flex;
     padding: 8px 0;
+    color: whitesmoke;
 }
 
 @media (min-width: 980px) {
@@ -93,10 +94,25 @@ input.form-control.input-md{
     outline: 0;
 }
 
-.container-fluid.search-container{
+.container-fluid.search-container {
     padding-top: 100px;
     padding-left: 20px;
 }
+
+
+/* Author page styles */
+.author-jumbotron {
+    margin-bottom: 0;
+}
+
+.author-jumbotron .row{
+    margin-bottom: 5em;
+}
+
+.adventure-date{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 
 div.mb10{
     padding-left: 15px;
@@ -278,8 +294,22 @@ a:hover{
     position: absolute;
     top: 75%;
     color: whitesmoke;
-    left: 45px;
+    left: 60px;
 }
+
+.title-container.author-page{
+    left: 80px;
+}
+
+a.dropdown-toggle.navbar-dropdown {
+    color: whitesmoke;
+}
+
+a.dropdown-toggle.navbar-dropdown:hover {
+    background-color: transparent;
+    color: #c8c8c8;
+}
+
 .title-container .title, .author{
     margin: 0;
 }
@@ -346,6 +376,17 @@ input:after {
     height: 100px;
     top: 0;
 }
+
+#country-selection-dropdown {
+    color: black;
+    width: 80%
+}
+
+#country-selection-dropdown * {
+    color: black;
+}
+
+
 .modal-content input::-webkit-input-placeholder {
     color: white;
 }
@@ -358,7 +399,7 @@ input:after {
     background: none;
     border: none;
     letter-spacing: 2px;
-    margin-top: 5px;
+    margin-top: 10px;
     color: white;
     outline: none;
 }
@@ -369,8 +410,9 @@ input:after {
 
 .modal-content .close {
     font-size: 25px;
-    padding-right: 5px;
+    padding: 5px 5px 0 0;
 }
+
 @media screen and (max-width: 767px) {
     .modal-dialog {
         width: inherit;

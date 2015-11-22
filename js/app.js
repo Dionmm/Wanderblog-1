@@ -87,42 +87,42 @@ function loadComments(postID, username, user_group, canEdit) {
         dataType: 'json'
     })
         .done(function (data) { //on successful response displays comments
-            //@formatter:off
 
+            var commentActionsString = '';
             if(user_group >= 1){
                 console.log('This worked');
-                var commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>';
-            } else{
-                var commentActionsString = '';
+                commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>';
             }
 
-            for (comment of data){
-                if(comment.InReplyTo){
-                    var commentSelector = $('[data-comment-id="'+ comment.InReplyTo +'"]');
-                } else{
-                    var commentSelector = $('.comment-container');
+            $.each(data, function(){
+
+                var commentSelector = $('.comment-container');
+
+                if(this.InReplyTo){
+                    commentSelector = $('[data-comment-id="'+ this.InReplyTo +'"]');
                 }
-                if(canEdit === 1 || username === comment.Username){
+
+                if(canEdit === 1 || username === this.Username){
                     var commentEditingString = '<p>You can edit this</p>'
                 }
-                var commentString = '<div class="comment" data-comment-id="' + comment.CommentID + '">' +
-                    '<h4 class="comment-author">' + comment.Username + '</h4>' +
-                    '<h5 class="comment-timestamp">' + comment.DatePosted + '</h5>' +
-                    '<p class="comment-content">' + comment.Content + '</p>';
+                var commentString = '<div class="comment" data-comment-id="' + this.CommentID + '">' +
+                    '<h4 class="comment-author">' + this.Username + '</h4>' +
+                    '<h5 class="comment-timestamp">' + this.DatePosted + '</h5>' +
+                    '<p class="comment-content">' + this.Content + '</p>';
 
-                if(canEdit === 1 || username === comment.Username){
+                if(canEdit === 1 || username === this.Username){
                     commentString = commentString + '<p>You can edit this</p>'
                 }
 
                 commentSelector.append(commentString + commentActionsString + '</div>');
-            }
-            //@formatter:on
+            });
+
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });
 }
 
 function commentForm() {
@@ -240,7 +240,7 @@ function loadMoreAdventures() {
             console.log("Error happened");
             console.log(data);
             console.log(data.responseText);
-        });;
+        });
 }
 
 $('#editButton').click(function () {
@@ -288,20 +288,24 @@ $(document).ready(function () {
 
     //-------------------------------------------------------------------
     //Search bar slide in on hover
-    var inputText = $('input.form-control.input-md');
-    var inputGroup = $('div.input-group');
     var navbar = $(".navbar");
+    var inputGroup = $('div.input-group');
+    var inputBar = $("div.input-group input");
 
     inputGroup.hover(function(){
-        if(inputText.css("display") === "none"){
-            inputText.animate({width:'toggle'}, 200);
+        if(inputBar.css("display") === "none"){
+            inputBar.css("padding","0");
+            inputBar.animate({width:'toggle'}, 200);
+            setTimeout(function(){
+                inputBar.css("padding","6px 12px");
+            }, 100);
         }
     });
 
     //-------------------------------------------------------------------
     //Search bar slide out when loss of focus occurs on the bar or user accidentally shows searching option
     inputGroup.focusout(function(){
-        if($("div.input-group input").val().length == 0){
+        if(inputBar.val().length == 0){
             slideBackSearchBar();
             mouseLeaveEvent();
         }
@@ -310,10 +314,10 @@ $(document).ready(function () {
     mouseLeaveEvent();
 
     //If user typed anything, remove mouseleave event from the navbar to prevent search bar hiding
-    $("div.input-group input").keyup(function(){
+    inputBar.keyup(function(){
         navbar.off("mouseleave");
     });
-    $("div.input-group input").focus(function(){
+    inputBar.focus(function(){
         navbar.off("mouseleave");
     });
 
@@ -325,10 +329,19 @@ $(document).ready(function () {
     }
 
     function slideBackSearchBar(){
-        if(inputText.css("display") !== "none"){
-            inputText.animate({width:'toggle'}, 400);
+        if(inputBar.css("display") !== "none"){
+            inputBar.css("padding","0");
+            inputBar.stop().animate({width:'toggle'}, 400);
         }
     }
+
+    //-------------------------------------------------------------------
+    //Prevent submission of empty string
+    $("#submit-search-btn").on("click", function(event){
+        if(inputBar.val().length == 0){
+            event.preventDefault();
+        }
+    });
 
     //-------------------------------------------------------------------
     //Text ellipsis function
@@ -348,7 +361,7 @@ $(document).ready(function () {
     //-------------------------------------------------------------------
     //Changes navbar's opacity based on the pixels scrolled. Uses .scrolled class styled in main.css
     function checkScroll(){
-        var startY = $('.navbar').height() * 1.2; //The point where the navbar changes in px
+        var startY = navbar.height() * 1.2; //The point where the navbar changes in px
 
         if($(window).scrollTop() > startY){
             $('.navbar').addClass("scrolled");
@@ -357,13 +370,15 @@ $(document).ready(function () {
         }
     }
 
-    if($('.navbar').length > 0){
+    if(navbar.length > 0){
         $(window).on("scroll load resize", function(){
             checkScroll();
         });
     }
 
     //-------------------------------------------------------------------
+    //Fix navbar's user dropdown weird hover event
+    $(".dropdown-toggle.navbar-dropdown").css("background-color", "transparent");
 
 });
 

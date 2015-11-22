@@ -68,7 +68,6 @@ function readAdventure($PostID)
                 }
             }
 
-
             //Check if the user is editing the adventure
             if (isset($_GET['edit']) && $canEdit == true) {
 
@@ -78,11 +77,8 @@ function readAdventure($PostID)
                 //return the template specified above with the following variables filled in
                 $renderArray = array(
                     'adventure' => $adventure,
-                    'loggedIn' => $loggedIn['loggedIn'],
-                    'name' => $loggedIn['first_name'],
-                    'permissions' => $loggedIn['user_group'],
-                    'editing' => 'true',
-                    'loginData' => $loggedIn
+                    'loggedIn' => $loggedIn,
+                    'editing' => 'true'
                 );
 
             } else {
@@ -90,12 +86,9 @@ function readAdventure($PostID)
                 //return the template specified above with the following variables filled in
                 $renderArray = array(
                     'adventure' => $adventure,
-                    'loggedIn' => $loggedIn['loggedIn'],
-                    'name' => $loggedIn['first_name'],
-                    'permissions' => $loggedIn['user_group'],
+                    'loggedIn' => $loggedIn,
                     'canEdit' => $canEdit,
                     'postID' => $PostID,
-                    'loginData' => $loggedIn
                 );
             }
 
@@ -103,7 +96,7 @@ function readAdventure($PostID)
             require_once 'vendor/autoload.php';
             $loader = new Twig_Loader_Filesystem('views');
             $twig = new Twig_environment($loader);
-            $template = $twig->loadTemplate('adventure.html');
+            $template = $twig->loadTemplate('adventure.twig');
 
             echo $template->render($renderArray);
 
@@ -133,14 +126,12 @@ function createAdventure()
             require_once 'vendor/autoload.php';
             $loader = new Twig_Loader_Filesystem('views');
             $twig = new Twig_environment($loader);
-            $template = $twig->loadTemplate('adventure.html');
+            $template = $twig->loadTemplate('adventure.twig');
 
             //return the template specified above with the following variables filled in
             echo $template->render(array(
                 'adventure' => $adventure,
-                'loggedIn' => $loggedIn['loggedIn'],
-                'name' => $loggedIn['first_name'],
-                'permissions' => $loggedIn['user_group'],
+                'loggedIn' => $loggedIn,
                 'editing' => 'true'
             ));
         } else {

@@ -18,7 +18,7 @@ if (isset($_POST['timesRequested'])) {
     //Add a like to an adventure
 } else if (isset($_POST['liked'])) {
     echo addLike($_POST['liked']);
-} else { //Load index.html
+} else { //Load index.twig
 
     //Create connection to database, query for username and verify password
     try {
@@ -40,13 +40,11 @@ if (isset($_POST['timesRequested'])) {
 
         $loader = new Twig_Loader_Filesystem('views');
         $twig = new Twig_environment($loader);
-        $template = $twig->loadTemplate('index.html');
+        $template = $twig->loadTemplate('index.twig');
 
         echo $template->render(array(
             'adventures' => $adventures,
-            'loggedIn' => $loggedIn['loggedIn'],
-            'name' => $loggedIn['first_name'],
-            'permissions' => $loggedIn['user_group']
+            'loggedIn' => $loggedIn
         ));
 
     } catch(PDOException $e) {
