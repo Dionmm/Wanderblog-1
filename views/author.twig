@@ -8,57 +8,55 @@
 
 <div class="container-fluid author-container">
 
-    {% if loggedIn.loggedIn == true %}
     <div class="row bg-image-container">
         <div class="bg-image">
             <div class="title-container author-page">
-                <h1 class="title">Author: {{ user.Username }}</h1>
+                <h1 class="title">
+                    {% if user is not empty %}
+                        Author: {{ user.Username }}
+                    {% else %}
+                        Sorry!
+                    {% endif %}
+                </h1>
             </div>
         </div>
     </div>
 
     <div class="jumbotron author-jumbotron">
-        <div class="row">
-            <div class="col-sm-4">
-                <h3>First name: {{ user.FirstName }}</h3>
-                <h3>Last name: {{ user.LastName }}</h3>
-                <p>User type: {{ user.UserType }}</p>
-                <p>Country: {{ user.Country }}</p>
-                <br>
-                <br>
-            </div>
+        {% if user is not empty %}
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>First name: {{ user.FirstName }}</h3>
+                    <h3>Last name: {{ user.LastName }}</h3>
+                    <p>User type: {{ user.UserType }}</p>
+                    <p>Country: {{ user.Country }}</p>
+                    <br>
+                    <br>
+                </div>
 
-            <div class="col-sm-4">
-                <ol><h2>Contributions:</h2>
-                    {% for adventure in adventures %}
-                        <li>
-                            <a href="adventure.php?id={{ adventure.PostID }}">{{ adventure.Title }}</a>
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
+                <div class="col-sm-4">
+                    <ol><h2>Contributions:</h2>
+                        {% for adventure in adventures %}
+                            <li>
+                                <a href="adventure.php?id={{ adventure.PostID }}">{{ adventure.Title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
 
-            <div class="col-sm-4">
-                <ol><h3>Date posted:</h3>
-                    {% for adventure in adventures %}
-                        <li class="adventure-date">{{ adventure.DatePosted }}</li>
-                    {% endfor %}
-                </ol>
-            </div>
+                <div class="col-sm-4">
+                    <ol><h3>Date posted:</h3>
+                        {% for adventure in adventures %}
+                            <li class="adventure-date">{{ adventure.DatePosted }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
 
-        </div>
+            </div>
+        {% else %}
+            <h2>&nbsp;&nbsp;No author was found by this username.</h2>
+        {% endif %}
     </div>
-    {% else %}
-        <div class="row bg-image-container">
-            <div class="bg-image">
-            </div>
-        </div>
-    <div class="jumbotron">
-        <h2>You need to be logged in to view this page.</h2>
-        <h3><a href="index.php">Go to main page</a></h3>
-    </div>
-    {% endif %}
-
 
 </div>
 

@@ -6,17 +6,29 @@
 <body>
 {% include 'nav_include.twig' %}
 
-<div class="container-fluid search-container">
+<div class="container-fluid">
 
-    <div class="result-container first-container">
-        <div class="mb10">
-            <h1>Search Results</h1>
+    <div class="row bg-image-container">
+        <div class="bg-image">
+            <div class="title-container">
+                <h1 class="title">Search Results</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-result-container first-container">
+        <div class="adventure-results-container">
             {% if adventures is empty %}
             <h2 class="lead"><strong class="text-danger">No</strong> Adventures were found for the search for <strong
                     class="text-danger">{{ query }}</strong>. Please try again.</h2>
             {% else %}
-            <h2 class="lead"><strong class="text-danger">{{ adventures|length }}</strong> Adventures were found for the search for
-                <strong class="text-danger">{{ query }}</strong></h2>
+            <h2 class="lead"><strong class="text-danger">{{ adventures|length }}</strong>
+                {% if adventures|length > 1 %}
+                    Adventures were
+                {% else %}
+                    Adventure was
+                {% endif %}
+                found for the search for <strong class="text-danger">{{ query }}</strong></h2>
             {% endif %}
         </div>
 
@@ -24,21 +36,21 @@
             {% for adventure in adventures %}
             <article class="search-result row">
                 <div class="col-xs-12 col-sm-3 col-md-3">
-                    <a href="#" title="{{ adventure.Title }}" class="thumbnail"><img src="http://lorempixel.com/250/140/cats"
+                    <a href="adventure.php?id={{ adventure.PostID }}" title="{{ adventure.Title }}" class="thumbnail"><img src="http://lorempixel.com/250/140/cats"
                                                                                      alt="Lorem ipsum"/></a>
                 </div>
                 <div class="col-xs-12 col-sm-2 col-md-2">
                     <ul class="meta-search">
-                        <li><i class="glyphicon glyphicon-user"></i><span>{{ adventure.Username }}</span></li>
+                        <a href="author.php?username={{ adventure.Username }}"><li><i class="glyphicon glyphicon-user"></i><span>{{ adventure.Username }}</span></li></a>
                         <li><i class="glyphicon glyphicon-globe"></i><span>{{ adventure.Country }}</span></li>
                         <li><i class="glyphicon glyphicon-heart"></i><span>{{ adventure.Upvotes }}</span></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-7 col-md-7 text">
-                    <h3><a href="#" title="">{{ adventure.Title }}</a></h3>
+                    <h3><a href="adventure.php?id={{ adventure.PostID }}" title="">{{ adventure.Title }}</a></h3>
 
                     <p class="text-ellipsis">{{ adventure.Content }}</p>
-                    <span class="plus">Read more <a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                    <span class="plus">Read more <a href="adventure.php?id={{ adventure.PostID }}" title="Read more"><i class="glyphicon glyphicon-plus"></i></a></span>
                 </div>
                 <span class="clearfix borda"></span>
             </article>
@@ -46,13 +58,24 @@
         </section>
     </div>
 
-    <div class="result-container">
-        <div class="mb20">
+    <div id="search-result-separator">
+        <hr width="90%">
+    </div>
+
+    <div class="search-result-container">
+        <div class="author-results-container">
             {% if authors is empty %}
             <h2 class="lead"><strong class="text-danger">No</strong> Authors were found for the search for <strong
                     class="text-danger">{{ query }}</strong>. Please try again.</h2>
             {% else %}
-            <h2 class="lead"><strong class="text-danger">{{ authors|length }}</strong> Authors were found for the search for
+            <h2 class="lead">
+                <strong class="text-danger">{{ authors|length }}</strong>
+                {% if authors|length > 1 %}
+                    Authors were
+                {% else %}
+                    Author was
+                {% endif %}
+                found for the search for
                 <strong class="text-danger">{{ query }}</strong></h2>
             {% endif %}
         </div>
@@ -61,12 +84,12 @@
             {% for author in authors %}
             <article class="search-result row">
                 <div class="col-xs-12 col-sm-3 col-md-3">
-                    <a href="#" title="{{ author.Username }}" class="thumbnail"><img src="http://s2.postimg.org/mr1ey5kcp/32_default_facebook_profile_picture_fingers_funn.png"
+                    <a href="author.php?username={{ author.Username }}" title="{{ author.Username }}" class="thumbnail"><img src="http://s2.postimg.org/mr1ey5kcp/32_default_facebook_profile_picture_fingers_funn.png"
                                                                                     width="250" height="250" alt="Lorem ipsum"/></a>
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-8 text">
-                    <h3><a href="#" title="">{{ author.FirstName ~ " " ~ author.LastName}}</a></h3>
-                    <span class="plus">Read more <a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                    <h3><a href="author.php?username={{ author.Username }}" title="">{{ author.FirstName ~ " " ~ author.LastName}}</a></h3>
+                    <span class="plus">Read more <a href="author.php?username={{ author.Username }}" title="Read more"><i class="glyphicon glyphicon-plus"></i></a></span>
                 </div>
                 <span class="clearfix borda"></span>
             </article>

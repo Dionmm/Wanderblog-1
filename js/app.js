@@ -289,50 +289,20 @@ $(document).ready(function () {
     //-------------------------------------------------------------------
     //Search bar slide in on hover
     var navbar = $(".navbar");
-    var inputGroup = $('div.input-group');
-    var inputBar = $("div.input-group input");
+    var inputGroupBtn = $("span.input-group-btn");
+    var inputBar = $("#search-field");
 
-    inputGroup.hover(function(){
-        if(inputBar.css("display") === "none"){
-            inputBar.css("padding","0");
+    var clicked = false;
+
+    inputGroupBtn.on("click", function(){
+        if(!clicked){
             inputBar.animate({width:'toggle'}, 200);
-            setTimeout(function(){
-                inputBar.css("padding","6px 12px");
-            }, 100);
+            clicked = true;
         }
     });
 
-    //-------------------------------------------------------------------
-    //Search bar slide out when loss of focus occurs on the bar or user accidentally shows searching option
-    inputGroup.focusout(function(){
-        if(inputBar.val().length == 0){
-            slideBackSearchBar();
-            mouseLeaveEvent();
-        }
-    });
-
-    mouseLeaveEvent();
-
-    //If user typed anything, remove mouseleave event from the navbar to prevent search bar hiding
-    inputBar.keyup(function(){
-        navbar.off("mouseleave");
-    });
-    inputBar.focus(function(){
-        navbar.off("mouseleave");
-    });
-
-    //Hide search bar if mouse leaves the navbar area and user typed nothing
-    function mouseLeaveEvent(){
-        navbar.mouseleave(function(){
-            slideBackSearchBar()
-        });
-    }
-
-    function slideBackSearchBar(){
-        if(inputBar.css("display") !== "none"){
-            inputBar.css("padding","0");
-            inputBar.stop().animate({width:'toggle'}, 400);
-        }
+    if(inputBar.css("display") === "block"){
+        inputBar.css("padding","6px 12px");
     }
 
     //-------------------------------------------------------------------
