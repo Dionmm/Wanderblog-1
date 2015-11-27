@@ -91,7 +91,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
         $oConn = loginToDB();
 
         //Prepare statement
-        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'author', :email, :fName, :lName, :country)");
+        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'unverified', :email, :fName, :lName, :country)");
 
         //Bind values to the prepared statement
         $addUser->bindValue(':username', $username, PDO::PARAM_STR);
@@ -111,7 +111,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
             $_SESSION['first_name'] = $first_name; //set session variable
             $_SESSION['last_name'] = $last_name; //set session variable
             $_SESSION['email'] = $email; //set session variable
-            $_SESSION['user_group'] = 'author'; //set session variable
+            $_SESSION['user_group'] = 'unverified'; //set session variable
             $_SESSION['country'] = $country; //set session variable
             $returnMessage = json_encode(array('success' => $success, 'name' => $_SESSION['first_name']));
         } else{
