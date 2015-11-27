@@ -350,6 +350,14 @@ $(document).ready(function () {
     //Fix navbar's user dropdown weird hover event
     $(".dropdown-toggle.navbar-dropdown").css("background-color", "transparent");
 
+    //Sets focus to the username fields on the modals. Typical autofocus will not work on BS Modals
+    $('#loginModal').on('shown.bs.modal', function () {
+        $('input[name="username"]').focus()
+    });
+    $('#registerModal').on('shown.bs.modal', function () {
+        $('input[name="username"]').focus()
+    });
+
 });
 
 // Adds the little tooltip onto the password field

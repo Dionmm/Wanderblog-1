@@ -11,14 +11,6 @@ body {
      height: 100%;
 }
 
-.adventure-link {
-    color: #fe2a02;
-}
-
-.adventure-link:hover {
-    color: #cd2902;
-}
-
 .divider{
     width:5px;
     height:auto;
@@ -106,7 +98,8 @@ a.dropdown-toggle.navbar-dropdown:hover {
     height: 60px;
     background-image: none;
     border: none;
-    background-color: black;
+    background: transparent;
+    box-shadow: none;
 }
 
 .navbar {
@@ -118,7 +111,7 @@ a.dropdown-toggle.navbar-dropdown:hover {
 }
 
 .navbar.scrolled {
-    background-color: rgba(0,0,0,0.4);
+    background-color: #333;
 }
 
 .navbar-brand {
@@ -508,11 +501,6 @@ input:required:invalid {
     display: block; /* For Firefox */
 }
 
-/*[contenteditable=true] {*/
-/*border: 1px dashed #AAA;*/
-/*width: 290px;*/
-/*padding: 5px;*/
-/*}*/
 .adventure-container {
     display: flex;
     padding: 30px;
@@ -530,6 +518,15 @@ article.adventure {
 
 .adventure b {
     font-weight: 700;
+}
+
+.adventure-link {
+    color: #333;
+    font-weight: 700;
+}
+
+.adventure-link:hover {
+    color: #333;
 }
 
 .adventureEditSave-btn {
