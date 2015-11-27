@@ -31,10 +31,8 @@
 
 {% include 'script_include.twig' %}
 <script>var PostID = '{{ postID }}';</script>
-<!--@formatter:off-->
 {% if editing is empty %}
 <script>loadComments(PostID,'{{ loggedIn.username }}',{{ loggedIn.user_group }},{{ canEdit }})</script>
 {% endif %}
-<!--@formatter:on-->
 </body>
 </html>

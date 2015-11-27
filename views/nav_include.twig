@@ -29,6 +29,18 @@
                 </div>
                 <div class="btn-toolbar">
                     {% if loggedIn.loggedIn == true %}
+                        {% if canEdit == true %}
+                            <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="editButton">
+                                Edit
+                            </button>
+                        {% elseif editing is defined %}
+                            <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="saveButton">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="cancelButton">
+                                Cancel
+                            </button>
+                        {% endif %}
                     {% if loggedIn.user_group > 1 %}
                     <button type="button" class="btn btn-default" id="newPostButton">Create New Post</button>
                     {% endif %}
@@ -63,15 +75,6 @@
             </div>
         </div>
     </div>
-    {% if canEdit == true %}
-    <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="editButton">
-        Edit
-    </button>
-    {% elseif editing is defined %}
-    <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="saveButton">
-        Save
-    </button>
-    {% endif %}
 </nav>
 
 {% if loggedIn.loggedIn == false %}

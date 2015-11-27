@@ -78,7 +78,8 @@ function readAdventure($PostID)
                 $renderArray = array(
                     'adventure' => $adventure,
                     'loggedIn' => $loggedIn,
-                    'editing' => 'true'
+                    'editing' => 'true',
+                    'postID' => $PostID
                 );
 
             } else {
@@ -88,7 +89,7 @@ function readAdventure($PostID)
                     'adventure' => $adventure,
                     'loggedIn' => $loggedIn,
                     'canEdit' => $canEdit,
-                    'postID' => $PostID,
+                    'postID' => $PostID
                 );
             }
 

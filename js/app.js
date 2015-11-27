@@ -249,6 +249,9 @@ $('#editButton').click(function () {
 $('#saveButton').click(function () {
     savePost();
 });
+$('#cancelButton').click(function () {
+    location.href = "adventure.php?id=" + PostID;
+});
 $('#newPostButton').click(function () {
     location.href = "adventure.php?create=1";
 });
@@ -331,7 +334,7 @@ $(document).ready(function () {
     //-------------------------------------------------------------------
     //Changes navbar's opacity based on the pixels scrolled. Uses .scrolled class styled in main.css
     function checkScroll(){
-        var startY = navbar.height() * 1.2; //The point where the navbar changes in px
+        var startY = navbar.height() * 1.9; //The point where the navbar changes in px
 
         if($(window).scrollTop() > startY){
             $('.navbar').addClass("scrolled");

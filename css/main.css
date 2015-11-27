@@ -57,6 +57,7 @@ body {
 }
 .bg-image{
     position: relative;
+    background-color: black; /*Trying to get rid of the flash of white on page load. Not sure if this helps things...*/
     background-image: url('/img/15476-16663-2361-350.jpg');
     background-size: cover;
     background-position: center;
@@ -530,10 +531,10 @@ article.adventure {
 }
 
 .adventureEditSave-btn {
-    position: absolute;
-    top: 150px;
-    left: -5px;
-    padding-left: 20px;
+    /*position: absolute;*/
+    /*top: 150px;*/
+    /*left: -5px;*/
+    /*padding-left: 20px;*/
 }
 
 .comment-section {
