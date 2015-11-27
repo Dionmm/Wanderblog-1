@@ -90,7 +90,6 @@ function loadComments(postID, username, user_group, canEdit) {
 
             var commentActionsString = '';
             if(user_group >= 1){
-                console.log('This worked');
                 commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>';
             }
 
@@ -246,7 +245,7 @@ function loadMoreAdventures() {
 $('#editButton').click(function () {
     location.href = "adventure.php?id=" + PostID + "&edit=1";
 });
-$('#saveButton').click(function () {
+$('li:first-child').click(function () {
     savePost();
 });
 $('#cancelButton').click(function () {

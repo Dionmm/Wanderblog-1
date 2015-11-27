@@ -34,9 +34,17 @@
                                 Edit
                             </button>
                         {% elseif editing is defined %}
-                            <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="saveButton">
-                                Save
-                            </button>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-danger btn-md adventureEditSave-btn"
+                                        data-toggle="dropdown" id="saveButton">
+                                    Save
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="saveButton">
+                                    <li><a href="#">Publish Adventure</a></li>
+                                    <li><a href="#">Add Keywords</a></li>
+                                </ul>
+                            </div>
+
                             <button type="button" class="btn btn-danger btn-md adventureEditSave-btn" id="cancelButton">
                                 Cancel
                             </button>
@@ -46,8 +54,11 @@
                     {% endif %}
                     <div class="pull-right">
                         <ul class="nav pull-right">
-                            <li class="dropdown"><a href="#" class="dropdown-toggle navbar-dropdown" data-toggle="dropdown">Welcome {{ loggedIn.first_name }} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle navbar-dropdown"
+                                                    data-toggle="dropdown"
+                                                    id="profileDropdown">Welcome {{ loggedIn.first_name }} <b
+                                            class="caret"></b></a>
+                                <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                                     <li><a href="author.php?username={{loggedIn.username}}"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
                                     {% if loggedIn.user_group == 3 %}
                                     <li ><a href="#"><i class="glyphicon glyphicon-wrench"></i> Admin Page</a></li>
