@@ -352,15 +352,83 @@ $(document).ready(function () {
     //Fix navbar's user dropdown weird hover event
     $(".dropdown-toggle.navbar-dropdown").css("background-color", "transparent");
 
+    //-------------------------------------------------------------------
     //Sets focus to the username fields on the modals. Typical autofocus will not work on BS Modals
     $('#loginModal').on('shown.bs.modal', function () {
         $('input[name="username"]').focus()
     });
+
     $('#registerModal').on('shown.bs.modal', function () {
         $('input[name="username"]').focus()
     });
 
+    //-------------------------------------------------------------------
+    //Adds the little tooltip onto the password field
+    $('input[name="password"]').tooltip();
+
+    //-------------------------------------------------------------------
+    //Delete Adventure
+    var postID = "";
+    $(".remove-my-adventure-link").on("click", function(){
+        postID = $(this).attr('adventure-id');
+
+    });
+
+    $(".adventure-remove-confirm").on("click", function() {
+        if(postID.length > 0) {
+            deleteAdventure(postID);
+        }
+    });
+
+    //-------------------------------------------------------------------
+
 });
 
-// Adds the little tooltip onto the password field
-$('input[name="password"]').tooltip();
+function deleteAdventure(postID) {
+
+    //Show processing modal
+    $('#loading-modal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + postID + '&remove=1',
+        dataType: 'json'
+    })
+        .done(function (result) {
+            if(result){
+                //Hide processing modal
+                $('#loading-modal').modal('hide');
+
+                //Change counter amount in the title
+                $('#adventure-amount').text(parseInt($('#adventure-amount').text())-1);
+
+                var alreadyRemoved = false;
+
+                //If last adventure on the page - do stuff
+                if($('div[adventure-id=' + postID + ']').is(':last-child')){
+                    //Remove adventure div
+                    $('div[adventure-id=' + postID + ']').remove();
+                    alreadyRemoved = true;
+
+                    //Add br tags to the end
+                    $(".col-sm-12 div:last-child").append("<br><br>");
+
+                    console.log("shoulda appended");
+                }
+
+                //Remove adventure div
+                if(!alreadyRemoved){
+                    $('div[adventure-id=' + postID + ']').remove();
+                }
+
+            }
+        })
+        .fail(function () {
+            console.log("Error happened while deleting the adventure, check Key Constraints and Permissions");
+            $('#loading-modal').modal('hide');
+        });
+}

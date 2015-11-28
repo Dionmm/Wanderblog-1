@@ -4,12 +4,59 @@
     {% include 'head_include.twig' %}
 </head>
 <body>
-<h1>You Are Now In The Admin Area</h1>
+{% include 'nav_include.twig' %}
 
-<p>{{ loggedIn.first_name }}</p>
+<div class="container-fluid admin-container">
 
-<p>{{ loggedIn.username }}</p>
+    <div class="row bg-image-container">
+        <div class="bg-image">
+            <div class="title-container author-page">
+                <h1 class="title">
+                    {% if user is not empty %}
+                        Author: {{ user.Username }}
+                    {% else %}
+                        Sorry!
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+    </div>
 
-<p>{{ loggedIn.user_group }}</p>
+    <div class="jumbotron author-jumbotron">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Manage Authors:</h2>
+                <h3>Last name: {{ user.LastName }}</h3>
+                <p>User type: {{ user.UserType }}</p>
+                <p>Country: {{ user.Country }}</p>
+                <br>
+                <br>
+            </div>
+
+            <div class="col-sm-4">
+                <ol><h2>Contributions:</h2>
+                    {% for adventure in adventures %}
+                        <li>
+                            <a href="adventure.php?id={{ adventure.PostID }}">{{ adventure.Title }}</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            <div class="col-sm-4">
+                <ol><h3>Date posted:</h3>
+                    {% for adventure in adventures %}
+                        <li class="adventure-date">{{ adventure.DatePosted }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% include 'script_include.twig' %}
+
 </body>
 </html>

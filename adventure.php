@@ -13,11 +13,16 @@ if (isset($_GET['id'])) {
     $PostID = $_GET['id']; //grab the id for the post
 
     if (isset($_POST['loadComment'])) {
+        //Load the comments
         loadComments($PostID);
-    } else if (isset($_POST['comment'])) { //Add new comment
+    } else if (isset($_POST['comment'])) {
+        //Add a new comment
         addComment($PostID);
-
-    } else { //Just display the adventure
+    } else if(isset($_GET['remove'])){
+        //Delete adventure
+        deleteAdventure($PostID);
+    } else {
+        //Just display the adventure
         readAdventure($PostID);
     }
 
@@ -35,7 +40,6 @@ if (isset($_GET['id'])) {
 
 } else {
     echo 'Error: Something Went wrong ' . $_GET['id'];
-
 }
 
 function readAdventure($PostID)
@@ -294,6 +298,48 @@ function addComment($PostID)
 
     } else {
         echo '500'; //return server error
+    }
+}
+
+function deleteAdventure($PostID)
+{
+    //Check for logged in
+    $loggedIn = loggedIn();
+
+    //Check if you are an author with the selected adventure
+    if ($loggedIn['user_group'] > 1) {
+        try {
+            $oConn = loginToDB();
+
+            $username = $loggedIn['username'];
+
+            $query = $oConn->prepare("SELECT a.PostID FROM Adventures a WHERE a.Username = '$username'");
+            $query->execute();
+            $adventurePostIDs = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $isAuthorOfThisPost = false;
+
+            //Iterates through 2D array of logged in user's PostIDs
+            //and tries to match with PostID that was requested to be deleted
+            foreach($adventurePostIDs as $arrValue) {
+                if ($arrValue['PostID'] == $PostID) {
+                    $isAuthorOfThisPost = true;
+                }
+            }
+
+            //If author of this post OR admin - allow deletion
+            if($isAuthorOfThisPost || $loggedIn['user_group'] == 3){
+                $query = $oConn->prepare("DELETE FROM Adventures WHERE PostID = '$PostID'");
+                $query->execute();
+                echo json_encode(array('success' => true));
+            }
+
+        } catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+
+    } else {
+        echo 'Not enough permissions to perform this action.';
     }
 }
 

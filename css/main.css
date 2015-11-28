@@ -12,9 +12,9 @@ body {
 }
 
 .divider{
-    width:5px;
-    height:auto;
-    display:inline-block;
+    width: 5px;
+    height: auto;
+    display: inline-block;
 }
 
 @media (min-width: 767px) {
@@ -136,6 +136,9 @@ a.dropdown-toggle.navbar-dropdown:hover {
     }
 }
 
+.row.my-adventures {
+    padding-left: 4.1em;
+}
 
 /* Search styles */
 #search-field{
@@ -308,8 +311,73 @@ div#search-result-separator hr{
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
+/* My Adventures page styles */
+
+.under-adventure-line > * {
+    display: inline;
+}
+
+.my-adventures-separator {
+    padding-bottom: 1em;
+    margin-top: 1em;
+}
+
+.pe-7s-angle-down.pe-lg {
+    font-size: 1.7em;
+    position: relative;
+    top: 0.1em;
+}
+
+.pe-7s-comment.my-adventures-comments {
+    position: relative;
+    top: 0.1em;
+}
+
+.pe-7s-like.my-adventures-upvotes {
+    position: relative;
+    top: 0.1em;
+}
+
+.my-adventures-text {
+    font-size: 20px;
+}
+
+.my-adventures-under-text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+#my-adventures-not-found {
+    padding-left: 0.9em;
+}
+
+.return-to-main-page-from-my-adventures {
+    padding-left: 0;
+}
+
+.panel-title.remove-adventure-modal-header{
+    padding-left: 0.8em;
+}
+
+.close.remove-adventure-modal-close {
+    font-size: 15px;
+}
+
+#loading-spin-gif {
+    margin-left: 1.5em;
+}
+
+#loading-modal-content {
+    width: 160px;
+}
+
+.modal-dialog-center {
+    margin-top: 10%;
+}
+
+
 /* Author page styles */
-.author-jumbotron .row{
+.author-jumbotron .row {
     margin-bottom: 5em;
 }
 
@@ -320,13 +388,12 @@ div#search-result-separator hr{
 
 .adventure-date{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
 }
 
 .title-container.author-page{
     left: 80px;
 }
-
-
 
 
 /*Login Modal Styles*/
