@@ -1,16 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dion
- * Date: 11/11/2015
- * Time: 18:35
- */
 
 require_once 'functions.php';
 
-$loggedIn = loggedIn();
+try{
 
-if ($loggedIn['user_group'] === 3) {
+    $loggedIn = loggedIn();
+
+    $oConn = loginToDB();
+
+    if ($loggedIn['user_group'] === 3) {
+
+    }
 
     //Templating
     require_once 'vendor/autoload.php';
@@ -18,10 +18,13 @@ if ($loggedIn['user_group'] === 3) {
     $twig = new Twig_environment($loader);
     $template = $twig->loadTemplate('admin.twig');
 
-    //Return the template specified above with the following variables filled in
     echo $template->render(array(
         'user' => $user[0],
         'adventures' => $adventures,
         'loggedIn' => $loggedIn
     ));
+
+
+} catch (PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
 }

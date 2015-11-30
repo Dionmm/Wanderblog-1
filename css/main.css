@@ -94,6 +94,14 @@ a.dropdown-toggle.navbar-dropdown:hover {
     /*background-color: black;*/
 }
 
+#not-found-container {
+    padding-left: 0.9em;
+}
+
+.return-to-main-page {
+    padding-left: 0;
+}
+
 /* Navbar config */
 .navbar-default {
     height: 60px;
@@ -347,14 +355,6 @@ div#search-result-separator hr{
     font-size: 14px;
 }
 
-#my-adventures-not-found {
-    padding-left: 0.9em;
-}
-
-.return-to-main-page-from-my-adventures {
-    padding-left: 0;
-}
-
 .panel-title.remove-adventure-modal-header{
     padding-left: 0.8em;
 }
@@ -377,22 +377,35 @@ div#search-result-separator hr{
 
 
 /* Author page styles */
-.author-jumbotron .row {
-    margin-bottom: 5em;
+.author-subcontainer {
+    padding-left: 4em;
 }
 
-.author-container {
-    height: 100%;
-    background-color: #eeeeee;
-}
-
-.adventure-date{
+.adventure-date {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
-.title-container.author-page{
+.title-container.author-page {
     left: 80px;
+}
+
+.adventure-title-row {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 767px) {
+    .adventure-title-row {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.adventure-upvotes-row {
+    padding-left: 1.6em;
 }
 
 

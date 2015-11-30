@@ -400,9 +400,6 @@ function deleteAdventure(postID) {
     })
         .done(function (result) {
             if(result){
-                //Hide processing modal
-                $('#loading-modal').modal('hide');
-
                 //Change counter amount in the title
                 $('#adventure-amount').text(parseInt($('#adventure-amount').text())-1);
 
@@ -425,6 +422,8 @@ function deleteAdventure(postID) {
                     $('div[adventure-id=' + postID + ']').remove();
                 }
 
+                //Hide processing modal
+                $('#loading-modal').modal('hide');
             }
         })
         .fail(function () {

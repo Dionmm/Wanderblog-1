@@ -6,8 +6,6 @@ require_once 'functions.php';
 
         $loggedIn = loggedIn();
 
-        $oConn = loginToDB();
-
         $author = $_GET["username"];
 
         $adventures = [];
@@ -15,6 +13,8 @@ require_once 'functions.php';
         $wrongUser = true;
 
         if($loggedIn['username'] == $author){
+
+            $oConn = loginToDB();
 
             //Get adventure data + comment amount for each adventure via subquery
             $query = $oConn->prepare("SELECT a.*, (SELECT COUNT(*) FROM Comments WHERE PostID = a.PostID) AS CommentAmount FROM Adventures a WHERE a.Username = '$author' ORDER BY a.DatePosted ASC");

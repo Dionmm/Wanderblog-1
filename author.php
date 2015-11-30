@@ -15,18 +15,20 @@ require_once 'functions.php';
         $adventures = [];
 
         //Prepare statement, substitute keyword with the submitted query
-        $query = $oConn->prepare("SELECT Username, UserType, FirstName, LastName, Country FROM User WHERE Username = '$author'");
+        $query = $oConn->prepare("SELECT Username, FirstName, LastName, Country FROM User WHERE Username = '$author'");
         $query->execute();
         $user = $query->fetchAll(PDO::FETCH_ASSOC);
 
         //Prevent querying DB about non existent author
         if(!empty($user)) {
+            $user = $user[0];
 
             //Prepare statement, substitute keyword with the submitted query
-            $query = $oConn->prepare("SELECT PostID, Title, Upvotes, City, Country, DatePosted FROM Adventures WHERE Username = '$author' ORDER BY DatePosted");
+            $query = $oConn->prepare("SELECT * FROM Adventures WHERE Username = '$author' ORDER BY DatePosted ASC");
             $query->execute();
             $adventures = $query->fetchAll(PDO::FETCH_ASSOC);
         }
+
 
         //Templating
         require_once 'vendor/autoload.php';
@@ -36,7 +38,7 @@ require_once 'functions.php';
 
         //Return the template specified above with the following variables filled in
         echo $template->render(array(
-            'user' => $user[0],
+            'user' => $user,
             'adventures' => $adventures,
             'loggedIn' => $loggedIn
         ));
