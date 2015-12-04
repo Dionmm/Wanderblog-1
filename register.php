@@ -79,6 +79,9 @@ function check_for_username($username){
         echo 'ERROR: ' . $e->getMessage();
         return true;
     }
+    finally{
+    $oConn = null;
+    }
 }
 
 
@@ -119,7 +122,10 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
         }
         return $returnMessage;
 
-    } catch(PDOException $e) {
-        return 'ERROR: ' . $e->getMessage();
+    } catch(PDOException $e){
+        echo 'ERROR: ' . $e->getMessage();
+    }
+    finally{
+        $oConn = null;
     }
 }

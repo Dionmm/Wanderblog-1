@@ -112,39 +112,49 @@ function readAdventure($PostID)
     } catch (PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
     }
+    finally{
+        $oConn = null;
+    }
 }
 
 function createAdventure()
 {
-    //Check for logged in
-    $loggedIn = loggedIn();
+    try{
+        //Check for logged in
+        $loggedIn = loggedIn();
 
+        //Check if they have sufficient permissions to create adventure (Equal to or greater than AUTHOR)
+        if ($loggedIn['loggedIn']) {
+            if ($loggedIn['user_group'] > 1) {
 
-    //Check if they have sufficient permissions to create adventure (Equal to or greater than AUTHOR)
-    if ($loggedIn['loggedIn']) {
-        if ($loggedIn['user_group'] > 1) {
+                //Put Username into the adventure object
+                $adventure = ['Username' => $_SESSION['username']];
 
-            //Put Username into the adventure object
-            $adventure = ['Username' => $_SESSION['username']];
+                //Templating
+                require_once 'vendor/autoload.php';
+                $loader = new Twig_Loader_Filesystem('views');
+                $twig = new Twig_environment($loader);
+                $template = $twig->loadTemplate('adventure.twig');
 
-            //Templating
-            require_once 'vendor/autoload.php';
-            $loader = new Twig_Loader_Filesystem('views');
-            $twig = new Twig_environment($loader);
-            $template = $twig->loadTemplate('adventure.twig');
-
-            //return the template specified above with the following variables filled in
-            echo $template->render(array(
-                'adventure' => $adventure,
-                'loggedIn' => $loggedIn,
-                'editing' => 'true'
-            ));
+                //return the template specified above with the following variables filled in
+                echo $template->render(array(
+                    'adventure' => $adventure,
+                    'loggedIn' => $loggedIn,
+                    'editing' => 'true'
+                ));
+            } else {
+                echo 'You do not have sufficient permissions to create adventures';
+            }
         } else {
-            echo 'You do not have sufficient permissions to create adventures';
+            echo 'Error: Must be logged in to create adventure';
         }
-    } else {
-        echo 'Error: Must be logged in to create adventure';
+    } catch (PDOException $e) {
+        return 'ERROR: ' . $e->getMessage();
     }
+    finally{
+        $oConn = null;
+    }
+
 
 }
 
@@ -171,6 +181,9 @@ function createPostID()
         return $PostID;
     } catch (PDOException $e) {
         return 'ERROR: ' . $e->getMessage();
+    }
+    finally{
+        $oConn = null;
     }
 }
 
@@ -227,6 +240,9 @@ function saveAdventure($PostID, $SQLType)
 
             } catch (PDOException $e) {
                 echo 'ERROR: ' . $e->getMessage();
+            }
+            finally{
+                $oConn = null;
             }
 
 
@@ -294,6 +310,9 @@ function addComment($PostID)
         } catch (PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
+        finally{
+            $oConn = null;
+        }
 
 
     } else {
@@ -337,9 +356,13 @@ function deleteAdventure($PostID)
         } catch (PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
+        finally{
+            $oConn = null;
+        }
 
     } else {
         echo 'Not enough permissions to perform this action.';
     }
 }
+
 

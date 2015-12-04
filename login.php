@@ -39,8 +39,11 @@ if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) &
         }
         echo $returnMessage; //return
 
-    } catch(PDOException $e) {
+    } catch(PDOException $e){
         echo 'ERROR: ' . $e->getMessage();
+    }
+    finally{
+        $oConn = null;
     }
 
 

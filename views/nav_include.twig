@@ -40,7 +40,7 @@
                                     Save
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="saveButton">
-                                    <li><a href="#">Publish Adventure</a></li>
+                                    <li><a href="#" id="publish-adventure-button">Publish Adventure</a></li>
                                     <li><a href="#">Add Keywords</a></li>
                                 </ul>
                             </div>
@@ -61,7 +61,7 @@
                                         <li><a href="myAdventures.php?username={{ loggedIn.username }}"><i class="glyphicon glyphicon-pencil"></i> Edit My Adventures</a></li>
                                     {% endif %}
                                     {% if loggedIn.user_group == 3 %}
-                                    <li ><a href="#"><i class="glyphicon glyphicon-wrench"></i> Admin Page</a></li>
+                                    <li ><a href="admin.php"><i class="glyphicon glyphicon-wrench"></i> Admin Page</a></li>
                                     {% endif %}
                                     <li class="divider"></li>
                                     <li><a href="logout.php"><i class="glyphicon glyphicon-off"></i> Logout</a></li>

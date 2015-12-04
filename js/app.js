@@ -245,9 +245,16 @@ function loadMoreAdventures() {
 $('#editButton').click(function () {
     location.href = "adventure.php?id=" + PostID + "&edit=1";
 });
-$('li:first-child').click(function () {
+//causes all other list items on all other pages to fire this function....
+//please try to use more specific selectors
+/*$('li:first-child').click(function () {
+    savePost();
+});*/
+
+$('#publish-adventure-button').on('click', function(){
     savePost();
 });
+
 $('#cancelButton').click(function () {
     location.href = "adventure.php?id=" + PostID;
 });
@@ -381,8 +388,64 @@ $(document).ready(function () {
     });
 
     //-------------------------------------------------------------------
+    //Change user type on admin page
+    $(document.body).on('click', '.change-user-type-icon', function() {
+        var pTag = $(this).parent().clone();
+        var username = $(this).parent().parent().attr("username");
+        var parentDiv = $(this).closest('div');
+        var selectedValue = $.trim(pTag.text());
+        var selectTag = '<select name="user-type">' +
+            '<option value="unverified">Unverified</option>' +
+            '<option value="reader">Reader</option>' +
+            '<option value="author">Author</option>' +
+            '<option value="admin">Admin</option>' +
+            '</select>';
+        selectTag = selectTag.replace(selectedValue + '"', selectedValue + '" selected');
+        var okChange = '<span class="glyphicon glyphicon-ok change-user-type-action-icon"></span>'
+        var cancelChange = '<span class="glyphicon glyphicon-remove change-user-type-action-icon"></span>'
+        $(this).closest('p').replaceWith(selectTag + okChange + cancelChange);
+
+        $(document.body).on('click', '.glyphicon.glyphicon-ok.change-user-type-action-icon', function() {
+            var selectedValue = $('select[name="user-type"]').val();
+            changeUserType(username, selectedValue, parentDiv);
+        });
+
+        $(document.body).on('click', '.glyphicon.glyphicon-remove.change-user-type-action-icon', function() {
+            parentDiv.empty();
+            parentDiv.append(pTag);
+        });
+    });
 
 });
+
+function changeUserType(username, userType, parentDiv){
+    //Show processing modal
+    $('#loading-modal-all-users').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'admin.php?username=' + username + '&usertype=' + userType,
+        dataType: 'json'
+    })
+        .done(function () {
+
+            var changeUserTypeSpan = '<span class="glyphicon glyphicon-pencil change-user-type-icon"></span>';
+            parentDiv.empty();
+            parentDiv.append("<p>" + userType  + changeUserTypeSpan + "</p>");
+
+            //Hide processing modal
+            $('#loading-modal-all-users').modal('hide');
+        })
+        .fail(function () {
+            console.log("Error happened while changing user type [" + userType + "] for username [" + username + "]");
+            $('#loading-modal-all-users').modal('hide');
+        });
+
+}
 
 function deleteAdventure(postID) {
 

@@ -47,7 +47,10 @@ if (isset($_POST['timesRequested'])) {
             'loggedIn' => $loggedIn
         ));
 
-    } catch(PDOException $e) {
+    } catch(PDOException $e){
         echo 'ERROR: ' . $e->getMessage();
+    }
+    finally{
+        $oConn = null;
     }
 }

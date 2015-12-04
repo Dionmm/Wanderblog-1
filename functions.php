@@ -65,56 +65,79 @@ function loginToDB()
 
 function addLike($postID)
 {
-    $loggedIn = loggedIn();
-    $username = $_SESSION['username'];
-    if ($loggedIn['user_group'] >= 1) {
-        $oConn = loginToDB();
+    try{
+        $loggedIn = loggedIn();
 
-        //Check if the user is the author of the article
-        $query = $oConn->prepare('SELECT Username FROM Adventures WHERE PostID = :postID AND Username = :username');
-        $query->bindValue(':postID', $postID, PDO::PARAM_STR);
-        $query->bindValue(':username', $username, PDO::PARAM_STR);
-        $query->execute();
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $username = $_SESSION['username'];
 
-        if (!$results) {
-            //Check if the user has previously upvoted the post
-            $query = $oConn->prepare('SELECT * FROM Upvoted WHERE PostID = :postID AND Username = :username');
+        if ($loggedIn['user_group'] >= 1) {
+            $oConn = loginToDB();
+
+            //Check if the user is the author of the article
+            $query = $oConn->prepare('SELECT Username FROM Adventures WHERE PostID = :postID AND Username = :username');
             $query->bindValue(':postID', $postID, PDO::PARAM_STR);
             $query->bindValue(':username', $username, PDO::PARAM_STR);
             $query->execute();
-            $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
 
-            //If has previous upvote, remove upvote, else add upvote
-            if ($rows) {
-                $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes-1 WHERE PostID = :postID;DELETE FROM Upvoted WHERE PostID = :postID AND Username = :username');
-                $update->bindValue(':postID', $postID, PDO::PARAM_STR);
-                $update->bindValue(':username', $username, PDO::PARAM_STR);
+            if (!$results) {
+                //Check if the user has previously upvoted the post
+                $query = $oConn->prepare('SELECT * FROM Upvoted WHERE PostID = :postID AND Username = :username');
+                $query->bindValue(':postID', $postID, PDO::PARAM_STR);
+                $query->bindValue(':username', $username, PDO::PARAM_STR);
+                $query->execute();
+                $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
-                if ($update->execute()) {
-                    return json_encode(array('success' => 'Upvote removed'));
+                //If has previous upvote, remove upvote, else add upvote
+                if ($rows) {
+                    $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes-1 WHERE PostID = :postID;DELETE FROM Upvoted WHERE PostID = :postID AND Username = :username');
+                    $update->bindValue(':postID', $postID, PDO::PARAM_STR);
+                    $update->bindValue(':username', $username, PDO::PARAM_STR);
+
+                    if ($update->execute()) {
+                        return json_encode(array('success' => 'Upvote removed'));
+                    } else {
+                        return json_encode(array('error' => 'Something went wrong'));
+
+                    }
                 } else {
-                    return json_encode(array('error' => 'Something went wrong'));
+                    $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes+1 WHERE PostID = :postID;INSERT INTO Upvoted VALUES(NULL, :postID, :username)');
+                    $update->bindValue(':postID', $postID, PDO::PARAM_STR);
+                    $update->bindValue(':username', $username, PDO::PARAM_STR);
 
+                    if ($update->execute()) {
+                        return json_encode(array('success' => 'Upvote added'));
+                    } else {
+                        return json_encode(array('error' => 'Something went wrong'));
+
+                    }
                 }
             } else {
-                $update = $oConn->prepare('UPDATE Adventures SET Upvotes = Upvotes+1 WHERE PostID = :postID;INSERT INTO Upvoted VALUES(NULL, :postID, :username)');
-                $update->bindValue(':postID', $postID, PDO::PARAM_STR);
-                $update->bindValue(':username', $username, PDO::PARAM_STR);
+                return json_encode(array('error' => 'Cannot like own adventure'));
 
-                if ($update->execute()) {
-                    return json_encode(array('success' => 'Upvote added'));
-                } else {
-                    return json_encode(array('error' => 'Something went wrong'));
-
-                }
             }
+
         } else {
-            return json_encode(array('error' => 'Cannot like own adventure'));
-
+            return json_encode(array('error' => 'Do not have permission to vote'));
         }
-
-    } else {
-        return json_encode(array('error' => 'Do not have permission to vote'));
+    } catch(PDOException $e){
+        echo 'ERROR: ' . $e->getMessage();
     }
+    finally{
+        $oConn = null;
+    }
+
+}
+
+//Fix encoding problems
+//converts non UTF-8 strings to UTF-8
+function utf8ize($d) {
+    if (is_array($d)) {
+        foreach ($d as $k => $v) {
+            $d[$k] = utf8ize($v);
+        }
+    } else if (is_string ($d)) {
+        return utf8_encode($d);
+    }
+    return $d;
 }

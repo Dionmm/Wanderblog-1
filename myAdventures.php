@@ -38,6 +38,9 @@ require_once 'functions.php';
             'wrongUser' => $wrongUser
         ));
 
-    } catch (PDOException $e) {
+    } catch(PDOException $e){
         echo 'ERROR: ' . $e->getMessage();
+    }
+    finally{
+        $oConn = null;
     }

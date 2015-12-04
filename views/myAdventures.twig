@@ -10,10 +10,10 @@
 
     <div class="row bg-image-container">
         <div class="bg-image">
-            <div class="title-container author-page">
+            <div class="title-container">
                 <h1 class="title">
                     {% if (not wrongUser) and (not (authorUsername is empty)) %}
-                        Edit my adventures (<span id="adventure-amount">{{ adventures|length }}</span>)
+                        My adventures (<span id="adventure-amount">{{ adventures|length }}</span>)
                     {% else %}
                         Sorry!
                     {% endif %}
@@ -22,11 +22,10 @@
         </div>
     </div>
 
-    <div class="row my-adventures">
+    <div class="row adventure-list-container with-top-padding">
         {% if (not wrongUser) and (not (authorUsername is empty)) %}
 
             <div class="col-sm-12">
-                <h2>Adventures:</h2>
                 {% for adventure in adventures %}
                     <div adventure-id="{{ adventure.PostID }}">
                         <br>
@@ -61,7 +60,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <button type="button" class="close remove-adventure-modal-close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                            <h4 class="panel-title remove-adventure-modal-header">Confirm your action</h4>
+                            <h4 class="panel-title remove-adventure-modal-header">Confirm the action</h4>
                         </div>
                         <form action="#" method="post">
                             <div class="modal-body">
@@ -104,7 +103,7 @@
 
         {% else %}
             <div id="not-found-container">
-                <h2>You do not have permissions to load this page or no adventures were found by that username.</h2>
+                <h2>Please make sure you are logged in.</h2>
                 <br>
                 <!--ONLY MAKING THIS ROW Bootstrap BS FOR THE GREAT PURPOSE-->
                 <div class="row">
