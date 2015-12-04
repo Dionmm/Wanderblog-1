@@ -34,6 +34,44 @@ body {
     outline: 0;
 }
 
+ul {
+    padding:0 0 0 0;
+    margin:0 0 0 0;
+}
+ul li {
+    list-style:none;
+    margin-bottom:25px;
+}
+ul li img {
+    cursor: pointer;
+}
+
+#adventures li {
+    list-style: none;
+    cursor: pointer;
+}
+
+input[type="file"]{
+    height: 200px;
+    border-width: 1px;
+    margin-bottom: 20px;
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    text-align: center
+}
+
+input[type="file"]:after {
+    content: "";
+    display: block;
+    min-width: 20em;
+    margin: auto 50%;
+}
+
+input[type="file"]:hover{
+    border: 1px dashed #67a5c5;
+}
+
 .loadMore{
     margin-top: 1em;
     margin-bottom: 1em;

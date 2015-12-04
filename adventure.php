@@ -29,10 +29,12 @@ if (isset($_GET['id'])) {
 } else if (isset($_POST['save']) && isset($_SESSION['editingID'])) { //Saves changes to an existing post
     $PostID = $_SESSION['editingID'];
     saveAdventure($PostID, 'existing');
+    savePictures($PostID, 'existing');
 
 } else if (isset($_POST['save']) && !isset($_SESSION['editingID'])) { //If ID isn't set then save as new adventure
     $PostID = createPostID(); //Generate PostID here
     saveAdventure($PostID, 'new'); //Save to DB here
+    savePictures($PostID, 'new');
 
 } else if (isset($_GET['create']) && !isset($_GET['id'])) { //Renders a blank template so user's can create new adventure
     //Create adventure here
@@ -205,7 +207,6 @@ function saveAdventure($PostID, $SQLType)
             $city = NULL; //These will eventually have their own field to be filled out on the edit page
             $country = NULL;
 
-
             try {
                 $oConn = loginToDB();
 
@@ -254,6 +255,73 @@ function saveAdventure($PostID, $SQLType)
 
     }
 
+}
+
+function savePictures($PostID, $SQLType){
+    //Check for logged in
+    $loggedIn = loggedIn();
+
+    if($loggedIn['user_group'] > 1){
+
+        try {
+
+            $oConn = loginToDB();
+
+            $uploadDir = 'uploads\\' . $PostID . '\\';
+
+            if(!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            for($i=0; $i<count($_FILES['files']['name']); $i++) {
+
+                $file = $_FILES["files"]["tmp_name"][$i];
+
+                //Check file is an image
+                $imageSizeData = getimagesize($file);
+                if ($imageSizeData === FALSE) {
+                    //not an image and don't add to database
+                } else {
+                    $fileName = $_FILES["files"]["name"][$i];
+                    $tmpName = $_FILES["files"]["tmp_name"][$i];
+
+                    $ext = substr(strrchr($fileName, "."), 1);
+                    $randName = md5(rand() * time()); //could use sha256
+
+                    $filePath = $uploadDir . $randName . '.' . $ext;
+
+                    $result = move_uploaded_file($tmpName, $filePath);
+
+                    if ($result) {
+                        $imageName = addslashes($fileName);
+
+                        $imagePath = addslashes($filePath);
+
+                        if ($SQLType === 'new') {
+                            $savePicture = $oConn->prepare("INSERT INTO Pictures VALUES (NULL, $PostID, '$imageName', '$imagePath', NOW())");
+                        } else {
+                            //editing existing pictures
+                        }
+
+                        if ($savePicture->execute()) {
+                            $success = 'successfully uploaded picture';
+                            $returnMessage = json_encode(array('success' => $success, 'PostID' => $PostID));
+                        }
+
+                        echo $returnMessage;
+                    }
+                }
+            }
+        }catch(PDOException $e){
+            echo 'ERROR: ' . $e->getMessage();
+
+        }finally{
+            $oConn = null;
+        }
+    }else {
+        echo '500, Couldn\'t save'; //return server error
+
+    }
 }
 
 function loadComments($PostID)
