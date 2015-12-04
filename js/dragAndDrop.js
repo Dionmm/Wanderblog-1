@@ -39,6 +39,11 @@ $(document).ready(function(){
             reader.readAsDataURL(file);
         }
     }
+
+    $('body').on('click','img',function(){
+        $('#imagepreview').attr('src', $(this).attr('src'));
+        $('#imagemodal').modal('show');
+    });
 });
 
 
