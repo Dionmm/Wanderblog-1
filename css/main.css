@@ -724,10 +724,8 @@ article.adventure {
     color: #696969;
 }
 
-@media (min-width: 767px) {
-    .user-type-cell {
-        width: 150px;
-    }
+.user-type-cell {
+    width: 150px;
 }
 
 .user-filters {
