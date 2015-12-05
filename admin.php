@@ -67,38 +67,19 @@ function changeUserType($username, $userType){
 
     try{
 
-        if ($loggedIn['user_group'] === 3) {
+        if ($loggedIn["user_group"] === 3) {
 
             $query = $oConn->prepare("UPDATE User SET UserType = '$userType' WHERE Username = '$username';");
             $query->execute();
-            echo json_encode(array('success'));
 
-        }
+            $selfDestruction = false;
 
-    }
-    catch (PDOException $e) {
-        echo 'ERROR: ' . $e->getMessage();
-        echo json_encode(array('fail'));
-    }
-    finally{
-        $oConn = null;
-    }
-}
+            if($username == $loggedIn["username"] && $userType != "admin"){
+                $_SESSION["user_group"] = $userType;
+                $selfDestruction = true;
+            }
 
-function deleteUser($username){
-
-    $loggedIn = loggedIn();
-
-    $oConn = loginToDB();
-
-    try{
-
-        if ($loggedIn['user_group'] === 3) {
-
-            $query = $oConn->prepare("DELETE FROM User WHERE Username = '$username';");
-            $query->execute();
-            echo json_encode(array('success'));
-
+            echo json_encode(array('selfDestruction' => $selfDestruction));
         }
 
     }

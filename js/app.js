@@ -416,7 +416,66 @@ $(document).ready(function () {
         });
     });
 
+    //-------------------------------------------------------------------
+    //Filters on admin page
+    $('input[by="users-username"]').on('click', function(){
+        sortUsers(true);
+    });
+
+    $('input[by="users-usertype"]').on('click', function(){
+        sortUsers(false);
+    });
+
 });
+
+//Below is the Roman's pride - super inefficient - memory wasting sorting algorithm
+//Big O notation - O(cat'sBack.glueWith(sandwich'sOpenSide))
+function sortUsers(sortByUsername){
+
+    //Show processing modal
+    $('#loading-modal-all-users').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    //Grab all the rows
+    var rows = $('.users-table').children('tbody').children('tr');
+    var originalCopy = rows.clone();
+
+    //Check if sorting set by username or usertype
+    if(sortByUsername){
+        //Sort the copied array (alphabetically in an ascending order)
+        originalCopy.sort(function(val1, val2){
+            var nameA = $(val1).attr('username').toLowerCase();
+            var nameB = $(val2).attr('username').toLowerCase();
+            if (nameA < nameB){ return -1; }
+            if (nameA > nameB){ return 1; }
+            return 0;
+        });
+
+        //Replace live rows with the sorted ones
+        $.each(rows, function(index){
+            $(this).replaceWith(originalCopy[index]);
+        });
+    } else{
+        //Initiate an object to shorten and ease the sorting code
+        var userTypes = {unverified: 0, reader: 1, author: 2, admin: 3};
+
+        //Sorts by the usertype, from values above
+        originalCopy.sort(function(val1, val2){
+            return (userTypes[$(val1).attr('usertype')] - userTypes[$(val2).attr('usertype')]);
+        });
+
+        //Replace live rows with the sorted ones
+        $.each(rows, function(index){
+            $(this).replaceWith(originalCopy[index]);
+        });
+    }
+
+    //Hide processing modal
+    $('#loading-modal-all-users').modal('hide')
+}
 
 function changeUserType(username, userType, parentDiv){
     //Show processing modal
@@ -431,14 +490,23 @@ function changeUserType(username, userType, parentDiv){
         url: 'admin.php?username=' + username + '&usertype=' + userType,
         dataType: 'json'
     })
-        .done(function () {
+        .done(function (data) {
 
-            var changeUserTypeSpan = '<span class="glyphicon glyphicon-pencil change-user-type-icon"></span>';
+            var pTag = userType == 'unverified' ? $("<p>", {class: 'text-danger'}) : $("<p>");
+            pTag.append(userType)
+            pTag.append($('<span>', {class:"glyphicon glyphicon-pencil change-user-type-icon"}));
             parentDiv.empty();
-            parentDiv.append("<p>" + userType  + changeUserTypeSpan + "</p>");
+            parentDiv.append(pTag);
+            parentDiv.closest('tr').attr('usertype', userType);
 
             //Hide processing modal
-            $('#loading-modal-all-users').modal('hide');
+            $('#loading-modal-all-users').modal('hide')
+
+            //You dare to demote yourself?! Well then...
+            if(data.selfDestruction){
+                location.reload();
+            }
+
         })
         .fail(function () {
             console.log("Error happened while changing user type [" + userType + "] for username [" + username + "]");
@@ -476,14 +544,14 @@ function deleteAdventure(postID) {
 
                     //Add br tags to the end
                     $(".col-sm-12 div:last-child").append("<br><br>");
-
-                    console.log("shoulda appended");
                 }
 
                 //Remove adventure div
                 if(!alreadyRemoved){
                     $('div[adventure-id=' + postID + ']').remove();
                 }
+
+                $('tr[post-id=' + postID + ']').remove();
 
                 //Hide processing modal
                 $('#loading-modal').modal('hide');
