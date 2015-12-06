@@ -34,21 +34,12 @@ body {
     outline: 0;
 }
 
-/*ul {
-    padding:0 0 0 0;
-    margin:0 0 0 0;
-}*/
-/*ul li {
-    list-style:none;
-    margin-bottom:25px;
-}*/
 ul li img {
     cursor: pointer;
 }
 
-#adventures li {
+#preview li {
     list-style: none;
-    cursor: pointer;
 }
 
 input[type="file"]{
