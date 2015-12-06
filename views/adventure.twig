@@ -23,7 +23,7 @@
         <!--@formatter:off--> <!-- ENSURE THIS ROW IS FORMATTED IN ONE LONG LINE-->
         <article class="col-sm-12 adventure"{% if editing is defined %} id="adventureContent" contenteditable="true"  role="textbox" placeholder="Start typing here to begin your adventure.." {% endif %}>{{ adventure.Content|raw }}</article>
          <!--@formatter:on-->
-        <div class="form-group">
+        <div class="form-group" {% if editing is defined %}>
             <label>Select/Drag and drop pictures</label>
             <input type="file" class="form-control" name="files[]" multiple value="" accept="image/*" />
         </div>
