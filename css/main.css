@@ -34,19 +34,20 @@ body {
     outline: 0;
 }
 
-ul {
+/*ul {
     padding:0 0 0 0;
     margin:0 0 0 0;
-
-}
-
-#preview {
+}*/
+/*ul li {
     list-style:none;
-}
-ul li {
     margin-bottom:25px;
-}
+}*/
 ul li img {
+    cursor: pointer;
+}
+
+#adventures li {
+    list-style: none;
     cursor: pointer;
 }
 
@@ -463,7 +464,7 @@ div#search-result-separator hr{
     }
 }
 
-.adventure-upvotes-row {
+.adventure-upvotes-row, .adventure-comment-amount-row {
     padding-left: 1.6em;
 }
 
@@ -515,7 +516,7 @@ input[name="password"] {
     position: relative;
 }
 
-input:after {
+/*input:after {
     content: 'text';
     position: absolute;
     background-color: green;
@@ -523,7 +524,7 @@ input:after {
     width: 100px;
     height: 100px;
     top: 0;
-}
+}*/
 
 #country-selection-dropdown {
     color: black;
@@ -723,14 +724,24 @@ article.adventure {
     color: #696969;
 }
 
-@media (min-width: 767px) {
-    .user-type-cell {
-        width: 150px;
-    }
+.user-type-cell {
+    width: 150px;
 }
-.panel.with-nav-tabs .panel-heading {
+
+.user-filters {
+    margin-top: 0;
+    padding-left: 1em;
+}
+
+.adventure-filters {
+    padding-left: 1em;
+}
+
+.panel-heading.padded-headings {
     padding: 5px 5px 0 5px;
 }
+
+
 .panel.with-nav-tabs .nav-tabs {
     border-bottom: none;
 }
