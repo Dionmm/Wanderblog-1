@@ -1,0 +1,11 @@
+{% include 'script_include.twig' %}
+<form action="upload.php" method="post" id="uploadPictures" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Select/Drag and drop pictures</label>
+        <input type="file" class="form-control" name="files[]" multiple value="" accept="image/*" />
+    </div>
+    <div class="form-group">
+        <button id="buttonUploadPictures" type="submit" class="btn btn-primary">Upload pictures</button>
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" id="loadingIcon" style="visibility: hidden;"></span>
+    </div>
+</form>

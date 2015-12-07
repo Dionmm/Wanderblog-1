@@ -29,12 +29,10 @@ if (isset($_GET['id'])) {
 } else if (isset($_POST['save']) && isset($_SESSION['editingID'])) { //Saves changes to an existing post
     $PostID = $_SESSION['editingID'];
     saveAdventure($PostID, 'existing');
-    savePictures($PostID, 'existing');
 
 } else if (isset($_POST['save']) && !isset($_SESSION['editingID'])) { //If ID isn't set then save as new adventure
     $PostID = createPostID(); //Generate PostID here
     saveAdventure($PostID, 'new'); //Save to DB here
-    savePictures($PostID, 'new');
 
 } else if (isset($_GET['create']) && !isset($_GET['id'])) { //Renders a blank template so user's can create new adventure
     //Create adventure here
