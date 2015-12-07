@@ -13,7 +13,7 @@ if($adventure){
 
             $oConn = loginToDB();
 
-            $sql_query_images = "SELECT * FROM picture WHERE PostID = '$adventure'";
+            $sql_query_images = "SELECT * FROM pictures WHERE PostID = '$adventure'";
 
             $result = $oConn->query($sql_query_images);
 
