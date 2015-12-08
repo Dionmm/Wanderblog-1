@@ -211,7 +211,7 @@ function savePost() {
         data: {save: true, title: adventureTitle, content: adventureContent, picture: formData },
         contentType: false,
         processData: false,
-        dataType: 'json',
+
     })
         .done(function (data) { //on successful response reload the page
             location.href = "adventure.php?id=" + data.PostID;
