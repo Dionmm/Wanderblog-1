@@ -188,7 +188,7 @@ $('.comment-container').on('click', '#save-reply-button', function () {
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
     var adventureContent = $('#adventureContent').html();
-    var adventurePictures = $('#adventurePictures');
+    var adventurePictures = document.getElementById('adventurePictures');
 
     var files = adventurePictures.files;
 
