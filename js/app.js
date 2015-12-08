@@ -201,15 +201,16 @@ function savePost() {
             continue;
         }
 
-        formData.append('files[]', file, file.name);
+        formData.append('files[]', file);
     }
-
 
 
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'adventure.php',
-        data: {save: true, title: adventureTitle, content: adventureContent },
+        data: {save: true, title: adventureTitle, content: adventureContent, picture: formData },
+        contentType: false,
+        processData: false,
         dataType: 'json',
     })
         .done(function (data) { //on successful response reload the page
