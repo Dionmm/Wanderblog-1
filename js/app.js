@@ -188,12 +188,28 @@ $('.comment-container').on('click', '#save-reply-button', function () {
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
     var adventureContent = $('#adventureContent').html();
+    var adventurePictures = $('#adventurePictures');
+
+    var files = adventurePictures.files;
+
+    var formData = new FormData();
+
+    for(var i = 0; i < files.length; i++){
+        var file = files[i];
+
+        if(!file.type.match('image.*')){
+            continue;
+        }
+
+        formData.append('files[]', file, file.name);
+    }
+
 
 
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'adventure.php',
-        data: {save: true, title: adventureTitle, content: adventureContent},
+        data: {save: true, title: adventureTitle, content: adventureContent, pictures: formData},
         dataType: 'json'
     })
         .done(function (data) { //on successful response reload the page
