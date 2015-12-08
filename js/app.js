@@ -188,33 +188,15 @@ $('.comment-container').on('click', '#save-reply-button', function () {
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
     var adventureContent = $('#adventureContent').html();
-    var adventurePictures = document.getElementById('adventurePictures');
-
-    var files = adventurePictures.files;
-
-    var formData = new FormData();
-
-    for(var i = 0; i < files.length; i++){
-        var file = files[i];
-
-        if(!file.type.match('image.*')){
-            continue;
-        }
-
-        formData.append('files[]', file);
-    }
-
 
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'adventure.php',
-        data: {save: true, title: adventureTitle, content: adventureContent, picture: formData },
-        contentType: false,
-        processData: false,
-
+        data: {save: true, title: adventureTitle, content: adventureContent },
+        dataType: 'json',
     })
         .done(function (data) { //on successful response reload the page
-            location.href = "adventure.php?id=" + data.PostID;
+            savePictures(data.PostID);
 
         })
         .fail(function (data) { //on unsuccessful response output error
@@ -222,7 +204,46 @@ function savePost() {
             console.log(data);
             console.log(data.responseText);
         });
+}
 
+function savePictures(postId){
+
+    var adventurePictures = document.getElementById('adventurePictures');
+
+    var files = adventurePictures.files;
+
+    if(files.length > 0){
+        var formData = new FormData();
+
+        formData.append('postId', postId)
+
+        for(var i = 0; i < files.length; i++){
+            var file = files[i];
+
+            if(!file.type.match('image.*')){
+                continue;
+            }
+
+            formData.append('files[]', file);
+        }
+
+        $.ajax({
+                type: 'POST',
+                url: 'upload.php',
+                data: {formData: formData },
+                contentType: false,
+                processData: false,
+            })
+            .done(function (data) { //on successful response reload the page
+                location.href = "adventure.php?id=" + postId;
+            })
+            .fail(function (data) { //on unsuccessful response output error
+                console.log("Error happened");
+                console.log(data);
+                console.log(data.responseText);
+                location.href = "adventure.php?id=" + postId;
+            });
+    }
 }
 
 function loadMoreAdventures() {
