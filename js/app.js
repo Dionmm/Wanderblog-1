@@ -209,10 +209,8 @@ function savePost() {
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'adventure.php',
-        data: {save: true, title: adventureTitle, content: adventureContent, pictures: formData},
+        data: {save: true, title: adventureTitle, content: adventureContent },
         dataType: 'json',
-        processData: false,
-        contentType: false
     })
         .done(function (data) { //on successful response reload the page
             location.href = "adventure.php?id=" + data.PostID;
