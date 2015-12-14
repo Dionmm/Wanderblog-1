@@ -20,7 +20,7 @@ try {
         $query = $oConn->prepare('SELECT * FROM pictures WHERE PostID = :PostID');
 
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
-
+        $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
 
         for ($i = 0; $i < count($rows); $i++) {
