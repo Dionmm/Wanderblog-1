@@ -650,6 +650,10 @@ article.adventure {
     font-weight: 400;
 }
 
+.adventure.image-upload {
+    width: 50%;
+    max-width: 1000px;
+}
 .adventure b {
     font-weight: 700;
 }
