@@ -17,7 +17,7 @@ try {
 
         $pictures = array();
 
-        $query = $oConn->prepare('SELECT FROM pictures WHERE PostID = :PostID');
+        $query = $oConn->prepare('SELECT * FROM pictures WHERE PostID = :PostID');
 
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
 
