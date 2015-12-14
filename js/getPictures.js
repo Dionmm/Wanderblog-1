@@ -13,10 +13,8 @@ window.onload = function() {
         data: {adventureId: adventureId},
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             for (var key in data) {
-                console.log(data[key].Path);
-                var adventurePicture = data[key];
+                var adventurePicture = data[key].Path;
 
                 pictureCount++;
 
