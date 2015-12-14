@@ -24,10 +24,10 @@ try {
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
 
         for ($i = 0; $i < count($rows); $i++) {
-            $pictures[] = $rows[$i]['Path'];
+            $pictures[] = $rows['Path'][$i];
         }
 
-        echo json_encode($pictures);
+        echo json_encode($pictures, $rows);
 
     }else{
         echo 'Adventure not found';
