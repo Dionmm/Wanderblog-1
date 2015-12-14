@@ -9,20 +9,22 @@ require_once 'functions.php'; //Grabs any extra functions
 session_start();
 
 try {
-    $postId = $_POST['adventureId'];
+    $postID = $_POST['adventureId'];
 
-    if($postId){
+    if ($postID) {
 
         $oConn = loginToDB();
 
         $pictures = array();
 
-        $sql_query = "SELECT * FROM pictures WHERE PostId = '$postId'";
+        $query = $oConn->prepare('SELECT FROM pictures WHERE PostID = :PostID');
 
-        $result = $oConn->query($sql_query);
+        $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
 
-        while($row = $result->fetch_array()){
-            $pictures[] = $row["Path"];
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        for ($i = 0; $i < count($rows); $i++) {
+            $pictures[] = $row[$i]['Path'];
         }
 
         echo json_encode($pictures);

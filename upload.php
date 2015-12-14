@@ -50,13 +50,13 @@ if($loggedIn['user_group'] > 1){
 
                         $oConn = loginToDB();
 
-                        $query = $oConn->prepare('INSERT INTO pictures VALUES(NULL, :PostID, :imagename, :path, NOW())'); //Prepare query to check for existing postID
+                        $savePicture = $oConn->prepare('INSERT INTO pictures VALUES(NULL, :PostID, :imagename, :path, NOW())'); //Prepare query to check for existing postID
 
-                        $saveAdventure->bindValue(':PostID', $PostID, PDO::PARAM_STR);
-                        $saveAdventure->bindValue(':imagename', imageName, PDO::PARAM_STR);
-                        $saveAdventure->bindValue(':path', imagePath, PDO::PARAM_STR);
+                        $savePicture->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                        $savePicture->bindValue(':imagename', $imageName, PDO::PARAM_STR);
+                        $savePicture->bindValue(':path', $imagePath, PDO::PARAM_STR);
 
-                        if ($saveAdventure->execute()) {
+                        if ($savePicture->execute()) {
 //                            Picture added successfully
                             echo 'Success';
                         }
