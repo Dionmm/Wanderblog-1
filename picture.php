@@ -27,7 +27,7 @@ try {
             $pictures = $rows;
         }
 
-        echo json_encode($pictures, $rows);
+        echo json_encode($pictures);
 
     }else{
         echo 'Adventure not found';

@@ -40,7 +40,7 @@ window.onload = function() {
                 newPicture.appendChild(img);
                 }
         }, error: function (error) {
-            console.log("Error: " + JSON.stringify(error));
+            console.log("Error: " + error);
         }
     });
 };
