@@ -13,6 +13,7 @@ window.onload = function() {
         data: {adventureId: adventureId},
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             for (var key in data) {
 
                 var adventurePicture = data[key];
