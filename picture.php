@@ -24,7 +24,7 @@ try {
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
 
         for ($i = 0; $i < count($rows); $i++) {
-            $pictures[] = $rows['Path'][$i];
+            $pictures = $rows;
         }
 
         echo json_encode($pictures, $rows);
