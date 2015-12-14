@@ -215,7 +215,7 @@ function savePictures(postId){
     if(files.length > 0){
         var formData = new FormData();
 
-        formData.append('postId', postId)
+        formData.append('postId', postId);
 
         for(var i = 0; i < files.length; i++){
             var file = files[i];
@@ -236,13 +236,12 @@ function savePictures(postId){
                 processData: false,
             })
                 .done(function (data) { //on successful response reload the page
-                    location.href = "adventure.php?id=" + postId;
+                    'location.href = "adventure.php?id=" + postId;
                 })
                 .fail(function (data) { //on unsuccessful response output error
                     console.log("Error happened");
                     console.log(data);
                     console.log(data.responseText);
-                    location.href = "adventure.php?id=" + postId;
                 });
         }
     }
@@ -442,8 +441,8 @@ $(document).ready(function () {
             '<option value="admin">Admin</option>' +
             '</select>';
         selectTag = selectTag.replace(selectedValue + '"', selectedValue + '" selected');
-        var okChange = '<span class="glyphicon glyphicon-ok change-user-type-action-icon ' + username + '"></span>'
-        var cancelChange = '<span class="glyphicon glyphicon-remove change-user-type-action-icon ' + username + '"></span>'
+        var okChange = '<span class="glyphicon glyphicon-ok change-user-type-action-icon ' + username + '"></span>';
+        var cancelChange = '<span class="glyphicon glyphicon-remove change-user-type-action-icon ' + username + '"></span>';
         $(this).closest('p').replaceWith(selectTag + okChange + cancelChange);
 
         $(document.body).on('click', '.glyphicon.glyphicon-ok.change-user-type-action-icon.' + username, function() {
@@ -590,14 +589,14 @@ function changeUserType(username, userType, parentDiv){
         .done(function (data) {
 
             var pTag = userType == 'unverified' ? $("<p>", {class: 'text-danger'}) : $("<p>");
-            pTag.append(userType)
+            pTag.append(userType);
             pTag.append($('<span>', {class:"glyphicon glyphicon-pencil change-user-type-icon"}));
             parentDiv.empty();
             parentDiv.append(pTag);
             parentDiv.parent().parent().attr('usertype', userType);
 
             //Hide processing modal
-            $('#users-changing-loading-modal').modal('hide')
+            $('#users-changing-loading-modal').modal('hide');
 
             //You dare to demote yourself?! Well then...
             if(data.selfDestruction){
