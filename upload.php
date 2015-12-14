@@ -30,8 +30,10 @@ if($loggedIn['user_group'] > 1){
                 $imageSizeData = getimagesize($file[$i]);
                 if ($imageSizeData === FALSE)
                 {
+                    echo 'False';
                     //not an image and don't add to database
                 }else {
+                    echo 'true';
                     $fileName = $_FILES["files"][$i]["name"];
                     $tmpName = $_FILES["files"][$i]["tmp_name"];
 
@@ -44,6 +46,7 @@ if($loggedIn['user_group'] > 1){
                     $result = move_uploaded_file($tmpName, $filePath);
 
                     if($result){
+                        echo 'DB';
 
                         $imageName = addslashes($fileName);
 
