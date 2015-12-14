@@ -233,10 +233,11 @@ function savePictures(postId){
                 url: 'upload.php',
                 data: formData,
                 contentType: false,
-                processData: false,
+                processData: false
             })
                 .done(function (data) { //on successful response reload the page
-                    'location.href = "adventure.php?id=" + postId;
+                    //location.href = "adventure.php?id=" + postId;
+
                 })
                 .fail(function (data) { //on unsuccessful response output error
                     console.log("Error happened");
