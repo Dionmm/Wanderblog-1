@@ -26,7 +26,7 @@ try {
             echo json_encode($rows);
 
         } else {
-            echo json_encode(array('error' => 'bad'));
+            echo json_encode(array('error' => 'no rows found'));
         }
 
 
