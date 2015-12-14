@@ -45,17 +45,17 @@ if($loggedIn['user_group'] > 1){
 
                     if($result){
 
-                        $oConn = loginToDB();
+                        //$oConn = loginToDB();
 
-                        $imageName = addslashes($fileName);
+                        //$imageName = addslashes($fileName);
 
-                        $imagePath = addslashes($filePath);
+                        //$imagePath = addslashes($filePath);
 
-                        $sql_query = "INSERT INTO pictures VALUES(NULL,'$postID','$imageName','$imagePath', NOW())";
+                        //$sql_query = "INSERT INTO pictures VALUES(NULL,'$postID','$imageName','$imagePath', NOW())";
 
-                        if ($result = $oConn->query($sql_query)) {
+                        //if ($result = $oConn->query($sql_query)) {
                             //Picture added successfully
-                        }
+                        //}
                     }
                 }
             }
