@@ -17,7 +17,7 @@ try {
 
         $pictures = array();
 
-        $sql_query = "SELECT * FROM pictures WHERE PostID = '$postId'";
+        $sql_query = "SELECT * FROM pictures WHERE PostId = '$postId'";
 
         $result = $oConn->query($sql_query);
 
