@@ -15,7 +15,7 @@ window.onload = function() {
         success: function (data) {
             console.log(data);
             for (var key in data) {
-                console.log(data[key]);
+                console.log(data[key].Path);
                 var adventurePicture = data[key];
 
                 pictureCount++;
