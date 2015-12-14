@@ -34,8 +34,8 @@ if($loggedIn['user_group'] > 1){
                     //not an image and don't add to database
                 }else {
                     echo 'true';
-                    $fileName = $_FILES["files"][$i]["name"];
-                    $tmpName = $_FILES["files"][$i]["tmp_name"];
+                    $fileName = $_FILES["files"]["name"][$i];
+                    $tmpName = $_FILES["files"]["tmp_name"][$i];
 
                     $ext = substr(strrchr($fileName, "."), 1);
 
