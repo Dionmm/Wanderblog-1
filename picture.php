@@ -25,6 +25,7 @@ try {
 
         for ($i = 0; $i < count($rows); $i++) {
             $pictures = $rows;
+            //change
         }
 
         echo json_encode($pictures);
