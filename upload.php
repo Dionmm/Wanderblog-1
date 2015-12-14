@@ -25,6 +25,7 @@ if($loggedIn['user_group'] > 1){
 
             for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
                 $file = $_FILES["files"]["tmp_name"][$i];
+                echo 'Looped';
                 //Check file is an image
                 $imageSizeData = getimagesize($file[$i]);
                 if ($imageSizeData === FALSE)
