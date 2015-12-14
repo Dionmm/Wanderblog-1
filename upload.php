@@ -51,7 +51,7 @@ if($loggedIn['user_group'] > 1){
 
                         $imagePath = addslashes($filePath);
 
-                        $sql_query = "INSERT INTO pictures VALUES(NULL,'$postID','$imagePath', NOW())";
+                        $sql_query = "INSERT INTO pictures VALUES(NULL,'$postID','$imageName','$imagePath', NOW())";
 
                         if ($result = $oConn->query($sql_query)) {
                             //Picture added successfully
