@@ -14,10 +14,10 @@ $loggedIn = loggedIn();
 if($loggedIn['user_group'] > 1){
 
     try {
-        $postId = $_POST['postId'];
+        $postID = $_POST['postId'];
 
-        if($postId){
-            $uploadDir = 'uploads\\' . $postId . '\\';
+        if ($postID) {
+            $uploadDir = 'uploads\\' . $postID . '\\';
 
             if(!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
