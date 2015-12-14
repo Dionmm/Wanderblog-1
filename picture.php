@@ -16,18 +16,19 @@ try {
 
         $pictures = array();
 
-        $query = $oConn->prepare('SELECT * FROM pictures WHERE PostID = :PostID');
-
+        //Prepare statement, substitute :username with username field input
+        $query = $oConn->prepare('SELECT * FROM pictures WHERE pictures.PostID = :PostID'); //Query for PostID and any comments it may have
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        for ($i = 0; $i < count($rows); $i++) {
-            $pictures = $rows;
-            //change
+        if ($rows) {
+            echo json_encode($rows);
+
+        } else {
+            echo json_encode(array('error' => 'bad'));
         }
 
-        echo json_encode($rows);
 
     }else{
         echo 'Adventure not found';
