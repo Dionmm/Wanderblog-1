@@ -236,13 +236,13 @@ function savePictures(postId){
                 processData: false,
             })
                 .done(function (data) { //on successful response reload the page
-                    location.href = "adventure.php?id=" + postId;
+                    //location.href = "adventure.php?id=" + postId;
                 })
                 .fail(function (data) { //on unsuccessful response output error
                     console.log("Error happened");
                     console.log(data);
                     console.log(data.responseText);
-                    location.href = "adventure.php?id=" + postId;
+                    //location.href = "adventure.php?id=" + postId;
                 });
         }
     }
