@@ -23,17 +23,16 @@ if($loggedIn['user_group'] > 1){
                 mkdir($uploadDir, 0777, true);
             }
 
-            for($i=0; $i<count($_FILES['files']['name']); $i++) {
+            for ($i = 0; $i < count($_POST['files']); $i++) {
                 $file = $_FILES["files"]["tmp_name"][$i];
-
                 //Check file is an image
-                $imageSizeData = getimagesize($file);
+                $imageSizeData = getimagesize($file[$i]);
                 if ($imageSizeData === FALSE)
                 {
                     //not an image and don't add to database
                 }else {
-                    $fileName = $_FILES["files"]["name"][$i];
-                    $tmpName = $_FILES["files"]["tmp_name"][$i];
+                    $fileName = $_FILES["files"][$i]["name"];
+                    $tmpName = $_FILES["files"][$i]["tmp_name"];
 
                     $ext = substr(strrchr($fileName, "."), 1);
 
@@ -45,20 +44,26 @@ if($loggedIn['user_group'] > 1){
 
                     if($result){
 
-                        //$oConn = loginToDB();
+                        $imageName = addslashes($fileName);
 
-                        //$imageName = addslashes($fileName);
+                        $imagePath = addslashes($filePath);
 
-                        //$imagePath = addslashes($filePath);
+                        $oConn = loginToDB();
 
-                        //$sql_query = "INSERT INTO pictures VALUES(NULL,'$postID','$imageName','$imagePath', NOW())";
+                        $query = $oConn->prepare('INSERT INTO Pictures VALUES(NULL, :PostID, :imagename, :path, NOW())'); //Prepare query to check for existing postID
 
-                        //if ($result = $oConn->query($sql_query)) {
-                            //Picture added successfully
-                        //}
+                        $saveAdventure->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                        $saveAdventure->bindValue(':imagename', imageName, PDO::PARAM_STR);
+                        $saveAdventure->bindValue(':path', imagePath, PDO::PARAM_STR);
+
+                        if ($saveAdventure->execute()) {
+//                            Picture added successfully
+                            echo 'Success';
+                        }
                     }
                 }
             }
+            echo 'finished';
         }else{
             echo 'Adventure not found';
         }
