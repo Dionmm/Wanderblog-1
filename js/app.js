@@ -237,7 +237,7 @@ function savePictures(postId){
             })
                 .done(function (data) { //on successful response reload the page
                     //location.href = "adventure.php?id=" + postId;
-
+                    console.log(data);
                 })
                 .fail(function (data) { //on unsuccessful response output error
                     console.log("Error happened");
