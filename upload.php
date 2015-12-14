@@ -17,7 +17,7 @@ if($loggedIn['user_group'] > 1){
         $postId = $_POST['postId'];
 
         if($postId){
-            $uploadDir = 'uploads\\' . $postID . '\\';
+            $uploadDir = 'uploads\\' . $postId . '\\';
 
             if(!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
