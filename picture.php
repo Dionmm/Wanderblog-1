@@ -17,7 +17,7 @@ try {
         $pictures = array();
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT pictures.Path FROM pictures WHERE pictures.PictureID = !NULL'); //Query for PostID and any comments it may have
+        $query = $oConn->prepare('SELECT pictures.Path FROM pictures WHERE pictures.PictureID >1'); //Query for PostID and any comments it may have
 //        $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
