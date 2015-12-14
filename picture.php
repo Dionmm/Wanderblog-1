@@ -6,7 +6,6 @@
  * Time: 4:05 PM
  */
 require_once 'functions.php'; //Grabs any extra functions
-session_start();
 
 try {
     $postID = $_POST['adventureId'];
@@ -28,7 +27,7 @@ try {
             //change
         }
 
-        echo json_encode($pictures);
+        echo json_encode($rows);
 
     }else{
         echo 'Adventure not found';
