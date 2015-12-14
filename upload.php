@@ -23,7 +23,7 @@ if($loggedIn['user_group'] > 1){
                 mkdir($uploadDir, 0777, true);
             }
 
-            for ($i = 0; $i < count($_POST['files']); $i++) {
+            for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
                 $file = $_FILES["files"]["tmp_name"][$i];
                 //Check file is an image
                 $imageSizeData = getimagesize($file[$i]);
