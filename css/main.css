@@ -49,6 +49,10 @@ ul li img {
     list-style: none;
 }
 
+.glyphicon-remove {
+    font-size: 25px;
+}
+
 
 input[type="file"]{
     height: 200px;
