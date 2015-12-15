@@ -47,7 +47,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.removeImageIcon').click(function(){
+    $(document).on('click', '.removeImageIcon', function(){
         $(this).parent().remove();
     });
 });
