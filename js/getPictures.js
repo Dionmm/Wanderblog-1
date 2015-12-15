@@ -55,6 +55,10 @@ window.onload = function() {
                         previewRemove.appendChild(liRemove);
                         var newPictureRemove = document.getElementById(pictureRemoveId);
                         newPictureRemove.appendChild(img);
+                        var span = document.createElement("span");
+                        span.classList.add("glyphicon glyphicon-remove");
+                        previewRemove.appendChild(span);
+
                     }
                 }
                 }

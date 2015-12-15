@@ -45,6 +45,10 @@ ul li img {
     list-style: none;
 }
 
+#previewRemove li {
+    list-style: none;
+}
+
 
 input[type="file"]{
     height: 200px;
