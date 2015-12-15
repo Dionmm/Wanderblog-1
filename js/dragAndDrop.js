@@ -47,8 +47,8 @@ $(document).ready(function(){
         }
     });
 
-    $('.glyphicon-remove').on('click', function(){
-        $(this).parent().empty();
+    $('.removeImageIcon').click(function(){
+        $(this).parent().remove();
     });
 });
 
