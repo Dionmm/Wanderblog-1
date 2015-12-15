@@ -367,7 +367,7 @@ var removedImages = new Array();
 
 
 $(document).on('click', '.removeImageIcon', function(){
-    $(this).parent().children().css('opacity', '0.75');
+    $(this).parent().children().css('opacity', '0.3');
     //$(this).parent().remove();
 
 });
