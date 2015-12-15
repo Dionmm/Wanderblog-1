@@ -253,7 +253,7 @@ function savePost() {
     })
         .done(function (data) { //on successful response reload the page
             savePictures(data.PostID);
-
+            console.log(data);
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
@@ -384,7 +384,7 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
-var removedImages = new Array();
+var removedImages = [];
 
 
 

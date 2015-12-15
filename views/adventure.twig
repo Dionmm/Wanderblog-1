@@ -59,6 +59,8 @@
 
 {% include 'script_include.twig' %}
 <script>var PostID = '{{ postID }}';</script>
+<script src="../js/dragAndDrop.js"></script>
+<script src="../js/getPictures.js"></script>
 {% if editing is empty %}
 <script>loadComments(PostID,'{{ loggedIn.username }}',{{ loggedIn.user_group }},{{ canEdit }})</script>
 {% endif %}
