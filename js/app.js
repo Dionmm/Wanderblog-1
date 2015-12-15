@@ -368,10 +368,12 @@ var removedImages = new Array();
 
 $(document).on('click', '.removeImageIcon', function(){
     //$(this).parent().remove();
-    $(this).parent().children().css('opacity', '0.3');
-    var imageSource = $(this).parent().children("img").attr('src');
-    if(imageSource){
-        removedImages.push(imageSource);
+    if($(this).parent().children().css('opacity') != '0.3') {
+        $(this).parent().children().css('opacity', '0.3');
+        var imageSource = $(this).parent().children("img").attr('src');
+        if (imageSource) {
+            removedImages.push(imageSource);
+        }
     }
 });
 
