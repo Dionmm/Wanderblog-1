@@ -650,9 +650,15 @@ article.adventure {
     font-weight: 400;
 }
 
-.adventure.image-upload {
+.image-container-container {
+    display: flex;
+    padding: 30px;
+}
+
+.image-container {
     width: 50%;
     max-width: 1000px;
+    margin: auto;
 }
 .adventure b {
     font-weight: 700;

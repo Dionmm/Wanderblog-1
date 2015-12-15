@@ -23,11 +23,15 @@
         <!--@formatter:off--> <!-- ENSURE THIS ROW IS FORMATTED IN ONE LONG LINE-->
         <article class="col-sm-12 adventure"{% if editing is defined %} id="adventureContent" contenteditable="true"  role="textbox" placeholder="Start typing here to begin your adventure.." {% endif %}>{{ adventure.Content|raw }}</article>
          <!--@formatter:on-->
+    </div>
+<div class="row image-container-container">
+    <div class="image-container">
         {% if editing is defined %}
-        <div class="form-group">
-            <label>Select/Drag and drop pictures</label>
-            <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value="" accept="image/*" />
-        </div>
+            <div class="form-group">
+                <label>Select/Drag and drop pictures</label>
+                <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value=""
+                       accept="image/*"/>
+            </div>
         {% endif %}
         <div class="container">
             <ul class="row" id="preview">
@@ -35,6 +39,7 @@
             </ul>
         </div>
     </div>
+</div>
 
     {% include 'modal.twig' %}
 
