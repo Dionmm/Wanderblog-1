@@ -58,12 +58,5 @@
 {% if editing is empty %}
 <script>loadComments(PostID,'{{ loggedIn.username }}',{{ loggedIn.user_group }},{{ canEdit }})</script>
 {% endif %}
-{% if editing is defined %}
-    <script>
-        $("#preview").load(function(){
-            alert('Images loaded');
-        });
-    </script>
-{% endif %}
 </body>
 </html>

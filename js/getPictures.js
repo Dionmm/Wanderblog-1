@@ -37,6 +37,7 @@ window.onload = function() {
 
                     var newPicture = document.getElementById(pictureId);
                     newPicture.appendChild(img);
+                    newPicture.append("<span class='glyphicon glyphicon-remove'></span>")
                 }
                 }
         }, error: function (error) {
