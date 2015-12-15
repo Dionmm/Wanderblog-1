@@ -211,45 +211,52 @@ function saveAdventure($PostID, $SQLType)
             $city = NULL; //These will eventually have their own field to be filled out on the edit page
             $country = NULL;
 
-            try {
-                $oConn = loginToDB();
+            //Replace any styling added in by the user
+            $content = stringReplace($content);
 
-                //******POSSIBLY LOOK INTO SWAPPING THIS IF STATEMENT AROUND AS IT DEFAULTS TO AN UPDATE STATEMENT, OR CHANGE TO ELSE IF AND ADD AN ELSE FOR ERROR
-                //If the it's a new post then insert into DB
-                if ($SQLType === 'new') {
-                    $saveAdventure = $oConn->prepare("INSERT INTO Adventures VALUES (:PostID, :Username, :Title, :Content, 0, :City, :Country, NOW())");
-                    $saveAdventure->bindValue(':Username', $username, PDO::PARAM_STR);
-                } else { //Otherwise assume it is an UPDATE and update the existing Post where the PostID matches
-                    $saveAdventure = $oConn->prepare("UPDATE Adventures SET Title = :Title, Content = :Content, City = :City, Country = :Country WHERE PostID = :PostID");
+
+            if (stringCheck($content)) {
+
+                try {
+                    $oConn = loginToDB();
+
+                    //******POSSIBLY LOOK INTO SWAPPING THIS IF STATEMENT AROUND AS IT DEFAULTS TO AN UPDATE STATEMENT, OR CHANGE TO ELSE IF AND ADD AN ELSE FOR ERROR
+                    //If the it's a new post then insert into DB
+                    if ($SQLType === 'new') {
+                        $saveAdventure = $oConn->prepare("INSERT INTO Adventures VALUES (:PostID, :Username, :Title, :Content, 0, :City, :Country, NOW())");
+                        $saveAdventure->bindValue(':Username', $username, PDO::PARAM_STR);
+                    } else { //Otherwise assume it is an UPDATE and update the existing Post where the PostID matches
+                        $saveAdventure = $oConn->prepare("UPDATE Adventures SET Title = :Title, Content = :Content, City = :City, Country = :Country WHERE PostID = :PostID");
+                    }
+                    //Substitute field input
+                    $saveAdventure->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                    $saveAdventure->bindValue(':Title', $title, PDO::PARAM_STR);
+                    $saveAdventure->bindValue(':Content', $content, PDO::PARAM_STR);
+                    $saveAdventure->bindValue(':City', $city, PDO::PARAM_STR);
+                    $saveAdventure->bindValue(':Country', $country, PDO::PARAM_STR);
+
+                    //If the query was executed successfully then return success message and postID
+                    if ($saveAdventure->execute()) {
+                        //Unset the Id that was set earlier
+                        if (isset($_SESSION['editingID'])) {
+                            unset($_SESSION['editingID']);
+                        };
+                        $success = 'successfully added adventure to database';
+                        $returnMessage = json_encode(array('success' => $success, 'PostID' => $PostID));
+                    } else {
+                        $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+
+                    }
+                    echo $returnMessage;
+
+                } catch (PDOException $e) {
+                    echo 'ERROR: ' . $e->getMessage();
+                } finally {
+                    $oConn = null;
                 }
-                //Substitute field input
-                $saveAdventure->bindValue(':PostID', $PostID, PDO::PARAM_STR);
-                $saveAdventure->bindValue(':Title', $title, PDO::PARAM_STR);
-                $saveAdventure->bindValue(':Content', $content, PDO::PARAM_STR);
-                $saveAdventure->bindValue(':City', $city, PDO::PARAM_STR);
-                $saveAdventure->bindValue(':Country', $country, PDO::PARAM_STR);
-
-                //If the query was executed successfully then return success message and postID
-                if ($saveAdventure->execute()) {
-                    //Unset the Id that was set earlier
-                    if (isset($_SESSION['editingID'])) {
-                        unset($_SESSION['editingID']);
-                    };
-                    $success = 'successfully added adventure to database';
-                    $returnMessage = json_encode(array('success' => $success, 'PostID' => $PostID));
-                } else {
-                    $returnMessage = json_encode(array('error' => 'Failed to add to database'));
-
-                }
-                echo $returnMessage;
-
-            } catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
+            } else {
+                echo json_encode(array('error' => 'Your Adventure could not be saved'));
             }
-            finally{
-                $oConn = null;
-            }
-
 
         } else {
             echo 'Error: Fields were empty';
@@ -292,33 +299,39 @@ function addComment($PostID)
             $InReplyTo = NULL;
         }
 
+        $comment = stringReplace($comment);
 
-        //Create connection to database, query for username and verify password
-        try {
-            $oConn = loginToDB();
+        if (stringCheck($comment)) {
 
-            //Prepare statement, substitute :username with username field input
-            $addComment = $oConn->prepare("INSERT INTO Comments VALUES (NULL, :PostID, :Username, :Comment, NOW(), :InReplyTo)");
-            $addComment->bindValue(':PostID', $PostID, PDO::PARAM_STR);
-            $addComment->bindValue(':Username', $username, PDO::PARAM_STR);
-            $addComment->bindValue(':Comment', $comment, PDO::PARAM_STR);
-            $addComment->bindValue(':InReplyTo', $InReplyTo, PDO::PARAM_STR);
-            if ($addComment->execute()) {
-                $success = 'successfully added comment to database';
-                $returnMessage = json_encode(array('success' => $success));
-            } else {
-                $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+            //Create connection to database, query for username and verify password
+            try {
+                $oConn = loginToDB();
 
+                //Prepare statement, substitute :username with username field input
+                $addComment = $oConn->prepare("INSERT INTO Comments VALUES (NULL, :PostID, :Username, :Comment, NOW(), :InReplyTo)");
+                $addComment->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                $addComment->bindValue(':Username', $username, PDO::PARAM_STR);
+                $addComment->bindValue(':Comment', $comment, PDO::PARAM_STR);
+                $addComment->bindValue(':InReplyTo', $InReplyTo, PDO::PARAM_STR);
+                if ($addComment->execute()) {
+                    $success = 'successfully added comment to database';
+                    $returnMessage = json_encode(array('success' => $success));
+                } else {
+                    $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+
+                }
+                echo $returnMessage;
+
+            } catch (PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            } finally {
+                $oConn = null;
             }
-            echo $returnMessage;
 
-        } catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
-        }
-        finally{
-            $oConn = null;
-        }
+        } else {
+            echo json_encode(array('error' => 'Your comment could not be saved'));
 
+        }
 
     } else {
         echo '500'; //return server error
@@ -335,30 +348,38 @@ function editComment($commentID)
 
         $commentContent = $_POST['comment']; //grab the comment from the post
 
-        //Create connection to database, query for username and verify password
-        try {
-            $oConn = loginToDB();
+        $commentContent = stringReplace($commentContent);
 
-            //Prepare statement, substitute :username with username field input
-            $editComment = $oConn->prepare("UPDATE Comments SET Comments.Content = :commentContent WHERE Comments.CommentID = :commentID AND Comments.Username = :username");
-            $editComment->bindValue(':commentContent', $commentContent, PDO::PARAM_STR);
-            $editComment->bindValue(':username', $_SESSION['username'], PDO::PARAM_STR);
-            $editComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
-            if ($editComment->execute()) {
-                $success = 'successfully updated comment in database';
-                $returnMessage = json_encode(array('success' => $success));
-            } else {
-                $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+        if (stringCheck($commentContent)) {
 
+            //Create connection to database, query for username and verify password
+            try {
+                $oConn = loginToDB();
+
+                //Prepare statement, substitute :username with username field input
+                $editComment = $oConn->prepare("UPDATE Comments SET Comments.Content = :commentContent WHERE Comments.CommentID = :commentID AND Comments.Username = :username");
+                $editComment->bindValue(':commentContent', $commentContent, PDO::PARAM_STR);
+                $editComment->bindValue(':username', $_SESSION['username'], PDO::PARAM_STR);
+                $editComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
+                if ($editComment->execute()) {
+                    $success = 'successfully updated comment in database';
+                    $returnMessage = json_encode(array('success' => $success));
+                } else {
+                    $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+
+                }
+                echo $returnMessage;
+
+            } catch (PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            } finally {
+                $oConn = null;
             }
-            echo $returnMessage;
 
-        } catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
-        } finally {
-            $oConn = null;
+        } else {
+            echo json_encode(array('error' => 'Your comment could not be saved'));
+
         }
-
 
     } else {
         echo '500'; //return server error
@@ -451,4 +472,52 @@ function deleteAdventure($PostID)
     }
 }
 
+function stringReplace($string)
+{
+    //Lazy and couldn't be bothered writing an array when this is due in two days
+    $string = preg_replace('~ style="(.*)"~', '', $string);
+    $string = preg_replace('~<div>~', '<br>', $string);
+    $string = preg_replace('~</div>~', '', $string);
 
+    return $string;
+
+}
+
+//checks the string for any whitelisted html tags, if it picks up tags that don't match then it returns false
+function stringCheck($string)
+{
+    preg_match_all('~<(.*?)>~', $string, $output);
+
+    $noBadMatch = true;
+    foreach ($output[1] as $match) {
+        switch ($match) {
+            case 'br':
+            case 'b':
+            case 'strong':
+            case 'i':
+            case 'em':
+            case 'h2':
+            case 'h3':
+            case 'h4':
+            case 'h5':
+            case 'p':
+            case 'span':
+            case '/br':
+            case '/b':
+            case '/strong':
+            case '/i':
+            case '/em':
+            case '/h2':
+            case '/h3':
+            case '/h4':
+            case '/h5':
+            case '/p':
+            case '/span':
+                break;
+            default:
+                $noBadMatch = false;
+                return $noBadMatch;
+        }
+    }
+    return $noBadMatch;
+}
