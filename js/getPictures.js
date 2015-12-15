@@ -14,28 +14,54 @@ window.onload = function() {
         dataType: 'json',
         success: function (data) {
             for (var key in data) {
-                var adventurePicture = data[key].Path;
+                if(!data.error) {
+                    var adventurePicture = data[key].Path;
 
-                pictureCount++;
+                    pictureCount++;
 
-                var pictureId = "picture" + pictureCount;
+                    var pictureId = "picture" + pictureCount;
 
-                var li = document.createElement("li");
-                li.classList.add("col-lg-2");
-                li.classList.add("col-md-2");
-                li.classList.add("col-sm-3");
-                li.classList.add("col-xs-4");
-                li.id = pictureId;
+                    var pictureRemoveId = "pictureRemove" + pictureCount;
 
-                var img = document.createElement("img");
-                img.classList.add("img-thumbnail");
-                img.src = adventurePicture;
+                    var li = document.createElement("li");
+                    li.classList.add("col-lg-2");
+                    li.classList.add("col-md-2");
+                    li.classList.add("col-sm-3");
+                    li.classList.add("col-xs-4");
+                    li.id = pictureId;
 
-                var preview = document.getElementById("preview");
-                preview.appendChild(li); // Assuming that "preview" is the div output where the content will be displayed.
+                    var liRemove = document.createElement("li");
+                    liRemove.classList.add("col-lg-2");
+                    liRemove.classList.add("col-md-2");
+                    liRemove.classList.add("col-sm-3");
+                    liRemove.classList.add("col-xs-4");
+                    liRemove.id = pictureRemoveId;
 
-                var newPicture = document.getElementById(pictureId);
-                newPicture.appendChild(img);
+                    var img = document.createElement("img");
+                    img.classList.add("img-thumbnail");
+                    img.src = adventurePicture;
+
+                    var preview = document.getElementById("preview");
+
+                    if(preview){
+                        preview.appendChild(li);
+                        var newPicture = document.getElementById(pictureId);
+                        newPicture.appendChild(img);
+                    }
+
+                    var previewRemove = document.getElementById("previewRemove");
+
+                    if(previewRemove){
+                        previewRemove.appendChild(liRemove);
+                        var newPictureRemove = document.getElementById(pictureRemoveId);
+                        newPictureRemove.appendChild(img);
+                        var span = document.createElement("span");
+                        span.classList.add("glyphicon");
+                        span.classList.add("glyphicon-remove");
+                        newPictureRemove.appendChild(span);
+
+                    }
+                }
                 }
         }, error: function (error) {
             console.log("Error: " + JSON.stringify(error));

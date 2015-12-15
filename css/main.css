@@ -39,8 +39,16 @@ ul li img {
 }
 
 #preview li {
+     list-style: none;
+ }
+#previewEdit li {
     list-style: none;
 }
+
+#previewRemove li {
+    list-style: none;
+}
+
 
 input[type="file"]{
     height: 200px;

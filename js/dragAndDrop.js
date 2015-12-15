@@ -6,7 +6,7 @@ $(document).ready(function(){
 
     function handleFiles(files){
 
-        document.getElementById("preview").innerHTML = "";
+        document.getElementById("previewEdit").innerHTML = "";
 
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
@@ -28,7 +28,7 @@ $(document).ready(function(){
             img.classList.add("img-thumbnail");
             img.file = file;
 
-            var preview = document.getElementById("preview");
+            var preview = document.getElementById("previewEdit");
             preview.appendChild(li); // Assuming that "preview" is the div output where the content will be displayed.
 
             var newPicture = document.getElementById(picture)

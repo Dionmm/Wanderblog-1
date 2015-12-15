@@ -34,9 +34,19 @@
             </div>
         {% endif %}
         <div class="container">
-            <ul class="row" id="preview">
+            {% if editing is defined %}
+                <ul class="row" id="previewEdit">
 
-            </ul>
+                </ul>
+                <ul class="row" id="previewRemove">
+
+                </ul>
+            {%  else %}
+                <ul class="row" id="preview">
+
+                </ul>
+            {% endif %}
+
         </div>
     </div>
 </div>
