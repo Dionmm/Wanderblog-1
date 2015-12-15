@@ -15,6 +15,9 @@ if (isset($_GET['id'])) {
     if (isset($_POST['loadComment'])) {
         //Load the comments
         loadComments($PostID);
+    } else if (isset($_POST['commentEdited'])) {
+        //Update existing comment
+        editComment($PostID, $_POST['commentEdited']);
     } else if (isset($_POST['comment'])) {
         //Add a new comment
         addComment($PostID);
@@ -319,6 +322,46 @@ function addComment($PostID)
     }
 }
 
+function editComment($PostID, $commentID)
+{
+    //Check for logged in
+    $loggedIn = loggedIn();
+
+    //Check the comment is not empty and that the user has sufficient permissions to post a comment (Equal to or greater than READER)
+    if (!empty($_POST['comment']) && $loggedIn['user_group'] > 0) {
+
+        $commentContent = $_POST['comment']; //grab the comment from the post
+        $username = $_SESSION['username'];
+
+        //Create connection to database, query for username and verify password
+        try {
+            $oConn = loginToDB();
+
+            //Prepare statement, substitute :username with username field input
+            $addComment = $oConn->prepare("UPDATE Comments SET Comments.Content = :commentContent WHERE Comments.CommentID = :commentID");
+            $addComment->bindValue(':commentContent', $commentContent, PDO::PARAM_STR);
+            $addComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
+            if ($addComment->execute()) {
+                $success = 'successfully updated comment in database';
+                $returnMessage = json_encode(array('success' => $success));
+            } else {
+                $returnMessage = json_encode(array('error' => 'Failed to add to database'));
+
+            }
+            echo $returnMessage;
+
+        } catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        } finally {
+            $oConn = null;
+        }
+
+
+    } else {
+        echo '500'; //return server error
+    }
+
+}
 function deleteAdventure($PostID)
 {
     //Check for logged in

@@ -92,9 +92,6 @@ function loadComments(postID, username, user_group, canEdit) {
         .done(function (data) { //on successful response displays comments
 
             var commentActionsString = '';
-            if(user_group >= 1){
-                commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p></div>';
-            }
 
             $.each(data, function(){
 
@@ -104,16 +101,18 @@ function loadComments(postID, username, user_group, canEdit) {
                     commentSelector = $('[data-comment-id="'+ this.InReplyTo +'"]');
                 }
 
-                if(canEdit === 1 || username === this.Username){
-                    var commentEditingString = '<p>You can edit this</p>'
-                }
+
                 var commentString = '<div class="comment" data-comment-id="' + this.CommentID + '">' +
                     '<h4 class="comment-author">' + this.Username + '</h4>' +
                     '<h5 class="comment-timestamp">' + this.DatePosted + '</h5>' +
                     '<p class="comment-content">' + this.Content + '</p>';
 
-                if(canEdit === 1 || username === this.Username){
-                    commentString = commentString + '<p>You can edit this</p>'
+                if (user_group >= 1) {
+                    commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p>';
+                    if (canEdit === 1 || username === this.Username) {
+                        commentActionsString += '<p class="edit-comment-button"><i class="pe-7s-pen"></i> Edit</p>';
+                    }
+                    commentActionsString += '</div>';
                 }
 
                 commentSelector.append(commentString + commentActionsString + '</div>');
@@ -143,8 +142,7 @@ function commentForm() {
         })
             .done(function (data) { //on successful response reload the page
                 console.log(data);
-
-                //location.reload();
+                location.reload();
             })
             .fail(function (data) { //on unsuccessful response output error
                 console.log("Error happened");
@@ -157,12 +155,22 @@ function commentForm() {
 }
 
 $('.comment-container').on('click', '.replyButton', function () {
-    $(this).parent().html(
+    var replySection = $(this).parent();
+    replySection.html(
         '<div class="comment-box reply">' +
         '<div contenteditable="true" placeholder="Your reply..." id="comment-reply"></div>' +
         '<button id="save-reply-button">submit</button>' +
         '</div>'
     );
+});
+
+$('.comment-container').on('click', '.edit-comment-button', function () {
+    var commentContent = $(this).parent().prev();
+    commentContent.attr('contenteditable', 'true');
+    commentContent.focus();
+    $(this).html('<i class="pe-7s-diskette"></i> Save');
+    $(this).attr('class', 'save-comment-button');
+
 });
 
 $('.comment-container').on('click', '#save-reply-button', function () {
@@ -186,6 +194,29 @@ $('.comment-container').on('click', '#save-reply-button', function () {
             console.log(data.responseText);
         });
 
+});
+
+$('.comment-container').on('click', '.save-comment-button', function () {
+    var commentContent = $(this).parent().prev().html(); //has to be html to grab the line breaks
+    var commentEdited = $(this).parent().parent().data('commentId');
+
+    console.log(commentContent);
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + PostID,
+        data: {comment: commentContent, commentEdited: commentEdited},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data);
+            console.log(data.success);
+            location.reload();
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
 });
 
 function savePost() {
@@ -248,6 +279,8 @@ function savePictures(postId){
                     console.log(data.responseText);
                 });
         }
+    } else {
+        location.href = "adventure.php?id=" + postId;
     }
 }
 
@@ -288,11 +321,6 @@ function loadMoreAdventures() {
 $('#editButton').click(function () {
     location.href = "adventure.php?id=" + PostID + "&edit=1";
 });
-//causes all other list items on all other pages to fire this function....
-//please try to use more specific selectors
-/*$('li:first-child').click(function () {
-    savePost();
-});*/
 
 $('#publish-adventure-button').on('click', function(){
     savePost();
