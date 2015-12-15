@@ -362,6 +362,12 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
+
+$(document).on('click', '.removeImageIcon', function(){
+    $(this).parent().remove();
+
+});
+
 $(document).ready(function () {
     //When editing this will automatically focus on the article title
     $('#adventureTitle').focus();

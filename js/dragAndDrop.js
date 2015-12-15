@@ -46,10 +46,6 @@ $(document).ready(function(){
             $('#imagemodal').modal('show');
         }
     });
-
-    $(document).on('click', '.removeImageIcon', function(){
-        $(this).parent().remove();
-    });
 });
 
 
