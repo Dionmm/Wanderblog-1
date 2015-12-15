@@ -19,7 +19,6 @@ function loginForm() {
         if (data.success) {
             location.reload();
         } else if (data.error) {
-            $('#loginForm').text('');
             $('#loginForm').prepend(data.error);
             $('.modal-submit').html('Sign In');
 
