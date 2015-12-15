@@ -41,10 +41,9 @@
     </div>
 </div>
 
-    {% include 'modal.twig' %}
-
     {% if editing is empty %}
-    {% include 'comment.twig' %}
+        {% include 'comment.twig' %}
+        {% include 'modal.twig' %}
     {% endif %}
 </div>
 
