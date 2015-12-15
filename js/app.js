@@ -106,11 +106,13 @@ function loadComments(postID, username, user_group, canEdit) {
                     '<h4 class="comment-author">' + this.Username + '</h4>' +
                     '<h5 class="comment-timestamp">' + this.DatePosted + '</h5>' +
                     '<p class="comment-content">' + this.Content + '</p>';
+                console.log(canEdit + ' ' + username + ' ' + this.Username);
 
                 if (user_group >= 1) {
                     commentActionsString = '<div class="comment-actions"><p class="replyButton"><i class="pe-7s-back"></i> Reply</p>';
                     if (canEdit === 1 || username === this.Username) {
-                        commentActionsString += '<p class="edit-comment-button"><i class="pe-7s-pen"></i> Edit</p>';
+                        commentActionsString += '<p class="edit-comment-button"><i class="pe-7s-pen"></i> Edit</p>' +
+                            '<p class="delete-comment-button"><i class="pe-7s-close-circle"></i> Delete</p>';
                     }
                     commentActionsString += '</div>';
                 }
@@ -173,6 +175,27 @@ $('.comment-container').on('click', '.edit-comment-button', function () {
 
 });
 
+$('.comment-container').on('click', '.delete-comment-button', function () {
+    var commentDeleted = $(this).parent().parent().data('commentId');
+
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + PostID,
+        data: {commentDeleted: commentDeleted},
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data);
+            console.log(data.success);
+            location.reload();
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
+});
+
 $('.comment-container').on('click', '#save-reply-button', function () {
     var commentContent = $(this).siblings().html(); //has to be html to grab the line breaks
     var replyingTo = $(this).parent().parent().parent().data('commentId');
@@ -200,7 +223,6 @@ $('.comment-container').on('click', '.save-comment-button', function () {
     var commentContent = $(this).parent().prev().html(); //has to be html to grab the line breaks
     var commentEdited = $(this).parent().parent().data('commentId');
 
-    console.log(commentContent);
     $.ajax({
         type: 'POST',
         url: 'adventure.php?id=' + PostID,

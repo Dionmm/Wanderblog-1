@@ -15,9 +15,12 @@ if (isset($_GET['id'])) {
     if (isset($_POST['loadComment'])) {
         //Load the comments
         loadComments($PostID);
+    } else if (isset($_POST['commentDeleted'])) {
+        //Delete an existing comment
+        deleteComment($_POST['commentDeleted'], $PostID);
     } else if (isset($_POST['commentEdited'])) {
         //Update existing comment
-        editComment($PostID, $_POST['commentEdited']);
+        editComment($_POST['commentEdited']);
     } else if (isset($_POST['comment'])) {
         //Add a new comment
         addComment($PostID);
@@ -70,7 +73,7 @@ function readAdventure($PostID)
             //Check if they own the adventure or are admin
             $canEdit = 0;
             if ($loggedIn['loggedIn']) {
-                if ($_SESSION['user_group'] == 'admin' || $_SESSION['username'] == $rows[0]['Username'][0]) {
+                if ($_SESSION['user_group'] == 'admin' || $_SESSION['username'] == $rows[0]['Username']) {
                     $canEdit = true;
                 }
             }
@@ -322,7 +325,7 @@ function addComment($PostID)
     }
 }
 
-function editComment($PostID, $commentID)
+function editComment($commentID)
 {
     //Check for logged in
     $loggedIn = loggedIn();
@@ -331,17 +334,17 @@ function editComment($PostID, $commentID)
     if (!empty($_POST['comment']) && $loggedIn['user_group'] > 0) {
 
         $commentContent = $_POST['comment']; //grab the comment from the post
-        $username = $_SESSION['username'];
 
         //Create connection to database, query for username and verify password
         try {
             $oConn = loginToDB();
 
             //Prepare statement, substitute :username with username field input
-            $addComment = $oConn->prepare("UPDATE Comments SET Comments.Content = :commentContent WHERE Comments.CommentID = :commentID");
-            $addComment->bindValue(':commentContent', $commentContent, PDO::PARAM_STR);
-            $addComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
-            if ($addComment->execute()) {
+            $editComment = $oConn->prepare("UPDATE Comments SET Comments.Content = :commentContent WHERE Comments.CommentID = :commentID AND Comments.Username = :username");
+            $editComment->bindValue(':commentContent', $commentContent, PDO::PARAM_STR);
+            $editComment->bindValue(':username', $_SESSION['username'], PDO::PARAM_STR);
+            $editComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
+            if ($editComment->execute()) {
                 $success = 'successfully updated comment in database';
                 $returnMessage = json_encode(array('success' => $success));
             } else {
@@ -359,6 +362,47 @@ function editComment($PostID, $commentID)
 
     } else {
         echo '500'; //return server error
+    }
+
+}
+
+function deleteComment($commentID, $PostID)
+{
+    //Check for logged in
+    $loggedIn = loggedIn();
+
+    //Create connection to database, query for username and verify password
+    try {
+        $oConn = loginToDB();
+
+        //Check that the user has sufficient permissions to delete a comment (Equal to or greater than READER)
+        //This method will only delete the top comment of a thread, all others will be left in DB but will not be shown
+        if ($loggedIn['user_group'] = 3) {
+            $delComment = $oConn->prepare("DELETE FROM Comments WHERE Comments.CommentID = :commentID");
+        } else if ($loggedIn['user_group'] = 2) {
+            $delComment = $oConn->prepare("DELETE Comments.* FROM Comments LEFT JOIN Adventures ON Comments.PostID = Adventures.PostID WHERE Adventures.Username = :username AND Comments.CommentID = :commentID AND Comments.PostID = :postID");
+            $delComment->bindValue(':postID', $PostID, PDO::PARAM_STR);
+            $delComment->bindValue(':username', $_SESSION['username'], PDO::PARAM_STR);
+        } else {
+            $delComment = $oConn->prepare("DELETE FROM Comments WHERE Comments.CommentID = :commentID AND Comments.Username = :username");
+            $delComment->bindValue(':postID', $PostID, PDO::PARAM_STR);
+            $delComment->bindValue(':username', $_SESSION['username'], PDO::PARAM_STR);
+        }
+        //Prepare statement, substitute :username with username field input
+        $delComment->bindValue(':commentID', $commentID, PDO::PARAM_INT);
+        if ($delComment->execute()) {
+            $success = 'successfully deleted comment from database';
+            $returnMessage = json_encode(array('success' => $success));
+        } else {
+            $returnMessage = json_encode(array('error' => 'Failed to delete from database'));
+
+        }
+        echo $returnMessage;
+
+    } catch (PDOException $e) {
+        echo 'ERROR: ' . $e->getMessage();
+    } finally {
+        $oConn = null;
     }
 
 }

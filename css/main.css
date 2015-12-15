@@ -713,8 +713,11 @@ article.adventure {
     color: #D91E18;
 }
 
-.comment-actions {
+.comment > p {
     border-bottom: 1px solid grey;
+    margin: 0;
+}
+.comment-actions {
     display: flex;
 }
 
