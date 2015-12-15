@@ -21,7 +21,7 @@
 
     <div class="row adventure-container">
         <!--@formatter:off--> <!-- ENSURE THIS ROW IS FORMATTED IN ONE LONG LINE-->
-        <article class="col-sm-12 adventure"{% if editing is defined %} id="adventureContent" contenteditable="true"  role="textbox" placeholder="Start typing here to begin your adventure.." {% endif %}>{{ adventure.Content|raw }}</article>
+        <article onmousedown="return false" class="col-sm-12 adventure"{% if editing is defined %} id="adventureContent" contenteditable="true"  role="textbox" placeholder="Start typing here to begin your adventure.." {% endif %}>{{ adventure.Content|raw }}</article>
          <!--@formatter:on-->
         {% if editing is defined %}
         <div class="form-group">
