@@ -21,6 +21,8 @@ window.onload = function() {
 
                     var pictureId = "picture" + pictureCount;
 
+                    var pictureRemoveId = "pictureRemove" + pictureCount;
+
                     var li = document.createElement("li");
                     li.classList.add("col-lg-2");
                     li.classList.add("col-md-2");
@@ -28,15 +30,32 @@ window.onload = function() {
                     li.classList.add("col-xs-4");
                     li.id = pictureId;
 
+                    var liRemove = document.createElement("li");
+                    liRemove.classList.add("col-lg-2");
+                    liRemove.classList.add("col-md-2");
+                    liRemove.classList.add("col-sm-3");
+                    liRemove.classList.add("col-xs-4");
+                    liRemove.id = pictureRemoveId;
+
                     var img = document.createElement("img");
                     img.classList.add("img-thumbnail");
                     img.src = adventurePicture;
 
                     var preview = document.getElementById("preview");
-                    preview.appendChild(li); // Assuming that "preview" is the div output where the content will be displayed.
 
-                    var newPicture = document.getElementById(pictureId);
-                    newPicture.appendChild(img);
+                    if(preview){
+                        preview.appendChild(li);
+                        var newPicture = document.getElementById(pictureId);
+                        newPicture.appendChild(img);
+                    }
+
+                    var previewRemove = document.getElementById("previewRemove");
+
+                    if(previewRemove){
+                        previewRemove.appendChild(liRemove);
+                        var newPictureRemove = document.getElementById(pictureRemoveId);
+                        newPictureRemove.appendChild(img);
+                    }
                 }
                 }
         }, error: function (error) {
