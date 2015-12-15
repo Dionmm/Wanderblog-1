@@ -22,7 +22,6 @@ if($data){
                 echo "Picture deleted from server";
 
                 //query to remove from database
-                //Prepare statement, substitute :username with username field input
                 $query = $oConn->prepare("DELETE FROM pictures WHERE pictures.Path = '$d'");
                 if($query->execute()){
                     echo "Picture deleted from database";
