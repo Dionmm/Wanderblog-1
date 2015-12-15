@@ -252,7 +252,12 @@ function savePost() {
         dataType: 'json',
     })
         .done(function (data) { //on successful response reload the page
-            savePictures(data.PostID);
+            if(removedImages.length > 0){
+                deletePictures(data.PostID);
+            }else{
+                savePictures(data.PostID);
+            }
+
 
         })
         .fail(function (data) { //on unsuccessful response output error
@@ -304,6 +309,28 @@ function savePictures(postId){
     } else {
         location.href = "adventure.php?id=" + postId;
     }
+}
+
+function deletePictures(postId){
+
+    var jsonString = JSON.stringify(removedImages);
+
+    $.ajax({
+            type: 'POST',
+            url: 'deletePictures.php',
+            data: {data: jsonString},
+            cache: false,
+        })
+        .done(function (data) { //on successful response reload the page
+            console.log(data);
+            location.href = "adventure.php?id=" + postId;
+            removedImages = [];
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
 }
 
 function loadMoreAdventures() {
