@@ -46,6 +46,10 @@ $(document).ready(function(){
             $('#imagemodal').modal('show');
         }
     });
+
+    $('.glyphicon-remove').on('click', function(){
+        $(this).parent().empty();
+    });
 });
 
 
