@@ -254,6 +254,7 @@ function savePost() {
         .done(function (data) { //on successful response reload the page
             if(removedImages.length > 0){
                 deletePictures(data.PostID);
+                savePictures(data.PostID);
             }else{
                 savePictures(data.PostID);
             }

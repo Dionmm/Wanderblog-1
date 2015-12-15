@@ -15,8 +15,18 @@ if($data){
 
         foreach($data as $d){
 
+            //If file exists on server
             if(file_exists($d)){
-                echo "file found";
+                //remove the file
+                unlink($d);
+                echo "Picture deleted from server";
+
+                //query to remove from database
+                //Prepare statement, substitute :username with username field input
+                $query = $oConn->prepare("DELETE FROM pictures WHERE pictures.Path = '$d'");
+                if($query->execute()){
+                    echo "Picture deleted from database";
+                }
             }else{
                 echo "file not found";
             }
@@ -26,4 +36,6 @@ if($data){
     }finally{
         $oConn = null;
     }
+}else{
+    echo "No data";
 }
