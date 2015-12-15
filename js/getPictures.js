@@ -58,7 +58,7 @@ window.onload = function() {
                         var span = document.createElement("span");
                         span.classList.add("glyphicon");
                         span.classList.add("glyphicon-remove");
-                        previewRemove.appendChild(span);
+                        newPictureRemove.appendChild(span);
 
                     }
                 }
