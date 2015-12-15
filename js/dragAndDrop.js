@@ -41,8 +41,10 @@ $(document).ready(function(){
     }
 
     $('body').on('click','img',function(){
-        $('#imagepreview').attr('src', $(this).attr('src'));
-        $('#imagemodal').modal('show');
+        if($(this).attr('id') != 'logo'){
+            $('#imagepreview').attr('src', $(this).attr('src'));
+            $('#imagemodal').modal('show');
+        }
     });
 });
 
