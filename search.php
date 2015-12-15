@@ -16,7 +16,7 @@ try {
     $adventures = $query->fetchAll(PDO::FETCH_ASSOC);
 
     //Selects only users of type author or admin
-    $query = $oConn->prepare("SELECT * FROM User WHERE (User.FirstName LIKE '%$searchedQuery%' OR User.LastName LIKE '%$searchedQuery%') AND (User.UserType REGEXP 'author|admin')");
+    $query = $oConn->prepare("SELECT * FROM User WHERE (User.FirstName LIKE '%$searchedQuery%' OR User.LastName LIKE '%$searchedQuery%' OR User.Username LIKE '%$searchedQuery%') AND (User.UserType REGEXP 'author|admin')");
     $query->execute();
     $authors = $query->fetchAll(PDO::FETCH_ASSOC);
 
