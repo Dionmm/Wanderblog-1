@@ -19,7 +19,10 @@ function loginForm() {
         if (data.success) {
             location.reload();
         } else if (data.error) {
-            $('#loginForm').prepend(data.error);
+            var error = $('#loginForm').text().indexOf(data.error) > -1;
+            if(!error){
+                $('#loginForm').prepend(data.error);
+            }
             $('.modal-submit').html('Sign In');
 
         } else {
