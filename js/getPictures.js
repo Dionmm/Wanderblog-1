@@ -56,7 +56,8 @@ window.onload = function() {
                         var newPictureRemove = document.getElementById(pictureRemoveId);
                         newPictureRemove.appendChild(img);
                         var span = document.createElement("span");
-                        span.classList.add("glyphicon glyphicon-remove");
+                        span.classList.add("glyphicon");
+                        span.classList.add("glyphicon-remove");
                         previewRemove.appendChild(span);
 
                     }
