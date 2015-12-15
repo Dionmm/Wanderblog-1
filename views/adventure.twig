@@ -60,7 +60,9 @@
 {% endif %}
 {% if editing is defined %}
     <script>
-
+        $("#preview li img").load(function(){
+            alert('Images loaded');
+        });
     </script>
 {% endif %}
 </body>
