@@ -53,5 +53,12 @@
 {% if editing is empty %}
 <script>loadComments(PostID,'{{ loggedIn.username }}',{{ loggedIn.user_group }},{{ canEdit }})</script>
 {% endif %}
+{% if editing is defined %}
+    <script>
+        $('#preview li').each(function() {
+           $(this).append("<span class='glyphicon glyphicon-remove'></span>")
+        });
+    </script>
+{% endif %}
 </body>
 </html>
