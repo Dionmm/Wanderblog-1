@@ -64,7 +64,7 @@ input[type="file"]:hover{
 }
 
 #pictureDialog {
-    width: 800px;
+    width: 50%;
 }
 
 .loadMore{
