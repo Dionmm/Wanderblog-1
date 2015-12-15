@@ -19,12 +19,12 @@ if($data){
             if(file_exists($d)){
                 //remove the file
                 unlink($d);
-                echo "Picture deleted from server";
+                echo "Picture deleted from server...";
 
                 //query to remove from database
                 $query = $oConn->prepare("DELETE FROM pictures WHERE pictures.Path = '$d'");
                 if($query->execute()){
-                    echo "Picture deleted from database";
+                    echo "Picture deleted from database...";
                 }
             }else{
                 echo "file not found";
