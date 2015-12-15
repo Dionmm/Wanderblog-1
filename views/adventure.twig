@@ -34,6 +34,11 @@
             </div>
         {% endif %}
         <div class="container">
+            {% if editing is defined %}
+            <ul class="row" id="previewEdit">
+
+            </ul>
+            {% endif %}
             <ul class="row" id="preview">
 
             </ul>
@@ -55,7 +60,7 @@
 {% endif %}
 {% if editing is defined %}
     <script>
-        $('#picture1').append("<span class='glyphicon glyphicon-remove'></span>");
+
     </script>
 {% endif %}
 </body>
