@@ -384,6 +384,21 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
+var removedImages = new Array();
+
+
+
+$(document).on('click', '.removeImageIcon', function(){
+    //$(this).parent().remove();
+    if($(this).parent().children().css('opacity') != '0.3') {
+        $(this).parent().children().css('opacity', '0.3');
+        var imageSource = $(this).parent().children("img").attr('src');
+        if (imageSource) {
+            removedImages.push(imageSource);
+        }
+    }
+});
+
 $(document).ready(function () {
     //When editing this will automatically focus on the article title
     $('#adventureTitle').focus();
