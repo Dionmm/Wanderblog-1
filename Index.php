@@ -8,7 +8,7 @@ if (isset($_POST['timesRequested'])) {
     $oConn = loginToDB();
 
     //Prepare statement, substitute :username with username field input
-    $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT :limit, 8');
+    $query = $oConn->prepare('SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID ORDER BY DatePosted DESC LIMIT :limit, 8');
     $query->bindValue(':limit', $timesRequested * 8, PDO::PARAM_INT);
     $query->execute();
     $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
@@ -25,7 +25,7 @@ if (isset($_POST['timesRequested'])) {
         $oConn = loginToDB();
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT PostID, Username, Title, Upvotes, DatePosted FROM Adventures ORDER BY DatePosted DESC LIMIT 8'); // Grab the 8 most recent Adventures
+        $query = $oConn->prepare('SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID ORDER BY DatePosted DESC LIMIT 8'); // Grab the 8 most recent Adventures
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 

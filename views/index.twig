@@ -22,16 +22,21 @@
 
                 {% for adventure in adventures %}
                     <div class="card">
-                        <div class="card-text-container">
-                            <h3>{{ adventure.Title }}</h3>
-
-                            <p>by: {{ adventure.Username }}</p>
+                        <div class="card-image-container">
+                            <div style="background-image: url('{{ adventure.Path }}');"></div>
                             <a href="/adventure.php?id={{ adventure.PostID }}"><span class="adventureLink"></span></a>
                         </div>
-                        <div class="card-footer">
-                            <i class="pe-7s-like pe-2x likeButton" data-post-id="{{ adventure.PostID }}"></i>
+                        <div class="card-text-container">
+                            <div class="adventure-title">
+                                <h3>{{ adventure.Title }}</h3>
 
-                            <p>{{ adventure.Upvotes }} Likes</p>
+                                <p>by: {{ adventure.Username }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <i class="pe-7s-like pe-2x likeButton" data-post-id="{{ adventure.PostID }}"></i>
+
+                                <p>{{ adventure.Upvotes }} Likes</p>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
