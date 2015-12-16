@@ -55,7 +55,7 @@ function readAdventure($PostID)
         $oConn = loginToDB(); //Login to DB (Functions.php)
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT * FROM Adventures WHERE Adventures.PostID = :PostID'); //Query for PostID and any comments it may have
+        $query = $oConn->prepare('SELECT A.PostID, A.Username, A.Title, A.Content, A.Upvotes, A.City, A.Country, COUNT(C.`CommentID`) as CommentCount FROM Adventures as A LEFT JOIN Comments as C ON A.PostID = C.PostID WHERE A.PostID = :PostID'); //Query for PostID and any comments it may have
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
