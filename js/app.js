@@ -391,7 +391,7 @@ $('.card-container').on('click', '.likeButton', function () {
     var colour = $(this).css('color');
 
     if (colour === 'rgb(217, 30, 24)') {
-        colour = 'rgb(51, 51, 51)';
+        colour = 'rgb(245, 245, 245)';
     } else {
         colour = 'rgb(217, 30, 24)';
     }
@@ -412,7 +412,7 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
-var removedImages = new Array();
+var removedImages = [];
 
 
 
@@ -750,9 +750,10 @@ function deleteAdventure(postID) {
                 $('#loading-modal').modal('hide');
             }
         })
-        .fail(function () {
+        .fail(function (data) {
             console.log("Error happened while deleting the adventure, check Key Constraints and Permissions");
             $('#loading-modal').modal('hide');
+            console.log(data);
         });
 }
 

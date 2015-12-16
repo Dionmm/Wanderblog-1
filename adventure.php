@@ -214,7 +214,6 @@ function saveAdventure($PostID, $SQLType)
             //Replace any styling added in by the user
             $content = stringReplace($content);
 
-
             if (stringCheck($content)) {
 
                 try {
@@ -439,7 +438,9 @@ function deleteAdventure($PostID)
 
             $username = $loggedIn['username'];
 
-            $query = $oConn->prepare("SELECT a.PostID FROM Adventures a WHERE a.Username = '$username'");
+            $query = $oConn->prepare("SELECT a.PostID FROM Adventures a WHERE a.Username = :username");
+            $query->bindValue(':username', $username, PDO::PARAM_STR);
+
             $query->execute();
             $adventurePostIDs = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -455,7 +456,9 @@ function deleteAdventure($PostID)
 
             //If author of this post OR admin - allow deletion
             if($isAuthorOfThisPost || $loggedIn['user_group'] == 3){
-                $query = $oConn->prepare("DELETE FROM Adventures WHERE PostID = '$PostID'");
+                $query = $oConn->prepare("DELETE FROM Adventures WHERE PostID = :postID");
+                $query->bindValue(':postID', $PostID, PDO::PARAM_STR);
+
                 $query->execute();
                 echo json_encode(array('success' => true));
             }

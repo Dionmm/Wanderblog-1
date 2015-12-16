@@ -26,13 +26,13 @@
     </div>
 <div class="row image-container-container">
     <div class="image-container">
-        {% if editing is defined %}
-            <div class="form-group">
-                <label>Select/Drag and drop pictures</label>
-                <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value=""
-                       accept="image/*"/>
-            </div>
-        {% endif %}
+            {% if editing is defined %}
+                <div class="form-group">
+                    <label>Select/Drag and drop pictures</label>
+                    <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value=""
+                           accept="image/*"/>
+                </div>
+            {% endif %}
         <div class="container">
             {% if editing is defined %}
                 <ul class="row" id="previewEdit">
@@ -41,15 +41,15 @@
                 <ul class="row" id="previewRemove">
 
                 </ul>
-            {%  else %}
+            {% else %}
                 <ul class="row" id="preview">
 
                 </ul>
             {% endif %}
 
         </div>
+        </div>
     </div>
-</div>
 
     {% if editing is empty %}
         {% include 'comment.twig' %}
