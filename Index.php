@@ -8,10 +8,19 @@ if (isset($_POST['timesRequested'])) {
     $oConn = loginToDB();
 
     //Prepare statement, substitute :username with username field input
-    $query = $oConn->prepare('SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID ORDER BY Upvotes DESC LIMIT :limit, 8');
+    $query = $oConn->prepare('SELECT * FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table ORDER BY Upvotes DESC LIMIT :limit, 8');
     $query->bindValue(':limit', $timesRequested * 8, PDO::PARAM_INT);
     $query->execute();
     $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
+
+    //Check if each adventure has an image, if not assign a random one
+    foreach ($rows as $key => $row) {
+        if ($row['Path'] === NULL) {
+            $randINT = rand(300, 500);
+            $rows[$key]['Path'] = 'http://lorempixel.com/' . $randINT . '/' . $randINT . '/nature/';
+        }
+    }
+
 
     echo json_encode($rows);
 
@@ -25,12 +34,19 @@ if (isset($_POST['timesRequested'])) {
         $oConn = loginToDB();
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
+        $query = $oConn->prepare('SELECT * FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
-        $adventures = $rows;
+        //Check if each adventure has an image, if not assign a random one
+        foreach ($rows as $key => $row) {
+            if ($row['Path'] === NULL) {
+                $randINT = rand(300, 500);
+                $rows[$key]['Path'] = 'http://lorempixel.com/' . $randINT . '/' . $randINT . '/nature/';
+            }
+        }
 
+        $adventures = $rows;
 
         //Check for logged in
         $loggedIn = loggedIn();

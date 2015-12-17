@@ -595,7 +595,7 @@ input:required:invalid {
     height: 300px;
     width: 30%;
     min-width: 250px;
-    max-width: 300px;
+    max-width: 400px;
     background-color: darkgray;
     margin: 15px auto;
     color: whitesmoke;

@@ -360,18 +360,25 @@ function loadMoreAdventures() {
         dataType: 'json'
     })
         .done(function (data) {
+            console.log(data);
             $.each(data, function(){
                 $('.card-container').append('<div class="card">' +
+                    '<div class="card-image-container">' +
+                    '<div id="' + this.PostID + '"></div>' +
+                    '<a href="/adventure.php?id=' + this.PostID + '"><span class="adventureLink"></span></a>' +
+                    '</div>' +
                     '<div class="card-text-container">' +
+                    '<div class="adventure-title">' +
                     '<h3>' + this.Title + '</h3>' +
                     '<p>by: ' + this.Username + '</p>' +
-                    '<a href="/adventure.php?id='+ this.PostID +'"><span class="adventureLink"></span></a>' +
                     '</div>' +
                     '<div class="card-footer">' +
                     '<i class="pe-7s-like pe-2x likeButton" data-post-id="'+ this.PostID +'"></i>' +
                     '<p>' + this.Upvotes + ' Likes</p>' +
                     '</div>' +
+                    '</div>' +
                     '</div>');
+                $('#' + this.PostID).css('background-image', 'url("' + this.Path + '")')
             });
         })
         .fail(function (data) { //on unsuccessful response output error

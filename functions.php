@@ -80,7 +80,7 @@ function addLike($postID)
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
 
-            if (!$results) {
+            if (!$results || $loggedIn['user_group'] = 3) {
                 //Check if the user has previously upvoted the post
                 $query = $oConn->prepare('SELECT * FROM Upvoted WHERE PostID = :postID AND Username = :username');
                 $query->bindValue(':postID', $postID, PDO::PARAM_STR);
