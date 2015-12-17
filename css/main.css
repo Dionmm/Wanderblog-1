@@ -738,7 +738,7 @@ article.adventure {
 }
 
 .adventure-footer a {
-    margin: auto 0 auto auto;
+    margin: auto 0 auto 15px;
     font-size: 1.5em;
     color: #333;
 }
@@ -747,6 +747,10 @@ article.adventure {
     font-size: 1em;
     padding-left: 15px;
     border-left: 1px solid #333;
+}
+
+.adventure-footer h5 {
+    margin: auto 0 auto auto;
 }
 .adventureEditSave-btn {
     /*position: absolute;*/
@@ -802,6 +806,36 @@ article.adventure {
     border: 1px dashed grey;
 }
 
+#saveDropDown {
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0 0
+    }
+    100% {
+        background-position: 100% 0
+    }
+}
+
+#keyword-button {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-position: 0 0;
+    background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+    background-size: 500% auto;
+    animation: gradient 3s linear infinite;
+}
+
+.keyword-content {
+    background-color: white;
+    border-radius: 5px;
+    padding: 25px;
+
+}
 /* ------------------------------------------------------------------ */
 /* Admin Page Styles */
 .admin-page-navtabs {

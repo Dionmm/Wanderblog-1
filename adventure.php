@@ -208,8 +208,9 @@ function saveAdventure($PostID, $SQLType)
             $title = $_POST['title']; //grab the contents of the post
             $content = $_POST['content'];
             $username = $_SESSION['username'];
-            $city = NULL; //These will eventually have their own field to be filled out on the edit page
-            $country = NULL;
+            $city = $_POST['city'] ?: NULL;
+            $country = $_POST['country'] ?: NULL;
+            $keywords = $_POST['keywords'];
 
             //Replace any styling added in by the user
             $content = stringReplace($content);
@@ -236,6 +237,16 @@ function saveAdventure($PostID, $SQLType)
 
                     //If the query was executed successfully then return success message and postID
                     if ($saveAdventure->execute()) {
+                        //Add the keywords to DB
+                        if (count($keywords) > 0 && $keywords[0] !== '') {
+                            foreach ($keywords as $keyword) {
+                                $addKeywords = $oConn->prepare("INSERT INTO Keywords VALUES (NULL, :PostID, :Keyword)");
+                                $addKeywords->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+                                $addKeywords->bindValue(':Keyword', $keyword, PDO::PARAM_STR);
+                                $addKeywords->execute();
+                            }
+                        }
+
                         //Unset the Id that was set earlier
                         if (isset($_SESSION['editingID'])) {
                             unset($_SESSION['editingID']);

@@ -26,13 +26,13 @@
     </div>
 <div class="row image-container-container">
     <div class="image-container">
-        {% if editing is defined %}
-            <div class="form-group">
-                <label>Select/Drag and drop pictures</label>
-                <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value=""
-                       accept="image/*"/>
-            </div>
-        {% endif %}
+            {% if editing is defined %}
+                <div class="form-group">
+                    <label>Select/Drag and drop pictures</label>
+                    <input type="file" id="adventurePictures" class="form-control" name="files[]" multiple value=""
+                           accept="image/*"/>
+                </div>
+            {% endif %}
         <div class="container">
             {% if editing is defined %}
                 <ul class="row" id="previewEdit">
@@ -46,23 +46,48 @@
 
                 </ul>
             {% endif %}
-
         </div>
         </div>
-    </div>
+</div>
 <div class="row adventure-footer-container">
     <div class="adventure-footer">
         <p>{{ adventure.Upvotes }}<i class="pe-7s-like"></i></p>
 
         <p>{{ adventure.CommentCount }}<i class="pe-7s-note"></i></p>
+        {#<ul>#}
+        {#{% for keyword in adventure.Keyword %}#}
+        {#<li>{{ keyword }}</li>#}
+        {#{% endfor %}#}
+        {#</ul>#}
+        <h5>{{ adventure.City }}{% if (adventure.City != "" and adventure.Country != "") %}, {% endif %}{{ adventure.Country }}</h5>
         <a href="/author.php?username={{ adventure.Username }}"><h4>{{ adventure.Username }}</h4></a>
+        </div>
     </div>
-</div>
     {% if editing is empty %}
         {% include 'comment.twig' %}
         {% include 'modal.twig' %}
     {% endif %}
 </div>
+
+{% if editing is defined %}
+    <!-- Keyword Modal -->
+    <div class="modal fade" id="keywordModal" tabindex="-1" role="dialog" aria-labelledby="keywords">
+        <div class="modal-dialog" role="document">
+            <div class="keyword-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <label for="keywords">Keywords</label><input type="text" name="keywords" id="keywordsInput">
+                <label for="city">City</label><input type="text" name="city" id="cityInput"
+                                                     value="{{ adventure.City }}">
+                <label for="country">Country</label><input type="text" name="country" id="countryInput"
+                                                           value="{{ adventure.Country }}">
+                <button id="keywordSubmit">Save</button>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 
 {% include 'script_include.twig' %}
 <script>var PostID = '{{ postID }}';</script>

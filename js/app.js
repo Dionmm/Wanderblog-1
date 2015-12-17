@@ -244,11 +244,26 @@ $('.comment-container').on('click', '.save-comment-button', function () {
 function savePost() {
     var adventureTitle = $('#adventureTitle').html();
     var adventureContent = $('#adventureContent').html();
+    var keywordsInput = $('#keywordsInput').val();
+    var city = $('#cityInput').val();
+    var country = $('#countryInput').val();
+
+    var keywords = keywordsInput.split(',');
+    $.each(keywords, function (key, value) {
+        keywords[key] = $.trim(value);
+    });
 
     $.ajax({ //send username/password and await response
         type: 'POST',
         url: 'adventure.php',
-        data: {save: true, title: adventureTitle, content: adventureContent },
+        data: {
+            save: true,
+            title: adventureTitle,
+            content: adventureContent,
+            keywords: keywords,
+            city: city,
+            country: country
+        },
         dataType: 'json',
     })
         .done(function (data) { //on successful response reload the page
@@ -258,8 +273,6 @@ function savePost() {
             }else{
                 savePictures(data.PostID);
             }
-
-
         })
         .fail(function (data) { //on unsuccessful response output error
             console.log("Error happened");
@@ -373,6 +386,10 @@ $('#editButton').click(function () {
 });
 
 $('#publish-adventure-button').on('click', function(){
+    savePost();
+});
+
+$('#keywordSubmit').on('click', function () {
     savePost();
 });
 
