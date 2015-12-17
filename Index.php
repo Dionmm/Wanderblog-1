@@ -6,10 +6,12 @@ if (isset($_POST['timesRequested'])) {
     $timesRequested = $_POST['timesRequested'];
 
     $oConn = loginToDB();
-
+    $loggedIn = loggedIn();
+    $username = $loggedIn['username'] ?: NULL;
     //Prepare statement, substitute :username with username field input
-    $query = $oConn->prepare('SELECT * FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table ORDER BY Upvotes DESC LIMIT :limit, 8');
+    $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT :limit, 8');
     $query->bindValue(':limit', $timesRequested * 8, PDO::PARAM_INT);
+    $query->bindValue(':username', $username, PDO::PARAM_STR);
     $query->execute();
     $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
@@ -18,6 +20,11 @@ if (isset($_POST['timesRequested'])) {
         if ($row['Path'] === NULL) {
             $randINT = rand(300, 500);
             $rows[$key]['Path'] = 'http://lorempixel.com/' . $randINT . '/' . $randINT . '/nature/';
+        }
+        if ($row['Voted'] === NULL) {
+            $rows[$key]['Voted'] = 'false';
+        } else {
+            $rows[$key]['Voted'] = 'true';
         }
     }
 
@@ -33,8 +40,13 @@ if (isset($_POST['timesRequested'])) {
     try {
         $oConn = loginToDB();
 
+        //Check for logged in
+        $loggedIn = loggedIn();
+        $username = $loggedIn['username'] ?: NULL;
+
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT * FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
+        $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
+        $query->bindValue(':username', $username, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match
 
@@ -44,12 +56,14 @@ if (isset($_POST['timesRequested'])) {
                 $randINT = rand(300, 500);
                 $rows[$key]['Path'] = 'http://lorempixel.com/' . $randINT . '/' . $randINT . '/nature/';
             }
+            if ($row['Voted'] === NULL) {
+                $rows[$key]['Voted'] = 'false';
+            } else {
+                $rows[$key]['Voted'] = 'true';
+            }
         }
 
         $adventures = $rows;
-
-        //Check for logged in
-        $loggedIn = loggedIn();
 
         //Templating
         require_once 'vendor/autoload.php';

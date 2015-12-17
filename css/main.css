@@ -656,6 +656,10 @@ input:required:invalid {
     z-index: 2;
 }
 
+.voted {
+    color: rgb(217, 30, 24);
+}
+
 @media screen and (max-width: 1150px) {
     .card {
         width: 40%;

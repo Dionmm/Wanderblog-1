@@ -33,7 +33,8 @@
                                 <p>by: {{ adventure.Username }}</p>
                             </div>
                             <div class="card-footer">
-                                <i class="pe-7s-like pe-2x likeButton" data-post-id="{{ adventure.PostID }}"></i>
+                                <i class="pe-7s-like pe-2x likeButton  {% if (adventure.Voted == 'true') %}voted{% endif %}"
+                                   data-post-id="{{ adventure.PostID }}"></i>
 
                                 <p>{{ adventure.Upvotes }} Likes</p>
                             </div>
