@@ -9,7 +9,7 @@ if (isset($_POST['timesRequested'])) {
     $loggedIn = loggedIn();
     $username = $loggedIn['username'] ?: NULL;
     //Prepare statement, substitute :username with username field input
-    $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT :limit, 8');
+    $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted, Pictures.Path FROM Adventures LEFT JOIN Pictures ON Adventures.PostID = Pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT :limit, 8');
     $query->bindValue(':limit', $timesRequested * 8, PDO::PARAM_INT);
     $query->bindValue(':username', $username, PDO::PARAM_STR);
     $query->execute();
@@ -45,7 +45,7 @@ if (isset($_POST['timesRequested'])) {
         $username = $loggedIn['username'] ?: NULL;
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted,  pictures.Path FROM Adventures LEFT JOIN pictures ON Adventures.PostID = pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
+        $query = $oConn->prepare('SELECT tmp_table.*, Upvoted.Username as Voted FROM (SELECT Adventures.PostID, Adventures.Username, Adventures.Title, Adventures.Upvotes, Adventures.DatePosted, Pictures.Path FROM Adventures LEFT JOIN Pictures ON Adventures.PostID = Pictures.PostID GROUP BY Adventures.PostID) as tmp_table LEFT JOIN Upvoted ON tmp_table.PostID = Upvoted.PostID AND Upvoted.Username = :username ORDER BY Upvotes DESC LIMIT 8'); // Grab the 8 most recent Adventures
         $query->bindValue(':username', $username, PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match

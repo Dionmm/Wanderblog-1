@@ -13,7 +13,7 @@
             <div class="title-container author-page">
                 <h1 class="title">
                     {% if user is not empty %}
-                        I am {{ user.Username }}
+                        Author {{ user.Username }}
                     {% else %}
                         Sorry!
                     {% endif %}
@@ -35,7 +35,7 @@
 
                 <div class="col-sm-8">
                     <h2>Contributions:</h2>
-                    <table class="table table-striped custab">
+                    <table class="table table-hover custab">
                         <thead>
                         <tr>
                             <th>Title</th>
@@ -63,6 +63,10 @@
                         </tr>
                         {% endfor %}
                     </table>
+                    <button id="view-map-button" class="btn btn-danger center-block">
+                        <span class="glyphicon glyphicon-map-marker"></span> View map
+                    </button>
+                    <div id="map" class="center-block"></div>
                 </div>
             </div>
         {% else %}
@@ -86,6 +90,21 @@
 </div>
 
 {% include 'script_include.twig' %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYJpoSa9lV98hqJIOmBL_3VrIeAl7yoOc&signed_in=true&callback=initMapAndAddMarkers"></script>
+<script>
+    function initMapAndAddMarkers(){
+        //Initialize map
+        initMap();
+
+        //Add markers
+        addMarkers({{ adventuresJson|raw }});
+
+        //Scroll to top to prevent weird behaviours
+        $(window).on('beforeunload', function() {
+            $(window).scrollTop(0);
+        });
+    }
+</script>
 
 </body>
 </html>

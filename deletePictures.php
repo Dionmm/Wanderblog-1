@@ -22,7 +22,7 @@ if($data){
                 echo "Picture deleted from server...";
 
                 //query to remove from database
-                $query = $oConn->prepare("DELETE FROM pictures WHERE pictures.Path = '$d'");
+                $query = $oConn->prepare("DELETE FROM Pictures WHERE Pictures.Path = '$d'");
                 if($query->execute()){
                     echo "Picture deleted from database...";
                 }

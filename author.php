@@ -27,6 +27,8 @@ try {
         $query = $oConn->prepare("SELECT * FROM Adventures WHERE Username = '$author' ORDER BY DatePosted ASC");
         $query->execute();
         $adventures = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $adventuresJson = json_encode(utf8ize($adventures));
     }
 
 
@@ -40,6 +42,7 @@ try {
     echo $template->render(array(
         'user' => $user,
         'adventures' => $adventures,
+        'adventuresJson' => $adventuresJson,
         'loggedIn' => $loggedIn
     ));
 
