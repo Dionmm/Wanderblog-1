@@ -59,6 +59,7 @@ function loginToDB()
 
     //Set persistent connection
     $oConn = new PDO('mysql:host=' . $sHost . ';dbname=' . $sDb, $sUsername, $sPassword);
+    $oConn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); //disallow sql injections for prepared statements
     $oConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //error handling
     return $oConn;
 }
