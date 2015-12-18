@@ -11,7 +11,11 @@
     <div class="row bg-image-container">
         <div class="bg-image">
             <div class="title-container">
-                <h1 class="title">Search Results</h1>
+                {% if query is not empty %}
+                    <h1 class="title">Search Results</h1>
+                {% else %}
+                    <h1 class="title">Sorry! Wrong query provided</h1>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -35,11 +39,11 @@
         <section class="col-xs-12 col-sm-12 col-md-12 first-section-container">
             {% for adventure in adventures %}
             <article class="search-result row">
-                <div class="col-xs-12 col-sm-3 col-md-3">{# Must have those "style" in there... won't work in css... #}
-                    <a href="adventure.php?id={{ adventure.PostID }}" title="{{ adventure.Title }}" style="width: 250px; height: 200px;" class="thumbnail search-result-thumbnail">
-                        <img src="{{ adventure.Path }}" alt="Lorem ipsum" style="width: 250px; height: 190px;"/></a>
+                <div class="col-xs-12 col-sm-2 col-md-2 search-result-image">
+                    <a href="adventure.php?id={{ adventure.PostID }}" title="{{ adventure.Title }}" class="thumbnail search-result-thumbnail">
+                        <img class="search-result-adventure-image" src="{{ adventure.Path }}" alt="Lorem ipsum"/></a>
                 </div>
-                <div class="col-xs-12 col-sm-2 col-md-2">
+                <div class="col-xs-12 col-sm-2 col-md-2 search-result-info">
                     <ul class="meta-search">
                         <a href="author.php?username={{ adventure.Username }}"><li><i class="glyphicon glyphicon-user"></i><span> {{ adventure.Username }}</span></li></a>
                         <li><i class="glyphicon glyphicon-globe"></i>
@@ -54,10 +58,10 @@
                         <li><i class="glyphicon glyphicon-heart"></i><span> {{ adventure.Upvotes }}</span></li>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-sm-7 col-md-7 text">
+                <div class="col-xs-12 col-sm-8 col-md-8 title-content">
                     <h3><a href="adventure.php?id={{ adventure.PostID }}" title="">{{ adventure.Title }}</a></h3>
-                    <p class="text-ellipsis">{{ adventure.Content }}</p>
-                    <span class="plus">Read more <a href="adventure.php?id={{ adventure.PostID }}" title="Read more"><i class="glyphicon glyphicon-plus"></i></a></span>
+                    <p class="block-with-text">{{ adventure.Content }}</p>
+                    <div class="search-result-read-more"><span class="plus">Read more <a href="adventure.php?id={{ adventure.PostID }}" title="Read more"><i class="glyphicon glyphicon-plus"></i></a></span></div>
                 </div>
                 <span class="clearfix borda"></span>
             </article>

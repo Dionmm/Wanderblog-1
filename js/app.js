@@ -502,15 +502,6 @@ $(document).ready(function () {
     });
 
     //-------------------------------------------------------------------
-    //Text ellipsis function
-    $(function () {
-        var text = $(".text-ellipsis");
-        if (text.text().length > 250) {
-            text.html(text.text().substring(0, 247) + "...");
-        }
-    });
-
-    //-------------------------------------------------------------------
     //Remove extra border if no Adventures were found on the search page
     if ( $('.first-section-container').children().length === 0 ) {
         $('.first-container').css("border","0");

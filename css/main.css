@@ -248,25 +248,79 @@ a.dropdown-toggle.navbar-dropdown:hover {
 
 .search-result {
     margin-top: 20px;
+    min-height: 200px;
 }
 
-.search-result .col-md-2 {
+.search-result-info {
     border-right: 1px dotted #ccc;
     min-height: 140px;
 }
 
+.search-result .title-content {
+    position: relative;
+    min-height: 140px;
+    margin-bottom: 20px;
+}
+
+.search-result-read-more {
+    float: right;
+    bottom: 1%;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 767px){
-    .search-result .col-md-2 {
-        border: 0;
+    .search-result-info {
+        border-right: 0;
+        min-height: 90px;
     }
-    div.col-xs-12.col-sm-7.col-md-7.text{
+    .search-result .title-content {
         border-bottom: 1px dotted #ccc;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+        min-height: 0;
     }
 }
 
-.text-ellipsis {
-    word-wrap: break-word;
+/* styles for '...' ellipsis */
+.block-with-text {
+    width: 98%;
+    /* hide text if it more than N lines  */
+    overflow: hidden;
+    /* for set '...' in absolute position */
+    position: relative;
+    /* use this value to count block height */
+    line-height: 1.2em;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 4.8em;
+    /* fix problem when last visible word doesn't adjoin right side  */
+    text-align: justify;
+    /* place for '...' */
+    margin-right: 2em;
+    padding-right: 0.5em;
+}
+/* create the ... */
+.block-with-text:before {
+    /* points in the end */
+    content: '...';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of block */
+    right: 0;
+    bottom: 1%;
+}
+/* hide ... if we have text, which is less than or equal to max lines */
+.block-with-text:after {
+    /* points in the end */
+    content: '';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of text */
+    right: 0;
+    /* set width and height */
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    /* bg color = bg color under block */
+    background: white;
 }
 
 .search-result ul {
@@ -283,10 +337,6 @@ a.dropdown-toggle.navbar-dropdown:hover {
     padding-right: 5px;
 }
 
-.search-result .col-md-7 {
-    position: relative;
-}
-
 .search-result h3 {
     font: 500 normal 1.375em "Roboto", Arial, Verdana, sans-serif;
     margin-top: 0;
@@ -295,16 +345,6 @@ a.dropdown-toggle.navbar-dropdown:hover {
 
 .search-result h3 > a, .search-result i {
     color: #248dc1;
-}
-
-.search-result p {
-    font: normal normal 1.125em "Roboto", Arial, Verdana, sans-serif;
-}
-
-.search-result span.plus {
-    position: absolute;
-    right: 0;
-    top: 126px;
 }
 
 .search-result span.plus a {
