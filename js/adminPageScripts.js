@@ -182,8 +182,51 @@ $(document).ready(function () {
         });
     });
 
+    //-------------------------------------------------------------------
+    //Delete Adventure Pictures
+    var postID = "";
+    $(document.body).on('click', ".remove-my-adventure-pictures", function() {
+        console.log("clicked modal start");
+        postID = $(this).attr('adventure-id');
+        console.log(postID);
+    });
+
+    $(".adventure-pictures-remove-confirm").on("click", function() {
+        console.log("after clicking remove");
+        if(postID.length > 0) {
+            deletePictures(postID);
+        }
+    });
 
 });
+
+function deletePictures(postId){
+    //Show processing modal
+    $('#adventures-removing-loading-modal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'deletePictures.php?postid=' + postId,
+        dataType: 'json'
+    })
+        .done(function (success) {
+            console.log("inside ajax success");
+            $('tr[post-id=' + postId + ']').find('.adventure-pictures-row').text("0");
+
+            //Hide processing modal
+            $('#adventures-removing-loading-modal').modal('hide');
+
+        })
+        .fail(function (fail) {
+            console.log(fail.responseText);
+            console.log("Error happened while trying to remove Adventure Pictures with PostID[" + postId + "]");
+            $('#adventures-removing-loading-modal').modal('hide');
+        });
+}
 
 function changeUpvotes(postId, upvotes, parentDiv){
     //Show processing modal

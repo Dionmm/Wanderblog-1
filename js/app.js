@@ -270,7 +270,7 @@ function savePost() {
             if(removedImages.length > 0){
                 deletePictures(data.PostID);
                 savePictures(data.PostID);
-            }else{
+            } else {
                 savePictures(data.PostID);
             }
         })
@@ -334,7 +334,7 @@ function deletePictures(postId){
             type: 'POST',
             url: 'deletePictures.php',
             data: {data: jsonString},
-            cache: false,
+            cache: false
         })
         .done(function (data) { //on successful response reload the page
             console.log(data);
@@ -465,6 +465,7 @@ $(document).on('click', '.removeImageIcon', function(){
     if($(this).parent().children().css('opacity') != '0.3') {
         $(this).parent().children().css('opacity', '0.3');
         var imageSource = $(this).parent().children("img").attr('src');
+        console.log(imageSource);
         if (imageSource) {
             removedImages.push(imageSource);
         }
@@ -549,7 +550,6 @@ $(document).ready(function () {
     var postID = "";
     $(".remove-my-adventure-link").on("click", function(){
         postID = $(this).attr('adventure-id');
-
     });
 
     $(".adventure-remove-confirm").on("click", function() {
@@ -563,7 +563,7 @@ $(document).ready(function () {
 function deleteAdventure(postID) {
 
     //Show processing modal
-    $('#loading-modal').modal({
+    $('#adventures-removing-loading-modal').modal({
         show: true,
         backdrop: 'static',
         keyboard: true
@@ -599,11 +599,11 @@ function deleteAdventure(postID) {
                 $('tr[post-id=' + postID + ']').remove();
 
                 //Hide processing modal
-                $('#loading-modal').modal('hide');
+                $('#adventures-removing-loading-modal').modal('hide');
             }
         })
         .fail(function () {
             console.log("Error happened while deleting the adventure, check Key Constraints and Permissions");
-            $('#loading-modal').modal('hide');
+            $('#adventures-removing-loading-modal').modal('hide');
         });
 }
