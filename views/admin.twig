@@ -54,21 +54,24 @@
                                             <td><a href="author.php?username={{ adventure.Username }}" title="">{{ adventure.Username }}</a></td>
                                             <td><a href="adventure.php?id={{ adventure.PostID }}" title="">{{ adventure.Title }}</a></td>
                                             <td>
-                                                <div class="adventure-upvotes-row">
-                                                    {{ adventure.Upvotes }}
+                                                <div class="adventure-upvotes-row" post-id="{{ adventure.PostID }}">
+                                                    <p class="text-primary">
+                                                        {{ adventure.Upvotes }}
+                                                        <span class="glyphicon glyphicon-pencil change-adventure-upvotes-icon"></span>
+                                                    </p>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="td-fixed-size-larger">
                                                 {% if ((adventure.City is not empty) and (adventure.Country is not empty)) %}
                                                     {{ (adventure.City ~ ", " ~ adventure.Country) }}
                                                 {% else %}
                                                     Not specified.
                                                 {% endif %}
                                             </td>
-                                            <td class="adventure-date">{{ adventure.DatePosted|slice(0,10) }}</td>
+                                            <td class="adventure-date td-fixed-size">&nbsp;&nbsp;{{ adventure.DatePosted|slice(0,10) }}</td>
                                             <td>
                                                 <div class="adventure-comment-amount-row">
-                                                    {{ adventure.CommentAmount }}
+                                                    &nbsp;&nbsp;{{ adventure.CommentAmount }}
                                                 </div>
                                             </td>
                                             <td>
@@ -159,6 +162,15 @@
                                     <img id="loading-spin-gif" src="../img/loading_spin.gif" width="100" height="100">
                                     <br>
                                     <h2>Sorting..</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="adventure-upvotes-changing-loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-center">
+                                <div id="loading-modal-content">
+                                    <img id="loading-spin-gif" src="../img/loading_spin.gif" width="100" height="100">
+                                    <br>
+                                    <h2>Changing..</h2>
                                 </div>
                             </div>
                         </div>
@@ -259,6 +271,7 @@
 </div>
 
 {% include 'script_include.twig' %}
+<script src="../js/adminPageScripts.js"></script>
 
 </body>
 </html>

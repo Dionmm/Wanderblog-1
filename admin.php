@@ -4,7 +4,9 @@ require_once 'functions.php';
 
 if (isset($_GET['username']) && isset($_GET['usertype'])) {
     changeUserType($_GET['username'], $_GET['usertype']);
-} else{
+} else if(isset($_GET['postid']) && isset($_GET['upvotes'])){
+    changeUpvotes($_GET['postid'], $_GET['upvotes']);
+} else {
     display();
 }
 
@@ -23,7 +25,7 @@ function display(){
 
         if ($loggedIn['user_group'] === 3) {
 
-            //Get adventure data + comment amount for each adventure via subquery
+            //Get adventure data + comment amount for each adventure
             $query = $oConn->prepare("SELECT a.*, (SELECT COUNT(*) FROM Comments WHERE PostID = a.PostID) AS CommentAmount FROM Adventures a ORDER BY a.DatePosted ASC");
             $query->execute();
             $adventures = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -69,7 +71,9 @@ function changeUserType($username, $userType){
 
         if ($loggedIn["user_group"] === 3) {
 
-            $query = $oConn->prepare("UPDATE User SET UserType = '$userType' WHERE Username = '$username';");
+            $query = $oConn->prepare("UPDATE User SET UserType = :userType WHERE Username = :username;");
+            $query->bindValue(':userType', $userType);
+            $query->bindValue(':username', $username);
             $query->execute();
 
             $selfDestruction = false;
@@ -80,6 +84,36 @@ function changeUserType($username, $userType){
             }
 
             echo json_encode(array('selfDestruction' => $selfDestruction));
+        }
+
+    }
+    catch (PDOException $e) {
+        echo 'ERROR: ' . $e->getMessage();
+        echo json_encode(array('fail'));
+    }
+    finally{
+        $oConn = null;
+    }
+}
+
+function changeUpvotes($postId, $upvotes){
+
+    $loggedIn = loggedIn();
+
+    $oConn = loginToDB();
+
+    $upvotes = intval($upvotes);
+
+    try{
+
+        if ($loggedIn["user_group"] === 3) {
+            if($upvotes > -1 && $upvotes < 1000){
+                $query = $oConn->prepare("UPDATE Adventures SET Upvotes = :upvotes WHERE PostID = :postId;");
+                $query->bindValue(':upvotes', $upvotes);
+                $query->bindValue(':postId', $postId);
+                $query->execute();
+                echo json_encode(array('success'));
+            }
         }
 
     }

@@ -502,8 +502,12 @@ div#search-result-separator hr{
     }
 }
 
-.adventure-upvotes-row, .adventure-comment-amount-row {
+.adventure-comment-amount-row {
     padding-left: 1.6em;
+}
+
+.adventure-upvotes-row {
+    padding-left: 0.5em;
 }
 
 #view-map-button {
@@ -893,20 +897,37 @@ article.adventure {
     margin-bottom: 20px;
 }
 
-.change-user-type-icon {
-    padding-left: 0.5em;
+.glyphicon.change-adventure-upvotes-action-icon {
+    padding-left: 0.4em;
+}
+
+.change-user-type-icon, .change-adventure-upvotes-icon {
+    padding-left: 0.3em;
 }
 
 .change-user-type-action-icon {
     padding-left: 0.3em;
 }
 
-.change-user-type-icon:hover, .change-user-type-action-icon:hover  {
+.change-adventure-upvotes-icon, .change-adventure-upvotes-action-icon {
+    color: #343434;
+}
+
+.change-user-type-icon:hover, .change-user-type-action-icon:hover,
+.change-adventure-upvotes-icon:hover, .change-adventure-upvotes-action-icon:hover  {
     color: #696969;
+}
+
+.ok-cancel-icons {
+    padding-top: 0.5em;
 }
 
 .user-type-cell {
     width: 150px;
+}
+
+.adventure-upvotes-row {
+    width: 80px;
 }
 
 .user-filters {
@@ -968,4 +989,12 @@ article.adventure {
 .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
     color: #fff;
     background-color: #555;
+}
+
+.td-fixed-size {
+    width: 120px;
+}
+
+.td-fixed-size-larger {
+    with: 180px;
 }
