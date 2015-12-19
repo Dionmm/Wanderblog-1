@@ -502,7 +502,7 @@ div#search-result-separator hr{
     }
 }
 
-.adventure-comment-amount-row {
+.adventure-comment-amount-row, .adventure-pictures-row {
     padding-left: 1.6em;
 }
 
@@ -735,16 +735,16 @@ article.adventure {
     font-weight: 400;
 }
 
-.image-container-container {
-    display: flex;
-    padding: 30px;
+@media screen and (min-width: 767px) {
+    .image-container {
+         width: 70%;
+    }
 }
 
-.image-container {
-    width: 50%;
-    max-width: 1000px;
-    margin: auto;
+.thumb {
+    margin-bottom: 30px;
 }
+
 .adventure b {
     font-weight: 700;
 }
@@ -760,7 +760,7 @@ article.adventure {
 
 .adventure-footer-container {
     position: fixed;
-    height: 70px;
+    height: 50px;
     width: 100%;
     display: flex;
     bottom: -5px;

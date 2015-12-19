@@ -11,25 +11,39 @@ $data = json_decode(stripslashes($_POST['data']));
 
 if($data){
     try{
+
+        $loggedIn = loggedIn();
+
         $oConn = loginToDB();
 
-        foreach($data as $d){
-
-            //If file exists on server
-            if(file_exists($d)){
-                //remove the file
-                unlink($d);
-                echo "Picture deleted from server...";
-
-                //query to remove from database
-                $query = $oConn->prepare("DELETE FROM Pictures WHERE Pictures.Path = '$d'");
-                if($query->execute()){
-                    echo "Picture deleted from database...";
-                }
-            }else{
-                echo "file not found";
-            }
+        if ($loggedIn['user_group'] > 1) {
+            //Gets all the pictures of the logged in author
+            $query = $oConn->prepare("SELECT * FROM (SELECT p.*, a.Username FROM Adventures a, Pictures p WHERE a.PostID = p.PostID AND a.Username = :username) AS AdventureAuthorUsername;");
+            $query->bindValue(':username', $loggedIn['username'], PDO::PARAM_STR);
+            $query->execute();
+            $pictures = $query->fetchAll(PDO::FETCH_ASSOC);
         }
+
+            foreach ($data as $d) {
+                if ($loggedIn['user_group'] === 3){
+
+                }
+                //If file exists on server
+                if (file_exists($d)) {
+                    //remove the file
+                    unlink($d);
+                    echo "Picture deleted from server...";
+
+                    //query to remove from database
+                    $query = $oConn->prepare("DELETE FROM Pictures WHERE Pictures.Path = '$d'");
+                    if ($query->execute()) {
+                        echo "Picture deleted from database...";
+                    }
+                } else {
+                    echo "file not found";
+                }
+            }
+
     }catch(PDOException $e){
         echo 'ERROR: ' . $e->getMessage();
     }finally{

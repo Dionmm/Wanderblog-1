@@ -24,17 +24,11 @@ window.onload = function() {
                     var pictureRemoveId = "pictureRemove" + pictureCount;
 
                     var li = document.createElement("li");
-                    li.classList.add("col-lg-2");
-                    li.classList.add("col-md-2");
-                    li.classList.add("col-sm-3");
-                    li.classList.add("col-xs-4");
+                    $(li).addClass("col-lg-3 col-md-4 col-xs-6 thumb");
                     li.id = pictureId;
 
                     var liRemove = document.createElement("li");
-                    liRemove.classList.add("col-lg-2");
-                    liRemove.classList.add("col-md-2");
-                    liRemove.classList.add("col-sm-3");
-                    liRemove.classList.add("col-xs-4");
+                    $(liRemove).addClass("col-lg-3 col-md-4 col-xs-6 thumb");
                     liRemove.id = pictureRemoveId;
 
                     var img = document.createElement("img");

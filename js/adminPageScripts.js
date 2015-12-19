@@ -102,6 +102,18 @@ $(document).ready(function () {
         }
     });
 
+    var clicked7 = false;
+    $('input[by="adventures-pictures"]').on('click', function(){
+        if(!clicked7){
+            sortAdventures(7, true);
+            setClicksToFalse();
+            clicked7 = true;
+        } else{
+            sortAdventures(7, false);
+            clicked7 = false;
+        }
+    });
+
     function setClicksToFalse(){
         clicked11 = false;
         clicked22 = false;
@@ -111,6 +123,7 @@ $(document).ready(function () {
         clicked4 = false;
         clicked5 = false;
         clicked6 = false;
+        clicked7 = false;
     }
 
     //-------------------------------------------------------------------
@@ -282,6 +295,10 @@ function sortAdventures(sortingFilter, doInvert){
         case 6:
             jsIntSorter(rows, 'comments', doInvert);
             console.log("case 6");
+            break;
+        case 7:
+            jsIntSorter(rows, 'pictures', doInvert);
+            console.log("case 7");
             break;
         default:
             console.log('Something went wrong.');

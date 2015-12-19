@@ -32,6 +32,7 @@
 
             <div class="panel-body">
                 <div class="tab-content">
+                    {# FIRST PANEL #}
                     <div class="tab-pane fade in active" id="tab-link-adventures">
                         <div class="row">
                             <div class="col-xs-12 col-md-10 table-responsive">
@@ -44,13 +45,17 @@
                                         <th>City, Country</th>
                                         <th>Date Posted</th>
                                         <th>Comments</th>
+                                        <th>Pictures</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for adventure in adventures %}
                                         <tr author="{{ adventure.Username }}" title="{{ adventure.Title }}" upvotes="{{ adventure.Upvotes }}"
-                                            city-country="{% if ((adventure.City is not empty) and (adventure.Country is not empty)) %}{{ (adventure.City ~ ", " ~ adventure.Country) }}{% else %}Not specified.{% endif %}" date-posted="{{ adventure.DatePosted|slice(0,10) }}" comments="{{ adventure.CommentAmount }}">
+                                            city-country="{% if ((adventure.City is not empty) and (adventure.Country is not empty)) %}
+                                            {{ (adventure.City ~ ", " ~ adventure.Country) }}{% else %}Not specified.{% endif %}"
+                                            date-posted="{{ adventure.DatePosted|slice(0,10) }}" comments="{{ adventure.CommentAmount }}" pictures="{{ adventure.PictureAmount }}">
+
                                             <td><a href="author.php?username={{ adventure.Username }}" title="">{{ adventure.Username }}</a></td>
                                             <td><a href="adventure.php?id={{ adventure.PostID }}" title="">{{ adventure.Title }}</a></td>
                                             <td>
@@ -75,10 +80,17 @@
                                                 </div>
                                             </td>
                                             <td>
+                                                <div class="adventure-pictures-row">
+                                                    {{ adventure.PictureAmount }}
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <li class="dropdown list-unstyled text-center"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="adventure.php?id={{ adventure.PostID }}&edit=1"> Edit</a></li>
                                                         <li><a href="#" class="remove-my-adventure-link" data-toggle="modal" data-target="#remove-adventure" adventure-id="{{ adventure.PostID }}"> Remove</a></li>
+                                                        <li><a href="#" class="remove-my-adventure-comments" data-toggle="modal" data-target="#remove-adventure-comments" adventure-id="{{ adventure.PostID }}"> Remove all comments</a></li>
+                                                        <li><a href="#" class="remove-my-adventure-pictures" data-toggle="modal" data-target="#remove-adventure-pictures" adventure-id="{{ adventure.PostID }}"> Remove all pictures</a></li>
                                                     </ul>
                                                 </li>
                                             </td>
@@ -108,10 +120,14 @@
                                     <div class="radio">
                                         <label><input type="radio" name="filters" by="adventures-comments">Comments</label>
                                     </div>
+                                    <div class="radio">
+                                        <label><input type="radio" name="filters" by="adventures-pictures">Picture amount</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {#MODAL STUFF#}
+                        {# 1. Adventure Removal Modal #}
                         <div class="modal fade" id="remove-adventure" tabindex="-1" role="dialog" aria-labelledby="remove" aria-hidden="true">
                             <div class="modal-dialog remove-adventure-modal">
                                 <div class="panel panel-primary">
@@ -147,6 +163,79 @@
                             </div>
                         </div>
 
+                        {# 2. Adventure Comments Removal Modal #}
+                        <div class="modal fade" id="remove-adventure-comments" tabindex="-1" role="dialog" aria-labelledby="remove" aria-hidden="true">
+                            <div class="modal-dialog remove-adventure-modal">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <button type="button" class="close remove-adventure-modal-close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                        <h4 class="panel-title remove-adventure-modal-header">Confirm the action</h4>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <p>All of the selected adventure comments will be removed.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <p>Do you wish to continue?</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input type="button" data-dismiss="modal" class="btn btn-danger adventure-remove-confirm" value="Remove"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <input type="button" data-dismiss="modal" class="btn btn-success adventure-remove-cancel pull-right" value="Cancel" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# 3. Adventure Pictures Removal Modal #}
+                        <div class="modal fade" id="remove-adventure-pictures" tabindex="-1" role="dialog" aria-labelledby="remove" aria-hidden="true">
+                            <div class="modal-dialog remove-adventure-modal">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <button type="button" class="close remove-adventure-modal-close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                        <h4 class="panel-title remove-adventure-modal-header">Confirm the action</h4>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <p>All of the selected adventure pictures will be removed.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <p>Do you wish to continue?</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input type="button" data-dismiss="modal" class="btn btn-danger adventure-remove-confirm" value="Remove"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <input type="button" data-dismiss="modal" class="btn btn-success adventure-remove-cancel pull-right" value="Cancel" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# 4. Removing modal #}
                         <div class="modal fade" id="loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-center">
                                 <div id="loading-modal-content">
@@ -156,6 +245,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        {# 5. Sorting modal #}
                         <div class="modal fade" id="adventures-sorting-loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-center">
                                 <div id="loading-modal-content">
@@ -165,6 +256,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        {# 6. Changing modal #}
                         <div class="modal fade" id="adventure-upvotes-changing-loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-center">
                                 <div id="loading-modal-content">
@@ -176,6 +269,7 @@
                         </div>
                         {#END OF MODAL STUFF#}
                     </div>
+                    {# END OF FIRST PANEL#}
 
                     {# SECOND PANEL #}
                     <div class="tab-pane fade" id="tab-link-users">
@@ -246,7 +340,7 @@
                             </div>
                         </div>
                     </div>
-
+                    {# END OF SECOND PANEL #}
                 </div>
             </div>
         </div>

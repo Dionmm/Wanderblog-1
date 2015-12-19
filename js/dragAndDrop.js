@@ -18,14 +18,11 @@ $(document).ready(function(){
 
             var picture  = "picture" + i;
             var li = document.createElement("li");
-            li.classList.add("col-lg-2");
-            li.classList.add("col-md-2");
-            li.classList.add("col-sm-3");
-            li.classList.add("col-xs-4");
+            $(li).addClass("col-lg-3 col-md-4 col-xs-6 thumb");
             li.id = picture;
 
             var img = document.createElement("img");
-            img.classList.add("img-thumbnail");
+            $(img).addClass("img-thumbnail");
             img.file = file;
 
             var preview = document.getElementById("previewEdit");

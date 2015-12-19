@@ -26,7 +26,7 @@ function display(){
         if ($loggedIn['user_group'] === 3) {
 
             //Get adventure data + comment amount for each adventure
-            $query = $oConn->prepare("SELECT a.*, (SELECT COUNT(*) FROM Comments WHERE PostID = a.PostID) AS CommentAmount FROM Adventures a ORDER BY a.DatePosted ASC");
+            $query = $oConn->prepare("SELECT a.*, (SELECT COUNT(*) FROM Pictures WHERE PostID = a.PostID) AS PictureAmount, (SELECT COUNT(*) FROM Comments WHERE PostID = a.PostID) AS CommentAmount FROM Adventures a ORDER BY a.DatePosted ASC");
             $query->execute();
             $adventures = $query->fetchAll(PDO::FETCH_ASSOC);
 

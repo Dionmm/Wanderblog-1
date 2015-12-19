@@ -328,6 +328,7 @@ function savePictures(postId){
 function deletePictures(postId){
 
     var jsonString = JSON.stringify(removedImages);
+    console.log(removedImages);
 
     $.ajax({
             type: 'POST',
