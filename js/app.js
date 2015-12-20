@@ -54,7 +54,15 @@ function registerForm(){
         $.ajax({ //send username/password and await response
             type: 'POST',
             url: 'register.php',
-            data: {username: formData[0].value, password: formData[1].value, email: formData[3].value, fName: formData[4].value, lName: formData[5].value, country: formData[6].value},
+            data: {
+                username: formData[0].value,
+                password: formData[1].value,
+                email: formData[3].value,
+                fName: formData[4].value,
+                lName: formData[5].value,
+                twitter: formData[6].value,
+                country: formData[7].value
+            },
             dataType: 'json'
         })
         .done(function (data) { //on response log user in if successful or prompt try again

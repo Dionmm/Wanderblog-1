@@ -15,7 +15,7 @@ try {
     $adventures = [];
 
     //Prepare statement, substitute keyword with the submitted query
-    $query = $oConn->prepare("SELECT Username, FirstName, LastName, Country FROM User WHERE Username = '$author'");
+    $query = $oConn->prepare("SELECT Username, UserType, FirstName, LastName, Country, Twitter FROM User WHERE Username = '$author'");
     $query->execute();
     $user = $query->fetchAll(PDO::FETCH_ASSOC);
 

@@ -13,11 +13,14 @@
             <div class="title-container author-page">
                 <h1 class="title">
                     {% if user is not empty %}
-                        Author {{ user.Username }}
+                        {{ user.Username }}
                     {% else %}
                         Sorry!
                     {% endif %}
                 </h1>
+
+                <h3 class="author">aka {{ user.FirstName }} {{ user.LastName }} from {{ user.Country }}</h3>
+
             </div>
         </div>
     </div>
@@ -26,13 +29,10 @@
         {% if user is not empty %}
             <div class="row">
                 <div class="col-sm-4">
-                    <h3>First name: {{ user.FirstName }}</h3>
-                    <h3>Last name: {{ user.LastName }}</h3>
-                    <p>Country: {{ user.Country }}</p>
-                    <br>
-                    <br>
+                    <div class="twitter" id="twitter">
+                    </div>
                 </div>
-
+                {% if (user.UserType == 'author' or user.UserType == 'admin') %}
                 <div class="col-sm-8">
                     <h2>Contributions:</h2>
                     <table class="table table-hover custab">
@@ -44,6 +44,7 @@
                             <th>City, Country</th>
                         </tr>
                         </thead>
+                        {% if adventures is not empty %}
                         {% for adventure in adventures %}
                         <tr>
                             <td class="adventure-title-row"><a href="adventure.php?id={{ adventure.PostID }}">{{ adventure.Title }}</a></td>
@@ -62,12 +63,23 @@
                             </td>
                         </tr>
                         {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td><h3>{{ user.FirstName }} has not added any adventures yet!</h3></td>
+                            </tr>
+                        {% endif %}
                     </table>
+                    {% if adventures is not empty %}
                     <button id="view-map-button" class="btn btn-danger center-block">
                         <span class="glyphicon glyphicon-map-marker"></span> View map
                     </button>
                     <div id="map" class="center-block"></div>
+                    {% endif %}
                 </div>
+                {% else %}
+                    <div class="col-sm-8"><h3>Sorry! {{ user.FirstName }} is a loser and doesn't have permission to
+                            create adventures!</h3></div>
+                {% endif %}
             </div>
         {% else %}
             <div id="not-found-container">
@@ -106,6 +118,33 @@
     }
 </script>
 <script src="../js/googleMaps.js"></script>
+{% if user.Twitter is not empty %}
+    <script>
+        //Twitter API
+        window.onload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    var tweets = JSON.parse(xhttp.responseText);
+                    var tweetString = '';
 
+                    if (tweets.length > 0) {
+                        $('#twitter').append('<img src="' + tweets[0].image + '">');
+                        $('#twitter').append('<a href="https://twitter.com/"+ tweets[0].username >@' + tweets[0].username + '</a>');
+                        $('#twitter').append('<ul class="twitter-feed" id="twitter-feed"></ul>');
+                        for (var i = 0; i < tweets.length; i++) {
+                            tweetString += "<li>" + tweets[i].text + "</li>";
+                        }
+                        document.getElementById("twitter-feed").innerHTML = tweetString;
+                    } else {
+
+                    }
+                }
+            };
+            xhttp.open("GET", "http://onenodeapp.azurewebsites.net?q={{ user.Twitter }}", true);
+            xhttp.send();
+        }
+    </script>
+{% endif %}
 </body>
 </html>

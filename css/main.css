@@ -497,6 +497,30 @@ div#search-result-separator hr{
     text-overflow: ellipsis;
 }
 
+.twitter {
+    padding: 15px;
+}
+
+.twitter a {
+    display: inline;
+    float: right;
+    margin-top: 11px;
+    font-size: 26px;
+}
+
+.twitter-feed {
+    padding: 15px 0 0 0;
+    max-height: 350px;
+    overflow: auto;
+    list-style: none;
+    margin: 0;
+}
+
+.twitter-feed li {
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
 @media screen and (max-width: 767px) {
     .adventure-title-row {
         max-width: 100px;

@@ -31,6 +31,7 @@ header('Access-Control-Allow-Origin: *');
                 for (var i = 0; i < tweets.length; i++) {
                     tweetString += "<h3>" + tweets[i].name + "</h3></br>";
                     tweetString += "<p>" + tweets[i].text + "</p></br>";
+                    tweetString += '<img src="' + tweets[i].image + '">';
                 }
                 document.getElementById("twitter").innerHTML = tweetString;
             }

@@ -16,9 +16,10 @@ if (isset($_POST['username'], $_POST['password'], $_POST['email'], $_POST['fName
     $firstNamePOST = $_POST['fName']; //grab the first name from the post
     $lastNamePOST = $_POST['lName']; //grab the last name from the post
     $countryPOST = $_POST['country']; //grab the country from the post
+    $twitterPOST = $_POST['twitter'] ?: NULL; //grab the country from the post
 
     //Validate the user's input
-    $input_is_valid = validate_input($usernamePOST,$passwordPOST,$emailPOST,$firstNamePOST,$lastNamePOST,$countryPOST);
+    $input_is_valid = validate_input($usernamePOST, $passwordPOST, $emailPOST, $firstNamePOST, $lastNamePOST, $countryPOST, $twitterPOST);
 
     //If it returns true then hash password and add user to DB
     if($input_is_valid === true){
@@ -27,7 +28,7 @@ if (isset($_POST['username'], $_POST['password'], $_POST['email'], $_POST['fName
             'cost' => 13
         )); //Hash and salt the password
 
-        echo addToDB($usernamePOST,$hashPWord,$emailPOST,$firstNamePOST,$lastNamePOST,$countryPOST);
+        echo addToDB($usernamePOST, $hashPWord, $emailPOST, $firstNamePOST, $lastNamePOST, $countryPOST, $twitterPOST);
 
     } else { //Return the error
         echo json_encode(array('error' => $input_is_valid));
@@ -38,7 +39,8 @@ if (isset($_POST['username'], $_POST['password'], $_POST['email'], $_POST['fName
     echo $returnMessage;
 }
 
-function validate_input($username,$password,$email,$first_name,$last_name,$country){
+function validate_input($username, $password, $email, $first_name, $last_name, $country, $twitter)
+{
     //Username is longer than 4 characters, less than 20 characters, matches a set of permitted characters and does not already exist
     if (strlen($username) < 4 || strlen($username) > 20 || !preg_match("/^[a-zA-Z0-9_-]+$/", $username) || check_for_username($username)) { //ADD CHECK FOR DUPLICATE USERNAME
         return 'Username not available';
@@ -50,7 +52,9 @@ function validate_input($username,$password,$email,$first_name,$last_name,$count
         return 'Please ensure your name is spelled correctly';                                                                                                     //and are no longer than 35 characters each
     } else if (!preg_match("/^[a-zA-Z ()'-]+$/", $country) || strlen($country) > 85) { //Country contains only permitted characters and is no longer than 85 characters
         return 'Invalid country selected';
-    } else{
+    } else if (strlen($twitter) > 15) {
+        return 'Twitter handle is invalid';
+    } else {
         //All input is VALID
         return true;
     }
@@ -85,7 +89,8 @@ function check_for_username($username){
 }
 
 
-function addToDB($username,$password,$email,$first_name,$last_name,$country){
+function addToDB($username, $password, $email, $first_name, $last_name, $country, $twitter)
+{
 
 
     //Create connection to database, query for username and verify password
@@ -94,7 +99,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
         $oConn = loginToDB();
 
         //Prepare statement
-        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'unverified', :email, :fName, :lName, :country)");
+        $addUser = $oConn->prepare("INSERT INTO User VALUES (:username, :password, 'unverified', :email, :fName, :lName, :country, :twitter)");
 
         //Bind values to the prepared statement
         $addUser->bindValue(':username', $username, PDO::PARAM_STR);
@@ -103,6 +108,7 @@ function addToDB($username,$password,$email,$first_name,$last_name,$country){
         $addUser->bindValue(':fName', $first_name, PDO::PARAM_STR);
         $addUser->bindValue(':lName', $last_name, PDO::PARAM_STR);
         $addUser->bindValue(':country', $country, PDO::PARAM_STR);
+        $addUser->bindValue(':twitter', $twitter, PDO::PARAM_STR);
 
         //If successfully executed return success message and create new session
         if($addUser->execute()){
