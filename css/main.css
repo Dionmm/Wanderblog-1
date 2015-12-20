@@ -914,6 +914,11 @@ article.adventure {
     padding: 25px;
 
 }
+
+.footer {
+    height: 100px;
+    width: 100%;
+}
 /* ------------------------------------------------------------------ */
 /* Admin Page Styles */
 .admin-page-navtabs {

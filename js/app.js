@@ -333,10 +333,23 @@ function savePictures(postId){
     }
 }
 
+
+var removedImages = [];
+
+$(document).on('click', '.removeImageIcon', function () {
+    //$(this).parent().remove();
+    if ($(this).parent().children().css('opacity') != '0.3') {
+        $(this).parent().children().css('opacity', '0.3');
+        var imageSource = $(this).parent().children("img").attr('src');
+        if (imageSource) {
+            removedImages.push(imageSource);
+        }
+    }
+});
+
 function deletePictures(postId){
 
     var jsonString = JSON.stringify(removedImages);
-    console.log(removedImages);
 
     $.ajax({
             type: 'POST',
@@ -471,26 +484,6 @@ $('#filter-by-likes-button').click(function () {
 
 $('#show-all-authors-button').click(function () {
     location.href = "search.php?authors=1";
-});
-
-
-
-
-
-var removedImages = [];
-
-
-
-$(document).on('click', '.removeImageIcon', function(){
-    //$(this).parent().remove();
-    if($(this).parent().children().css('opacity') != '0.3') {
-        $(this).parent().children().css('opacity', '0.3');
-        var imageSource = $(this).parent().children("img").attr('src');
-        console.log(imageSource);
-        if (imageSource) {
-            removedImages.push(imageSource);
-        }
-    }
 });
 
 $(document).ready(function () {

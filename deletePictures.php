@@ -15,7 +15,7 @@ if(isset($_POST['data'])){
 
 function deletePictures($data){
 
-    $data = json_decode(stripslashes($_POST['data']));
+    $data = json_decode($_POST['data']);
 
     if($data){
         try{
@@ -45,7 +45,9 @@ function deletePictures($data){
                     echo "Picture deleted from server...";
 
                     //query to remove from database
-                    $query = $oConn->prepare("DELETE FROM Pictures WHERE Pictures.Path = '$d'");
+                    $query = $oConn->prepare("DELETE FROM Pictures WHERE Pictures.Path = :path");
+                    $query->bindValue(':path', $d, PDO::PARAM_STR);
+
                     if ($query->execute()) {
                         echo "Picture deleted from database...";
                     }
