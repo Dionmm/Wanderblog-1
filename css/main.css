@@ -387,6 +387,9 @@ div.adventure-results-container h2.lead{
     padding-bottom: 10px;
 }
 
+.adventure-results-container button {
+    margin-bottom: 15px;
+}
 div.author-results-container {
     padding-left: 15px;
     padding-top: 2em;

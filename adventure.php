@@ -498,6 +498,7 @@ function stringReplace($string)
 }
 
 //checks the string for any whitelisted html tags, if it picks up tags that don't match then it returns false
+//Was originally going to be for WYSIWYG editor but not implemented
 function stringCheck($string)
 {
     preg_match_all('~<(.*?)>~', $string, $output);

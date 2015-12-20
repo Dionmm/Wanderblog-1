@@ -33,6 +33,8 @@
                     Adventure was
                 {% endif %}
                 found for the search for <strong class="text-danger">{{ query }}</strong></h2>
+                <button class="btn btn-primary" id="filter-by-likes-button">Filter by Likes</button>
+                <button class="btn btn-primary" id="show-all-authors-button">Show all authors</button>
             {% endif %}
         </div>
 
@@ -111,6 +113,6 @@
 </div>
 
 {% include 'script_include.twig' %}
-
+<script>var searchQuery = '{{ query }}'</script>
 </body>
 </html>

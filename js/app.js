@@ -456,6 +456,19 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
+
+$('#filter-by-likes-button').click(function () {
+    location.href = "search.php?query=" + searchQuery + "&likes=1";
+});
+
+$('#show-all-authors-button').click(function () {
+    location.href = "search.php?authors=1";
+});
+
+
+
+
+
 var removedImages = [];
 
 
