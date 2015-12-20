@@ -53,22 +53,28 @@ function readAdventure($PostID)
 
     try {
         $oConn = loginToDB(); //Login to DB (Functions.php)
+        //Check for logged in
+        $loggedIn = loggedIn();
 
         //Prepare statement, substitute :username with username field input
-        $query = $oConn->prepare('SELECT A.PostID, A.Username, A.Title, A.Content, A.Upvotes, A.City, A.Country, COUNT(C.`CommentID`) as CommentCount FROM Adventures as A LEFT JOIN Comments as C ON A.PostID = C.PostID WHERE A.PostID = :PostID'); //Query for PostID and any comments it may have
+        $query = $oConn->prepare('SELECT A.PostID, A.Username, A.Title, A.Content, A.Upvotes, A.City, A.Country, COUNT(C.`CommentID`) as CommentCount, U.Username as Voted FROM Adventures as A LEFT JOIN Comments as C ON A.PostID = C.PostID LEFT JOIN Upvoted as U ON A.PostID = U.PostID AND U.Username = :username WHERE A.PostID = :PostID'); //Query for PostID and any comments it may have
         $query->bindValue(':PostID', $PostID, PDO::PARAM_STR);
+        $query->bindValue(':username', $loggedIn['username'], PDO::PARAM_STR);
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC); //grab all values that match. FETCH_NAMED is used due to having multiple columns with the same name
 
         // If there are results
         if ($rows) {
 
+            if ($rows[0]['Voted'] === NULL) {
+                $rows[0]['Voted'] = 'false';
+            } else {
+                $rows[0]['Voted'] = 'true';
+            }
+
             //Set adventure to the first item in array. A post with comments will return multiple items in the same array
             //Where as a post without comments will return just 1 item
             $adventure = $rows[0];
-
-            //Check for logged in
-            $loggedIn = loggedIn();
 
             //Check if they own the adventure or are admin
             $canEdit = 0;

@@ -477,7 +477,30 @@ $('.card-container').on('click', '.likeButton', function () {
         });
 });
 
+//Registers the like button click. Cannot be a simple .click() function due to the way jquery handles appended html
+$('.adventure-footer').on('click', '.likeButton', function () {
+    var colour = $(this).css('color');
 
+    if (colour === 'rgb(217, 30, 24)') {
+        $(this).removeClass('voted');
+    } else {
+        $(this).addClass('voted');
+    }
+    $.ajax({ //send username/password and await response
+        type: 'POST',
+        url: 'index.php',
+        data: {liked: PostID}, //references the variable loaded in when adventure.php is loaded
+        dataType: 'json'
+    })
+        .done(function (data) {
+            console.log(data); //Increase and decrease the likes shown on the UI Here
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
+});
 $('#filter-by-likes-button').click(function () {
     location.href = "search.php?query=" + searchQuery + "&likes=1";
 });
