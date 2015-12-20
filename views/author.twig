@@ -130,7 +130,7 @@
 
                     if (tweets.length > 0) {
                         $('#twitter').append('<img src="' + tweets[0].image + '">');
-                        $('#twitter').append('<a href="https://twitter.com/"+ tweets[0].username >@' + tweets[0].username + '</a>');
+                        $('#twitter').append('<a href="https://twitter.com/"' + tweets[0].username + '>@' + tweets[0].username + '</a>');
                         $('#twitter').append('<ul class="twitter-feed" id="twitter-feed"></ul>');
                         for (var i = 0; i < tweets.length; i++) {
                             tweetString += "<li>" + tweets[i].text + "</li>";
