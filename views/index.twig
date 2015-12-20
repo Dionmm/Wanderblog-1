@@ -17,37 +17,32 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-sm-9">
-            <div class="card-container">
+        <div class="card-container">
 
-                {% for adventure in adventures %}
-                    <div class="card">
-                        <div class="card-image-container">
-                            <div style="background-image: url('{{ adventure.Path }}');"></div>
-                            <a href="/adventure.php?id={{ adventure.PostID }}"><span class="adventureLink"></span></a>
+            {% for adventure in adventures %}
+                <div class="card">
+                    <div class="card-image-container">
+                        <div style="background-image: url('{{ adventure.Path }}');"></div>
+                        <a href="/adventure.php?id={{ adventure.PostID }}"><span class="adventureLink"></span></a>
+                    </div>
+                    <div class="card-text-container">
+                        <div class="adventure-title">
+                            <h3>{{ adventure.Title }}</h3>
+
+                            <p>by: {{ adventure.Username }}</p>
                         </div>
-                        <div class="card-text-container">
-                            <div class="adventure-title">
-                                <h3>{{ adventure.Title }}</h3>
+                        <div class="card-footer">
+                            <i class="pe-7s-like pe-2x likeButton  {% if (adventure.Voted == 'true') %}voted{% endif %}"
+                               data-post-id="{{ adventure.PostID }}"></i>
 
-                                <p>by: {{ adventure.Username }}</p>
-                            </div>
-                            <div class="card-footer">
-                                <i class="pe-7s-like pe-2x likeButton  {% if (adventure.Voted == 'true') %}voted{% endif %}"
-                                   data-post-id="{{ adventure.PostID }}"></i>
-
-                                <p>{{ adventure.Upvotes }} Likes</p>
-                            </div>
+                            <p>{{ adventure.Upvotes }} Likes</p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-            <div class="loadMore">
-                <button type="button" class="btn btn-primary btn-sm" id="loadMoreButton">Load More Adventures</button>
-            </div>
+                </div>
+            {% endfor %}
         </div>
-        <div id="filterStuff" class="col-xs-12 col-sm-3">
-            <h3>Filter stuff here</h3>
+        <div class="loadMore">
+            <button type="button" class="btn btn-primary btn-sm" id="loadMoreButton">Load More Adventures</button>
         </div>
     </div>
 

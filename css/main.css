@@ -637,8 +637,9 @@ input:required:invalid {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    padding: 0 25px;
+    padding: 25px 25px 0 25px;
     margin: auto;
+    max-width: 1500px;
 }
 .card {
     height: 300px;
