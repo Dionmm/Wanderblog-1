@@ -69,10 +69,10 @@
                                                     Not specified.
                                                 {% endif %}
                                             </td>
-                                            <td class="adventure-date td-fixed-size">&nbsp;&nbsp;{{ adventure.DatePosted|slice(0,10) }}</td>
+                                            <td class="adventure-date td-fixed-size">{{ adventure.DatePosted|slice(0,10) }}</td>
                                             <td>
                                                 <div class="adventure-comment-amount-row">
-                                                    &nbsp;&nbsp;{{ adventure.CommentAmount }}
+                                                    {{ adventure.CommentAmount }}
                                                 </div>
                                             </td>
                                             <td>

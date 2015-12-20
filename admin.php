@@ -4,8 +4,10 @@ require_once 'functions.php';
 
 if (isset($_GET['username']) && isset($_GET['usertype'])) {
     changeUserType($_GET['username'], $_GET['usertype']);
-} else if(isset($_GET['postid']) && isset($_GET['upvotes'])){
+} else if(isset($_GET['postid']) && isset($_GET['upvotes'])) {
     changeUpvotes($_GET['postid'], $_GET['upvotes']);
+} else if(isset($_GET['postid'])){
+    deleteAllComments($_GET['postid']);
 } else {
     display();
 }
@@ -116,6 +118,29 @@ function changeUpvotes($postId, $upvotes){
             }
         }
 
+    }
+    catch (PDOException $e) {
+        echo 'ERROR: ' . $e->getMessage();
+        echo json_encode(array('fail'));
+    }
+    finally{
+        $oConn = null;
+    }
+}
+
+function deleteAllComments($postId){
+
+    $loggedIn = loggedIn();
+
+    $oConn = loginToDB();
+
+    try{
+        if($loggedIn['user_group'] === 3){
+            $query = $oConn->prepare("DELETE FROM Comments WHERE PostID = :postId");
+            $query->bindValue(':postId', $postId);
+            $query->execute();
+            echo json_encode(array('success'));
+        }
     }
     catch (PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();

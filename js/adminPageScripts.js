@@ -198,7 +198,50 @@ $(document).ready(function () {
         }
     });
 
+    //-------------------------------------------------------------------
+    //Delete Adventure Comments
+    $(document.body).on('click', ".remove-my-adventure-comments", function() {
+        console.log("clicked modal start");
+        postID = $(this).attr('adventure-id');
+        console.log(postID);
+    });
+
+    $(".adventure-comments-remove-confirm").on("click", function() {
+        console.log("after clicking remove");
+        if(postID.length > 0) {
+            deleteAllComments(postID);
+        }
+    });
+
 });
+
+function deleteAllComments(postId){
+    //Show processing modal
+    $('#adventures-removing-loading-modal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'admin.php?postid=' + postId,
+        dataType: 'json'
+    })
+        .done(function (success) {
+            console.log("inside ajax success");
+            $('tr[post-id=' + postId + ']').find('.adventure-comment-amount-row').text("0");
+
+            //Hide processing modal
+            $('#adventures-removing-loading-modal').modal('hide');
+
+        })
+        .fail(function (fail) {
+            console.log(fail.responseText);
+            console.log("Error happened while trying to remove Adventure Comments with PostID[" + postId + "]");
+            $('#adventures-removing-loading-modal').modal('hide');
+        });
+}
 
 function deletePictures(postId){
     //Show processing modal
