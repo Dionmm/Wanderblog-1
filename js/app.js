@@ -445,6 +445,23 @@ $('#keywordSubmit').on('click', function () {
 $('#cancelButton').click(function () {
     location.href = "adventure.php?id=" + PostID;
 });
+$('#deleteButton').click(function () {
+    $.ajax({
+        type: 'GET',
+        url: 'adventure.php?id=' + PostID + '&remove',
+        data: {id: PostID},
+        cache: false
+    })
+        .done(function (data) { //on successful response reload the page
+            console.log(data);
+            location.href = "index.php";
+        })
+        .fail(function (data) { //on unsuccessful response output error
+            console.log("Error happened");
+            console.log(data);
+            console.log(data.responseText);
+        });
+});
 $('#newPostButton').click(function () {
     location.href = "adventure.php?create=1";
 });
