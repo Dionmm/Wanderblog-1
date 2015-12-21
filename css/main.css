@@ -198,10 +198,54 @@ a.dropdown-toggle.navbar-dropdown:hover {
     color: whitesmoke;
 }
 
-@media (min-width: 980px) {
+@media (max-width: 767px){
     .navbar-content-right {
-        max-width: 600px;
+        display: block;
+        margin-top: -16px;
     }
+    .dropdown-menu.username-dropdown {
+        position: relative;
+    }
+    #logon {
+        background-color: rgba(21, 21, 21, 0.31);
+        margin-top: 10px;
+    }
+    .btn-toolbar {
+        float: right;
+        display: inline-flex;
+    }
+    .save-dropdown.open ul {
+        margin-top: -93px;
+        padding-top: 0;
+        overflow: hidden;
+    }
+    .dropdown.save-dropdown {
+        height: 26px;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 767px) {
+    #saveDropDown {
+        margin-top: 0;
+        padding-top: 0;
+        overflow: hidden;
+    }
+    .dropdown.save-dropdown {
+        height: 26px;
+        margin-top: 12px;
+    }
+}
+
+
+button.navbar-toggle {
+    margin-right: 25px;
+}
+
+#logon {
+    border-top: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 /* ------------------------------------------------------------------ */
@@ -212,6 +256,7 @@ a.dropdown-toggle.navbar-dropdown:hover {
 
 #custom-search-input input {
     height: 30px;
+    margin-left: 5px;
 }
 
 #custom-search-input button {
@@ -882,12 +927,6 @@ article.adventure {
 
 .comment > [contenteditable=true] {
     border: 1px dashed grey;
-}
-
-#saveDropDown {
-    margin-top: 0;
-    padding-top: 0;
-    overflow: hidden;
 }
 
 @keyframes gradient {

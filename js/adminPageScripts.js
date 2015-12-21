@@ -183,16 +183,27 @@ $(document).ready(function () {
     });
 
     //-------------------------------------------------------------------
+    //Delete Adventure
+    $(document.body).on('click', ".remove-my-adventure-link", function() {
+        postID = $(this).attr('adventure-id');
+        console.log("inside 1st click");
+    });
+
+    $(".adventure-remove-confirm").on("click", function() {
+        if(postID.length > 0) {console.log('inside 2nd click');
+            deleteAdventureFromAdminPage(postID);
+
+        }
+    });
+
+    //-------------------------------------------------------------------
     //Delete Adventure Pictures
     var postID = "";
     $(document.body).on('click', ".remove-my-adventure-pictures", function() {
-        console.log("clicked modal start");
         postID = $(this).attr('adventure-id');
-        console.log(postID);
     });
 
     $(".adventure-pictures-remove-confirm").on("click", function() {
-        console.log("after clicking remove");
         if(postID.length > 0) {
             deletePictures(postID);
         }
@@ -201,19 +212,45 @@ $(document).ready(function () {
     //-------------------------------------------------------------------
     //Delete Adventure Comments
     $(document.body).on('click', ".remove-my-adventure-comments", function() {
-        console.log("clicked modal start");
         postID = $(this).attr('adventure-id');
-        console.log(postID);
     });
 
     $(".adventure-comments-remove-confirm").on("click", function() {
-        console.log("after clicking remove");
         if(postID.length > 0) {
             deleteAllComments(postID);
         }
     });
 
 });
+
+function deleteAdventureFromAdminPage(postID) {
+
+    //Show processing modal
+    $('#adventures-removing-loading-modal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: true
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'adventure.php?id=' + postID + '&remove=1',
+        dataType: 'json'
+    })
+        .done(function (result) {
+            if(result){
+                console.log("inside ajax success");
+                $('tr[post-id=' + postID + ']').remove();
+
+                //Hide processing modal
+                $('#adventures-removing-loading-modal').modal('hide');
+            }
+        })
+        .fail(function () {
+            console.log("Error happened while deleting the adventure, check Key Constraints and Permissions");
+            $('#adventures-removing-loading-modal').modal('hide');
+        });
+}
 
 function deleteAllComments(postId){
     //Show processing modal
@@ -229,7 +266,6 @@ function deleteAllComments(postId){
         dataType: 'json'
     })
         .done(function (success) {
-            console.log("inside ajax success");
             $('tr[post-id=' + postId + ']').find('.adventure-comment-amount-row').text("0");
 
             //Hide processing modal
@@ -257,7 +293,6 @@ function deletePictures(postId){
         dataType: 'json'
     })
         .done(function (success) {
-            console.log("inside ajax success");
             $('tr[post-id=' + postId + ']').find('.adventure-pictures-row').text("0");
 
             //Hide processing modal
@@ -360,31 +395,24 @@ function sortAdventures(sortingFilter, doInvert){
     switch(sortingFilter){
         case 1:
             jsStringSorter(rows, 'author', doInvert);
-            console.log("case 1");
             break;
         case 2:
             jsStringSorter(rows, 'title', doInvert);
-            console.log("case 2");
             break;
         case 3:
             jsIntSorter(rows, 'upvotes', doInvert);
-            console.log("case 3");
             break;
         case 4:
             jsStringSorter(rows, 'city-country', doInvert);
-            console.log("case 4");
             break;
         case 5:
             jsStringSorter(rows, 'date-posted', doInvert);
-            console.log("case 5");
             break;
         case 6:
             jsIntSorter(rows, 'comments', doInvert);
-            console.log("case 6");
             break;
         case 7:
             jsIntSorter(rows, 'pictures', doInvert);
-            console.log("case 7");
             break;
         default:
             console.log('Something went wrong.');

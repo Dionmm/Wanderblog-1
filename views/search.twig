@@ -11,7 +11,7 @@
     <div class="row bg-image-container">
         <div class="bg-image">
             <div class="title-container">
-                {% if query is not empty %}
+                {% if (query is not empty) or (adventures is not empty) or (authors is not empty) %}
                     <h1 class="title">Search Results</h1>
                 {% else %}
                     <h1 class="title">Sorry! Wrong query provided</h1>
@@ -22,9 +22,11 @@
 
     <div class="search-result-container first-container">
         <div class="adventure-results-container">
-            {% if adventures is empty %}
-            <h2 class="lead"><strong class="text-danger">No</strong> Adventures were found for the search for <strong
-                    class="text-danger">{{ query }}</strong>. Please try again.</h2>
+            {% if (adventures is empty) and (query is empty) and (authors is not empty) %}
+                <div id="destroyer">{% set destroy = true %}</div>
+            {% elseif adventures is empty %}
+                <h2 class="lead"><strong class="text-danger">No</strong> Adventures were found for the search for <strong
+                            class="text-danger">{{ query }}</strong>. Please try again.</h2>
             {% else %}
             <h2 class="lead"><strong class="text-danger">{{ adventures|length }}</strong>
                 {% if adventures|length > 1 %}
@@ -71,9 +73,11 @@
         </section>
     </div>
 
+    {% if not destroy %}
     <div id="search-result-separator">
         <hr width="90%">
     </div>
+    {% endif %}
 
     <div class="search-result-container">
         <div class="author-results-container">

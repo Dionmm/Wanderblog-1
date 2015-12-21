@@ -34,7 +34,7 @@
                                 Edit
                             </button>
                         {% elseif editing is defined %}
-                            <div class="dropdown">
+                            <div class="dropdown save-dropdown">
                                 <button type="button" class="btn btn-danger btn-md adventureEditSave-btn"
                                         data-toggle="dropdown" id="saveButton">
                                     Save
@@ -56,10 +56,10 @@
                     {% if loggedIn.user_group > 1 %}
                     <button type="button" class="btn btn-default" id="newPostButton">Create New Post</button>
                     {% endif %}
-                    <div class="pull-right">
+                    <div class="pull-right username-dropdown">
                         <ul class="nav pull-right">
                             <li class="dropdown"><a href="#" class="dropdown-toggle navbar-dropdown" data-toggle="dropdown">Welcome {{ loggedIn.first_name }} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu username-dropdown">
                                     <li><a href="author.php?username={{ loggedIn.username }}"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
                                     {% if loggedIn.user_group >= 2 %}
                                         <li><a href="myAdventures.php?username={{ loggedIn.username }}"><i class="glyphicon glyphicon-pencil"></i> Edit My Adventures</a></li>
